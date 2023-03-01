@@ -8,7 +8,6 @@
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
     <link href="assets/CSS/login.css" rel="stylesheet" type="text/css" />
-
     <!-- Tab Icon -->
     <link rel="shortcut icon" href="assets/images/Sello.png" type="image/x-icon">
     <title>LoginSeminario</title>
@@ -29,11 +28,13 @@
 
                     <!--Formulario -->
                     <form action="config/loguear.php" method="POST" class="form-signin">
+                        <!--input email-->
                         <input type="email" class="form-control" placeholder="Usuario" required name="email" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" />
                         <br />
-                        <input type="password" id="clave" class="form-control" placeholder="Contraseña" required name="clave" minlength="8"/>
+                        <!--input contraseña-->
+                        <input type="password" id="clave" class="form-control" placeholder="Contraseña" required name="clave" autocomplete="" />
 
-                        <button type="submit" class="btn btn-lg btn-dark btn-block" id="Ingresar" name="Ingresar" onclick="validatedCredentials()">
+                        <button type="submit" class="btn btn-lg btn-dark btn-block" id="Ingresar" name="Ingresar" onclick="">
                             Acceder
                         </button>
                         <a href="recoveryPassword.php" class="text-center new-account">Olvido Contraseña</a>
@@ -48,9 +49,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.8.0/sweetalert2.min.js"></script>
-
-    <script src="assets/js/validations.js"></script>
-    <script src="assets/js/sweetalert/sweetalert.min.js"></script>
+    
 </body>
 
 </html>
