@@ -31,7 +31,7 @@
                     <form action="config/loguear.php" method="POST" class="form-signin">
                         <input type="email" class="form-control" placeholder="Usuario" required name="email" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" />
                         <br />
-                        <input type="password" class="form-control" placeholder="Contraseña" required name="clave" minlength="8"/>
+                        <input type="password" id="clave" class="form-control" placeholder="Contraseña" required name="clave" minlength="8"/>
 
                         <button type="submit" class="btn btn-lg btn-dark btn-block" id="Ingresar" name="Ingresar" onclick="validatedCredentials()">
                             Acceder
