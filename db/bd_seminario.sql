@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-02-2023 a las 03:33:01
+-- Tiempo de generación: 02-03-2023 a las 03:29:58
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -29,9 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `asignatura` (
   `idAsignatura` int(11) NOT NULL,
-  `codigoAsignaturaInstitucional` varchar(6) NOT NULL,
   `nombreAsignatura` varchar(200) NOT NULL,
-  `intensidadHorariaSemanal` int(11) NOT NULL,
+  `intensidadHorariaSemanal` int(40) NOT NULL,
   `descripcion` varchar(450) DEFAULT NULL,
   `cod_Grupo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
@@ -56,9 +55,9 @@ CREATE TABLE `asig_carga_docente` (
 
 CREATE TABLE `calificaciones` (
   `idCalificaciones` int(11) NOT NULL,
-  `notaHabilitacion` decimal(10,0) DEFAULT NULL,
-  `notaTutoria` decimal(10,0) DEFAULT NULL,
-  `notaFinal` decimal(10,0) DEFAULT NULL,
+  `notaHabilitacion` float DEFAULT NULL,
+  `notaTutoria` float DEFAULT NULL,
+  `notaFinal` float DEFAULT NULL,
   `codAsignatura` int(11) NOT NULL,
   `codUsuario` int(11) NOT NULL,
   `codCiclo` int(11) NOT NULL
@@ -73,7 +72,7 @@ CREATE TABLE `calificaciones` (
 CREATE TABLE `ciclo` (
   `idCiclo` int(11) NOT NULL,
   `nombreCiclo` varchar(50) NOT NULL,
-  `semestre` int(1) NOT NULL,
+  `semestre` enum('1','2') NOT NULL,
   `descripcion` varchar(250) DEFAULT NULL,
   `fechaInicio` date NOT NULL,
   `fechaFinalizacion` date NOT NULL
@@ -84,8 +83,8 @@ CREATE TABLE `ciclo` (
 --
 
 INSERT INTO `ciclo` (`idCiclo`, `nombreCiclo`, `semestre`, `descripcion`, `fechaInicio`, `fechaFinalizacion`) VALUES
-(1, 'Teologico', 1, 'Teológico', '2022-02-01', '2022-07-29'),
-(2, 'Filosofica', 2, 'Filosófica', '2022-03-07', '2022-09-30');
+(1, 'Teologico', '1', 'Teológico', '2022-02-01', '2022-07-29'),
+(2, 'Filosofica', '2', 'Filosófica', '2022-03-07', '2022-09-30');
 
 -- --------------------------------------------------------
 
@@ -129,6 +128,18 @@ CREATE TABLE `horario` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `login`
+--
+
+CREATE TABLE `login` (
+  `Id` int(11) NOT NULL,
+  `usuario` varchar(100) NOT NULL,
+  `fecha_hora_ingreso` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `rol`
 --
 
@@ -154,17 +165,17 @@ INSERT INTO `rol` (`idRol`, `nombreRol`) VALUES
 
 CREATE TABLE `usuario` (
   `idUsuario` int(11) NOT NULL,
-  `tipoDocumento` varchar(2) NOT NULL,
-  `numeroDocumento` varchar(12) NOT NULL,
+  `tipoDocumento` enum('TI','CC') NOT NULL,
+  `numeroDocumento` bigint(20) NOT NULL,
   `primerNombre` varchar(20) NOT NULL,
   `segundoNombre` varchar(20) DEFAULT NULL,
   `primerApellido` varchar(20) NOT NULL,
   `segundoApellido` varchar(20) NOT NULL,
   `telefono` varchar(10) NOT NULL,
   `direccion` varchar(200) DEFAULT NULL,
-  `email` varchar(50) NOT NULL,
-  `clave` varchar(12) NOT NULL,
-  `estado` varchar(10) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `estado` enum('activo','inactivo') NOT NULL,
   `codRol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -172,11 +183,11 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`idUsuario`, `tipoDocumento`, `numeroDocumento`, `primerNombre`, `segundoNombre`, `primerApellido`, `segundoApellido`, `telefono`, `direccion`, `email`, `clave`, `estado`, `codRol`) VALUES
-(3, 'CC', '100333', 'Alejandro', NULL, 'Sanchez', 'Martinez', '752411', 'calle 6 # 32', 'alejandro@gmail.com', '12345678', 'activo', 1),
-(4, 'CC', '192727222', 'Sebastian', 'Camilo', 'Suarez', 'Flores', '744333', 'calle 23 -3 3', 'sebastian@gmail.com', 'sebas2023', 'activo', 2),
-(5, 'TI', '110643267', 'Carlos', 'Felipe', 'Gomez', 'Nuñez', '3104846322', 'diagonal 34 # 2-15', 'felipe@gmail.com', 'felipe2200', 'activo', 3),
-(6, 'TI', '914252611', 'Fabian', NULL, 'Cortez', 'Diaz', '744333', 'manzana 4 # 2 - 32', 'fabian@gmail.com', 'fabian1234', 'inactivo', 3);
+INSERT INTO `usuario` (`idUsuario`, `tipoDocumento`, `numeroDocumento`, `primerNombre`, `segundoNombre`, `primerApellido`, `segundoApellido`, `telefono`, `direccion`, `email`, `password`, `estado`, `codRol`) VALUES
+(3, 'CC', 100333, 'Alejandro', NULL, 'Sanchez', 'Martinez', '752411', 'calle 6 # 32', 'alejandro@gmail.com', '12345678', 'activo', 1),
+(4, 'CC', 192727222, 'Sebastian', 'Camilo', 'Suarez', 'Flores', '744333', 'calle 23 -3 3', 'sebastian@gmail.com', 'sebas2023', 'activo', 2),
+(5, 'TI', 110643267, 'Carlos', 'Felipe', 'Gomez', 'Nuñez', '3104846322', 'diagonal 34 # 2-15', 'felipe@gmail.com', 'felipe2200', 'activo', 3),
+(6, 'TI', 914252611, 'Fabian', NULL, 'Cortez', 'Diaz', '744333', 'manzana 4 # 2 - 32', 'fabian@gmail.com', 'fabian1234', 'inactivo', 3);
 
 --
 -- Índices para tablas volcadas
@@ -227,6 +238,12 @@ ALTER TABLE `horario`
   ADD KEY `codAsignaturaH` (`codAsignaturaH`);
 
 --
+-- Indices de la tabla `login`
+--
+ALTER TABLE `login`
+  ADD PRIMARY KEY (`Id`);
+
+--
 -- Indices de la tabla `rol`
 --
 ALTER TABLE `rol`
@@ -266,6 +283,12 @@ ALTER TABLE `grupo`
 --
 ALTER TABLE `horario`
   MODIFY `idHorario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `login`
+--
+ALTER TABLE `login`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
