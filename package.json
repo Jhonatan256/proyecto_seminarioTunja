@@ -1,7 +1,7 @@
 {
   "scripts": 
   {
-    "babel": "babel ./vista/assets/react/jsx --watch --out-dir ./vista/assets/react/js"
+    "babel": "babel ./assets/react/jsx --watch --out-dir ./assets/react/js"
   },
   "devDependencies": {
     "@babel/cli": "^7.20.7",

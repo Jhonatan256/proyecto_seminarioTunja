@@ -14,7 +14,7 @@
     <link href="../assets/CSS/login.css" rel="stylesheet" type="text/css" />
     <!-- Tab Icon -->
     <link rel="shortcut icon" href="../assets/images/Sello.png" type="image/x-icon">
-    <title>LoginSeminario</title>
+    <title>Seminario</title>
     <!-- Alert plugins-->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -31,7 +31,7 @@
                     <h1 id="title">Seminario Conciliar Tunja</h1>
 
                     <!--Formulario -->
-                    <form action="config/loguear.php" method="POST" class="form-signin">
+                    <form id="formla" onclick="loginA()" method="POST" class="form-signin">
                         <!--input email-->
                         <input type="email" class="form-control" placeholder="Usuario" required name="email" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" />
                         <br />
@@ -53,7 +53,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.8.0/sweetalert2.min.js"></script>
-    
+    <script src="../assets/react/js/login.js"></script>
+    <script src="../assets/js/valid/dist/jquery.validate.js"></script>
 </body>
 
 </html>
