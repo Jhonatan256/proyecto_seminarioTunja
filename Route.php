@@ -1,9 +1,5 @@
 <?php
-require 'controlador/UsuariosController.php';
-require 'controlador/SedesController.php';
-require 'controlador/EventosController.php';
-require 'controlador/AdministradorController.php';
-require 'controlador/PDF.php';
+require 'controlador/LoginController.php';
 class Route {
 
     private $controlador;
