@@ -64,6 +64,7 @@ class LoginController
             return respuesta($cod, 'Sesión expirada.');
         }
     }
+
     public static function setUser($nombre, $valor)
     {
         if (is_array($nombre)) {
@@ -71,5 +72,30 @@ class LoginController
         } else {
             $_SESSION[$nombre] = $valor;
         }
+    }
+
+    public static function getUser($nombre)
+    {
+        if (empty($_SESSION)) {
+            session_start();
+        }
+        if (isset($_SESSION[$nombre])) {
+            return $_SESSION[$nombre];
+        } else {
+            return false;
+        }
+    }
+
+    public function home()
+    {
+        // opciones por usuario para el menu
+    }
+
+    public function salir()
+    {
+        session_start();
+        unset($_SESSION);
+        session_destroy();
+        return respuesta('00', '');
     }
 }
