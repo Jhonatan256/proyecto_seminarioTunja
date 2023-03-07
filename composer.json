@@ -1,0 +1,8 @@
+{
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.8",
+        "setasign/fpdi": "^2.3",
+        "setasign/fpdf": "^1.8",
+        "iio/libmergepdf": "^3.1"
+    }
+}
