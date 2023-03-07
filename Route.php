@@ -1,5 +1,5 @@
 <?php
-require 'controlador/LoginController.php';
+require 'controller/LoginController.php';
 class Route {
 
     private $controlador;
