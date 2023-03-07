@@ -31,14 +31,14 @@
                     <h1 id="title">Seminario Conciliar Tunja</h1>
 
                     <!--Formulario -->
-                    <form id="formla" onclick="loginA()" method="POST" class="form-signin">
+                    <form id="login" method="POST" class="form-signin">
                         <!--input email-->
                         <input type="email" class="form-control" placeholder="Usuario" required name="email" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" />
                         <br />
                         <!--input contraseña-->
                         <input type="password" id="clave" class="form-control" placeholder="Contraseña" required name="clave" autocomplete="" />
 
-                        <button type="submit" class="btn btn-lg btn-dark btn-block" id="Ingresar" name="Ingresar" onclick="">
+                        <button type="button" class="btn btn-lg btn-dark btn-block" id="Ingresar" name="Ingresar" onclick="onSubmit()">
                             Acceder
                         </button>
                         <a href="recoveryPassword.php" class="text-center new-account">Olvido Contraseña</a>
