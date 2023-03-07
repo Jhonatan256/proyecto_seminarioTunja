@@ -98,4 +98,9 @@ class LoginController
         session_destroy();
         return respuesta('00', '');
     }
+
+    public function olvidoClave()
+    {
+        // metodo de olvido de clave
+    }
 }
