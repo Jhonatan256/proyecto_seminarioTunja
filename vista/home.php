@@ -15,6 +15,7 @@ header("Expires: Sat, 1 Jul 2022 05:00:00 GMT");
 <link href="../assets/CSS/sliderHome.css" rel="stylesheet" type="text/css" />
 <link href="../assets/CSS/styleforms.css" rel="stylesheet" type="text/css" />
 <link href="../assets/js/pace/center-radar.css" rel="stylesheet" type="text/css" />
+<script data-pace-options='{ "ajax": true }' src="../assets/js/pace/pace.js"></script>
 <title>Home Administrador</title>
 <!-- Icon -->
 <link rel="shortcut icon" href="../assets/images/Sello.png"
@@ -154,10 +155,9 @@ header("Expires: Sat, 1 Jul 2022 05:00:00 GMT");
 	</section>
 	<script src="../assets/js/jquery-3.6.0/dist/jquery.min.js"></script>
 	<!-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> -->
-	<script src="../assets/js/script.js"></script>
-	<script src="../assets/js/pace/pace.js"></script>
-	<script src="../assets/js/pace/pace.js"></script>
+	<script src="../assets/js/script.js"></script>	
 	<script src="../assets/react/js/home.js"></script>
+	<script src="../assets/js/sweetalert/sweetalert.min.js"></script>
 </body>
 
 </html>

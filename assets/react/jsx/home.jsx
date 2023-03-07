@@ -13,7 +13,7 @@ function salir() {
     url: "../Route.php",
     type: "POST",
     data: {
-      c: "UsuariosController",
+      c: "LoginController",
       m: "salir",
     },
   })
@@ -29,17 +29,17 @@ function validarSesion() {
     url: "../Route.php",
     type: "POST",
     data: {
-      c: "UsuariosController",
+      c: "LoginController",
       m: "validarSesionLogin",
     },
   })
     .done(function (result) {
       Pace.stop();
       if (result.cod == "00") {
-        renderizarHome(result.data);
-        sessionStorage.setItem("it", result.data.tipoUsuario);
-        menuUsuario();
-        modalEncuesta();
+        // renderizarHome(result.data);
+        // sessionStorage.setItem("it", result.data.tipoUsuario);
+        // menuUsuario();
+        // modalEncuesta();
       } else {
         swal("¡Error!", result.msj, "error").then((value) => {
           $(location).attr("href", "login.php");
