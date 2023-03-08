@@ -23,6 +23,7 @@ class LoginController
                     self::setUser('estado', $user['estado']);
                     self::setUser('tipoUsuario', $user['codRol']);
                     self::setUser('idUsuario', $user['idUsuario']);
+                    self::setUser('nombreTipo', $user['nombreRol']);
                     self::setUser('session', true);
                     return respuesta('00', '', $user);
                 } else {
@@ -59,6 +60,7 @@ class LoginController
             $data['estado'] = self::getUser('estado');
             $data['tipoUsuario'] = self::getUser('tipoUsuario');
             $data['idUsuario'] = self::getUser('idUsuario');
+            $data['nombreTipo'] = self::getUser('nombreTipo');
             if ($tipo == 'login') {
                 return respuesta($cod, '', $data);
             } else {
@@ -105,6 +107,8 @@ class LoginController
             'icono' => 'bx bxs-dashboard icon'
         ];
         $menu['tipoUsuario'] = self::getUser('tipoUsuario');
+        $menu['rol'] = self::getUser('nombreTipo');
+        $menu['nombre'] = self::getUser('nombre');
         switch (self::getUser('tipoUsuario')) {
             case '1':
                 $menu['icono'] = 'bx bxs-user-pin';
@@ -131,16 +135,14 @@ class LoginController
                     'icono' => 'bx bxs-notepad icon',
                     'z' => 'vistaEstudiante'
                 ];
-                ;
                 $menu['opciones'][] = menuCalificaciones();
                 break;
 
             default:
-                ;
+                return respuesta('99', 'No se detecto el usuario.');
                 break;
         }
-        imprimirSalida($menu);
-        return $menu;
+        return respuesta('00', '', $menu);
     }
 
     public function salir()

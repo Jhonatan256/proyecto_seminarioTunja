@@ -1,5 +1,6 @@
 <?php
 require 'controller/LoginController.php';
+require 'controller/AdministradorController.php';
 class Route {
 
     private $controlador;

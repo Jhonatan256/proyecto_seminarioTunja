@@ -39,12 +39,7 @@ function validarSesion() {
       }
     }).done(function (result) {
       Pace.stop();
-      if (result.cod == "00") {
-        // renderizarHome(result.data);
-        // sessionStorage.setItem("it", result.data.tipoUsuario);
-        // menuUsuario();
-        // modalEncuesta();
-      } else {
+      if (result.cod == "00") {} else {
         swal("¡Error!", result.msj, "error").then(value => {
           $(location).attr("href", "login.php");
         });
@@ -67,17 +62,18 @@ function home() {
     }).done(function (result) {
       Pace.stop();
       if (result.cod == "00") {
-        ReactDOM.unmountComponentAtNode(document.getElementById("menu"));
+        ReactDOM.unmountComponentAtNode(document.getElementById("navbar"));
+        ReactDOM.render( /*#__PURE__*/React.createElement(NavBar, {
+          nombre: result.data.nombre
+        }), document.getElementById("navbar"));
+        ReactDOM.unmountComponentAtNode(document.getElementById("contenedor"));
+        ReactDOM.render( /*#__PURE__*/React.createElement(Principal, {
+          nombre: result.data.nombre
+        }), document.getElementById("contenedor"));
+        ReactDOM.unmountComponentAtNode(document.getElementById("sidebar"));
         ReactDOM.render( /*#__PURE__*/React.createElement(Menu, {
-          tipo: data.nombre,
-          tipo: data.nombreTipoUsuario,
-          genero: data.genero
-        }), document.getElementById("header"));
-        // renderizarHome(result.data);
-        // sessionStorage.setItem("it", result.data.tipoUsuario);
-        // menuUsuario();
-        // modalEncuesta();
-        console.log(result);
+          datos: result.data
+        }), document.getElementById("sidebar"));
       } else {
         swal("¡Error!", result.msj, "error").then(value => {
           $(location).attr("href", "login.php");
@@ -88,3 +84,70 @@ function home() {
     });
   });
 }
+function vistaEstudiantes() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "listarEstudiantes"
+      }
+    }).done(function (result) {
+      if (validarResult(result)) {
+        switch (result.cod) {
+          case "00":
+            console.log(result);
+            ReactDOM.unmountComponentAtNode(document.getElementById("contenedor"));
+            ReactDOM.render( /*#__PURE__*/React.createElement(CrudEstudiantes, {
+              data: result
+            }), document.getElementById("contenedor"));
+            break;
+          case "88":
+            modalLogout();
+            break;
+          case "99":
+            alerta("¡Error!", result.msj);
+            break;
+          default:
+            alerta("¡Error!", "Error de codificación");
+        }
+      }
+    }).fail(function () {
+      console.log("error");
+    });
+  });
+}
+function vistaDocentes() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "listarEstudiantes"
+      }
+    }).done(function (result) {
+      if (validarResult(result)) {
+        switch (result.cod) {
+          case "00":
+            console.log(result);
+            break;
+          case "88":
+            modalLogout();
+            break;
+          case "99":
+            alerta("¡Error!", result.msj);
+            break;
+          default:
+            alerta("¡Error!", "Error de codificación");
+        }
+      }
+    }).fail(function () {
+      console.log("error");
+    });
+  });
+}
+function vistaAsignaturas() {}
+function vistaHorarios() {}
+function vistaPlanEstudios() {}
