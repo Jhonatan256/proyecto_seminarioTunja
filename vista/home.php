@@ -15,6 +15,7 @@ header("Expires: Sat, 1 Jul 2022 05:00:00 GMT");
 <link href="../assets/CSS/sliderHome.css" rel="stylesheet" type="text/css" />
 <link href="../assets/CSS/styleforms.css" rel="stylesheet" type="text/css" />
 <link href="../assets/js/pace/center-radar.css" rel="stylesheet" type="text/css" />
+<link href="../assets/js/DataTables/datatables.min.css" rel="stylesheet" type="text/css" />
 <script data-pace-options='{ "ajax": true }' src="../assets/js/pace/pace.js"></script>
 <title>Home</title>
 <!-- Icon -->
@@ -48,6 +49,7 @@ header("Expires: Sat, 1 Jul 2022 05:00:00 GMT");
 	<script src="../assets/react/js/componentes.js"></script>
 	<script src="../assets/react/js/template.js"></script>
 	<script src="../assets/js/sweetalert/sweetalert.min.js"></script>
+	<script src="../assets/js/DataTables/datatables.min.js"></script>
 </body>
 
 </html>

@@ -40,23 +40,77 @@ function nombreUsuario($datos)
     }
     return $nombre;
 }
-function menuEstudiantes(){
-    return ['nombre' =>'Estudiantes', 'icono' => 'bx bxs-notepad icon', 'z' => 'vistaEstudiantes'];
+
+function nombreUsuarioO($datos)
+{
+    $nombre = $datos->primerNombre;
+    if (! empty($datos->segundoNombre)) {
+        $nombre .= ' ' . $datos->segundoNombre;
+    }
+    if (! empty($datos->segundoNombre)) {
+        $nombre .= ' ' . $datos->segundoNombre;
+    }
+    if (! empty($datos->primerApellido)) {
+        $nombre .= ' ' . $datos->primerApellido;
+    }
+    if (! empty($datos->segundoApellido)) {
+        $nombre .= ' ' . $datos->segundoApellido;
+    }
+    return $nombre;
 }
-function menuDocentes(){
-    return ['nombre' =>'Docente', 'icono' => 'bx bxs-notepad icon', 'z' => 'vistaDocentes'];
+
+function menuEstudiantes()
+{
+    return [
+        'nombre' => 'Estudiantes',
+        'icono' => 'bx bxs-notepad icon',
+        'z' => 'vistaEstudiantes'
+    ];
 }
-function menuAsignatura(){
-    return ['nombre' =>'Asignaturas', 'icono' => 'bx bxs-inbox icon', 'z' => 'vistaAsignaturas'];
+
+function menuDocentes()
+{
+    return [
+        'nombre' => 'Docente',
+        'icono' => 'bx bxs-notepad icon',
+        'z' => 'vistaDocentes'
+    ];
 }
-function menuHorario(){
-    return ['nombre' =>'Horarios', 'icono' => 'bx bxs-inbox icon', 'z' => 'vistaHorarios'];
+
+function menuAsignatura()
+{
+    return [
+        'nombre' => 'Asignaturas',
+        'icono' => 'bx bxs-inbox icon',
+        'z' => 'vistaAsignaturas'
+    ];
 }
-function menuPlan(){
-    return ['nombre' =>'Plan de Estudios ', 'icono' => 'bx bxs-widget icon', 'z' => 'vistaPlanEstudios'];
+
+function menuHorario()
+{
+    return [
+        'nombre' => 'Horarios',
+        'icono' => 'bx bxs-inbox icon',
+        'z' => 'vistaHorarios'
+    ];
 }
-function menuCalificaciones(){
-    return ['nombre' =>'Calificaciones', 'icono' => 'bx bxs-widget icon', 'z' => 'vistaCalificaciones'];
+
+function menuPlan()
+{
+    return [
+        'nombre' => 'Plan de Estudios ',
+        'icono' => 'bx bxs-widget icon',
+        'z' => 'vistaPlanEstudios'
+    ];
+}
+
+function menuCalificaciones()
+{
+    return [
+        'nombre' => 'Calificaciones',
+        'icono' => 'bx bxs-widget icon',
+        'z' => 'vistaCalificaciones'
+    ];
 }
 // function menuLibro(){
 //     return ['nombre' =>'Calificaciones', 'icono' => 'bx bxs-widget icon', 'z' => 'vistaCalificaciones'];

@@ -12,3 +12,12 @@ function modalError() {
 function alerta(titulo, msj, tipo = "error") {
   swal(titulo, msj, tipo);
 }
+function actualizarRuta(nombre, z) {
+  var ruta = new Object();
+  ruta.nombre = nombre;
+  ruta.z = z;
+  ReactDOM.unmountComponentAtNode(document.getElementById("route"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(Route, {
+    ruta: ruta
+  }), document.getElementById("route"));
+}

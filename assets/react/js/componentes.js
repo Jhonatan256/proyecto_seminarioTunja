@@ -229,21 +229,12 @@ class Principal extends React.Component {
   }
   componentDidMount() {}
   render() {
-    return /*#__PURE__*/React.createElement("main", null, /*#__PURE__*/React.createElement("ul", {
-      class: "breadcrumbs"
-    }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
-      href: "javascript:void(0);",
-      onClick: data => home()
-    }, "Home"))), /*#__PURE__*/React.createElement("div", {
-      class: "data"
-    }, /*#__PURE__*/React.createElement("div", {
-      class: "content-data"
-    }, /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       class: "head"
     }, /*#__PURE__*/React.createElement("h3", null, "Eventos Seminario")), /*#__PURE__*/React.createElement("div", {
       id: "slider",
       style: {
-        backgroundColor: 'yellow'
+        backgroundColor: "yellow"
       }
     }, /*#__PURE__*/React.createElement("figure", null, /*#__PURE__*/React.createElement("img", {
       src: "../assets/images/actividad1.jpg",
@@ -257,15 +248,82 @@ class Principal extends React.Component {
     }), /*#__PURE__*/React.createElement("img", {
       src: "../assets/images/actividad1.jpg",
       alt: ""
-    }))))));
+    }))));
   }
 }
 class CrudEstudiantes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      registros: props.data.registros,
-      tipoUser: props.data.tipoUser
+      data: props.data
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+  componentDidMount() {
+    $("#tablaEstudiantes").DataTable({
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+      },
+      responsive: true,
+      dom: "Bfrtip",
+      pageLength: 20,
+      buttons: ["copy", "csv", "excel", "pdf", "print"]
+    });
+  }
+  componentWillUnmount() {}
+  render() {
+    console.log(this.state.data);
+    var datos = this.state.data.registros.map((registro, i) => /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+      scope: "row"
+    }, i + 1), /*#__PURE__*/React.createElement("td", {
+      dangerouslySetInnerHTML: {
+        __html: registro.acciones
+      }
+    }), /*#__PURE__*/React.createElement("td", null, registro.identificacion), /*#__PURE__*/React.createElement("td", null, registro.tipoDocumento), /*#__PURE__*/React.createElement("td", null, registro.nombre), /*#__PURE__*/React.createElement("td", null, registro.telefono), /*#__PURE__*/React.createElement("td", null, registro.direccion), /*#__PURE__*/React.createElement("td", null, registro.email), /*#__PURE__*/React.createElement("td", null, registro.estado)));
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      class: "head"
+    }, /*#__PURE__*/React.createElement("h3", null, "Estudiantes"), /*#__PURE__*/React.createElement("a", {
+      href: "javascript:void(0)",
+      class: "btn btn-primary"
+    }, "A\xF1adir estudiante")), /*#__PURE__*/React.createElement("div", {
+      class: "table-responsive-sm"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "table table-sm"
+    }, /*#__PURE__*/React.createElement("table", {
+      id: "tablaEstudiantes",
+      className: "table"
+    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "#"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Acciones"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Identificaci\xF3n"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "TD"), /*#__PURE__*/React.createElement("th", {
+      scope: "col",
+      style: {
+        width: '50%'
+      }
+    }, "Nombre"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Tel\xE9fono"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Direcci\xF3n"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Email"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Estado"))), /*#__PURE__*/React.createElement("tbody", null, datos)))));
+  }
+}
+class Route extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ruta: props.ruta
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -274,22 +332,14 @@ class CrudEstudiantes extends React.Component {
   }
   componentDidMount() {}
   render() {
-    return /*#__PURE__*/React.createElement("table", {
-      className: "table"
-    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
-      scope: "col"
-    }, "#"), /*#__PURE__*/React.createElement("th", {
-      scope: "col"
-    }, "First"), /*#__PURE__*/React.createElement("th", {
-      scope: "col"
-    }, "Last"), /*#__PURE__*/React.createElement("th", {
-      scope: "col"
-    }, "Handle"))), /*#__PURE__*/React.createElement("tbody", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
-      scope: "row"
-    }, "1"), /*#__PURE__*/React.createElement("td", null, "Mark"), /*#__PURE__*/React.createElement("td", null, "Otto"), /*#__PURE__*/React.createElement("td", null, "@mdo")), /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
-      scope: "row"
-    }, "2"), /*#__PURE__*/React.createElement("td", null, "Jacob"), /*#__PURE__*/React.createElement("td", null, "Thornton"), /*#__PURE__*/React.createElement("td", null, "@fat")), /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
-      scope: "row"
-    }, "3"), /*#__PURE__*/React.createElement("td", null, "Larry"), /*#__PURE__*/React.createElement("td", null, "the Bird"), /*#__PURE__*/React.createElement("td", null, "@twitter"))));
+    return /*#__PURE__*/React.createElement("ul", {
+      class: "breadcrumbs"
+    }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+      href: "javascript:void(0);",
+      onClick: data => home()
+    }, "Home")), typeof this.state.ruta != "undefined" ? /*#__PURE__*/React.createElement("li", null, "/", " ", /*#__PURE__*/React.createElement("a", {
+      href: "javascript:void(0);",
+      onClick: data => eval(this.state.ruta.z)
+    }, this.state.ruta.nombre)) : "");
   }
 }

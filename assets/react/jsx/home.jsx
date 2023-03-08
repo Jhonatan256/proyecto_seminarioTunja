@@ -85,6 +85,11 @@ function home() {
             <Menu datos={result.data} />,
             document.getElementById("sidebar")
           );
+          ReactDOM.unmountComponentAtNode(document.getElementById("route"));
+          ReactDOM.render(
+            <Route/>,
+            document.getElementById("route")
+          );
         } else {
           swal("¡Error!", result.msj, "error").then((value) => {
             $(location).attr("href", "login.php");
@@ -108,14 +113,14 @@ function vistaEstudiantes() {
     })
       .done(function (result) {
         if (validarResult(result)) {
+          actualizarRuta('Lista estudiantes', 'vistaEstudiantes')
           switch (result.cod) {
             case "00":
-              console.log(result);
               ReactDOM.unmountComponentAtNode(
                 document.getElementById("contenedor")
               );
               ReactDOM.render(
-                <CrudEstudiantes data={result} />,
+                <CrudEstudiantes data={result.data} />,
                 document.getElementById("contenedor")
               );
               break;

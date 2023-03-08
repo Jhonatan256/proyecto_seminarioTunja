@@ -271,29 +271,19 @@ class Principal extends React.Component {
   componentDidMount() {}
   render() {
     return (
-      <main>
-        <ul class="breadcrumbs">
-          <li>
-            <a href="javascript:void(0);" onClick={data=>home()}>Home</a>
-          </li>
-          {/* <label id="user-sesion">Bienvenido</label> */}
-        </ul>
-        <div class="data">
-          <div class="content-data">
-            <div class="head">
-              <h3>Eventos Seminario</h3>
-            </div>
-            <div id="slider" style={{backgroundColor: 'yellow'}}>
-              <figure>
-                <img src="../assets/images/actividad1.jpg" alt="" />
-                <img src="../assets/images/actividad1.jpg" alt="" />
-                <img src="../assets/images/actividad1.jpg" alt="" />
-                <img src="../assets/images/actividad1.jpg" alt="" />
-              </figure>
-            </div>
-          </div>
+      <div>
+        <div class="head">
+          <h3>Eventos Seminario</h3>
         </div>
-      </main>
+        <div id="slider" style={{ backgroundColor: "yellow" }}>
+          <figure>
+            <img src="../assets/images/actividad1.jpg" alt="" />
+            <img src="../assets/images/actividad1.jpg" alt="" />
+            <img src="../assets/images/actividad1.jpg" alt="" />
+            <img src="../assets/images/actividad1.jpg" alt="" />
+          </figure>
+        </div>
+      </div>
     );
   }
 }
@@ -301,8 +291,81 @@ class CrudEstudiantes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      registros: props.data.registros,
-      tipoUser: props.data.tipoUser,
+      data: props.data,
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+
+  componentDidMount() {
+    $("#tablaEstudiantes").DataTable({
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+      },
+      responsive: true,
+      dom: "Bfrtip",
+      pageLength: 20,
+      buttons: ["copy", "csv", "excel", "pdf", "print"],
+    });
+  }
+  componentWillUnmount() {}
+  render() {
+    console.log(this.state.data);
+    var datos = this.state.data.registros.map((registro, i) => (
+      <tr>
+      <th scope="row">{i + 1}</th>
+      <td dangerouslySetInnerHTML={{
+            __html: registro.acciones,
+          }}></td>
+      <td>{registro.identificacion}</td>
+      <td>{registro.tipoDocumento}</td>
+      <td>{registro.nombre}</td>
+      <td>{registro.telefono}</td>
+      <td>{registro.direccion}</td>
+      <td>{registro.email}</td>
+      <td>{registro.estado}</td>
+    </tr>
+    ));
+    return (
+      <div>
+        <div class="head">
+          <h3>Estudiantes</h3>
+
+          <a href="javascript:void(0)" class="btn btn-primary">Añadir estudiante</a>
+        </div>
+        <div class="table-responsive-sm">
+          <div class="table table-sm">
+            <table id="tablaEstudiantes" className="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Acciones</th>
+                  <th scope="col">Identificación</th>
+                  <th scope="col">TD</th>
+                  <th scope="col" style={{width: '50%'}}>Nombre</th>
+                  <th scope="col">Teléfono</th>
+                  <th scope="col">Dirección</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                {datos}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+class Route extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ruta: props.ruta,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -313,36 +376,28 @@ class CrudEstudiantes extends React.Component {
   componentDidMount() {}
   render() {
     return (
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-      </table>
+      <ul class="breadcrumbs">
+        <li>
+          <a href="javascript:void(0);" onClick={(data) => home()}>
+            Home
+          </a>
+        </li>
+
+        {typeof this.state.ruta != "undefined" ? (
+          <li>
+            /{" "}
+            <a
+              href="javascript:void(0);"
+              onClick={(data) => eval(this.state.ruta.z)}
+            >
+              {this.state.ruta.nombre}
+            </a>
+          </li>
+        ) : (
+          ""
+        )}
+        {/* <label id="user-sesion">Bienvenido</label> */}
+      </ul>
     );
   }
 }
