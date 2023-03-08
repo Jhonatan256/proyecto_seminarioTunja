@@ -41,36 +41,23 @@ function nombreUsuario($datos)
     return $nombre;
 }
 function menuEstudiantes(){
-    $opciones = $modulo = [];
-    $opciones[] = [
-        'nombre' => 'Registrar Estudiante',
-        'z' => 'registrarEstudiante'
-    ];
-    $opciones[] = [
-        'nombre' => 'Actualizar Estudiante',
-        'z' => 'actualizarEstudiante'
-    ];
-    $modulo = [
-        'nombre' => 'Estudiantes',
-        'icono' => 'bx bxs-notepad icon',
-        'opciones' => $opciones
-    ];
-    return $modulo;
+    return ['nombre' =>'Estudiantes', 'icono' => 'bx bxs-notepad icon', 'z' => 'vistaEstudiantes'];
 }
-function menuDocente(){
-    $opciones = $modulo = [];
-    $opciones[] = [
-        'nombre' => 'Registrar Estudiante',
-        'z' => 'registrarEstudiante'
-    ];
-    $opciones[] = [
-        'nombre' => 'Actualizar Estudiante',
-        'z' => 'actualizarEstudiante'
-    ];
-    $modulo = [
-        'nombre' => 'Estudiantes',
-        'icono' => 'bx bxs-notepad icon',
-        'opciones' => $opciones
-    ];
-    return $modulo;
+function menuDocentes(){
+    return ['nombre' =>'Docente', 'icono' => 'bx bxs-notepad icon', 'z' => 'vistaDocentes'];
 }
+function menuAsignatura(){
+    return ['nombre' =>'Asignaturas', 'icono' => 'bx bxs-inbox icon', 'z' => 'vistaAsignaturas'];
+}
+function menuHorario(){
+    return ['nombre' =>'Horarios', 'icono' => 'bx bxs-inbox icon', 'z' => 'vistaHorarios'];
+}
+function menuPlan(){
+    return ['nombre' =>'Plan de Estudios ', 'icono' => 'bx bxs-widget icon', 'z' => 'vistaPlanEstudios'];
+}
+function menuCalificaciones(){
+    return ['nombre' =>'Calificaciones', 'icono' => 'bx bxs-widget icon', 'z' => 'vistaCalificaciones'];
+}
+// function menuLibro(){
+//     return ['nombre' =>'Calificaciones', 'icono' => 'bx bxs-widget icon', 'z' => 'vistaCalificaciones'];
+// }

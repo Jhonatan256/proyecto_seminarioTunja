@@ -98,22 +98,41 @@ class LoginController
     public function home()
     {
         // opciones por usuario para el menu
-        $menu = $opciones = $modulo = [];
-        $menu['home'] = [
+        $menu = [];
+        $menu['opciones'][] = [
             'nombre' => 'Home',
             'z' => 'home',
             'icono' => 'bx bxs-dashboard icon'
         ];
-        $opciones['tipoUsuario'] = self::getUser('tipoUsuario');
+        $menu['tipoUsuario'] = self::getUser('tipoUsuario');
         switch (self::getUser('tipoUsuario')) {
             case '1':
+                $menu['icono'] = 'bx bxs-user-pin';
                 $menu['opciones'][] = menuEstudiantes();
+                $menu['opciones'][] = menuDocentes();
+                $menu['opciones'][] = menuAsignatura();
+                $menu['opciones'][] = menuHorario();
+                $menu['opciones'][] = menuPlan();
                 break;
             case '2':
+                $menu['icono'] = 'bx bxs-user-pin';
+                $menu['opciones'][] = [
+                    'nombre' => 'Docente',
+                    'icono' => 'bx bxs-notepad icon',
+                    'z' => 'vistaDocente'
+                ];
+                $menu['opciones'][] = menuCalificaciones();
                 $menu['opciones'][] = menuEstudiantes();
+                // $menu['opciones'][] = menuLibro();
                 break;
             case '3':
-                $menu['opciones'][] = menuEstudiantes();
+                $menu['opciones'][] = [
+                    'nombre' => 'Estudiante',
+                    'icono' => 'bx bxs-notepad icon',
+                    'z' => 'vistaEstudiante'
+                ];
+                ;
+                $menu['opciones'][] = menuCalificaciones();
                 break;
 
             default:
