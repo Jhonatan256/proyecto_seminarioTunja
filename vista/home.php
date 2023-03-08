@@ -16,7 +16,7 @@ header("Expires: Sat, 1 Jul 2022 05:00:00 GMT");
 <link href="../assets/CSS/styleforms.css" rel="stylesheet" type="text/css" />
 <link href="../assets/js/pace/center-radar.css" rel="stylesheet" type="text/css" />
 <script data-pace-options='{ "ajax": true }' src="../assets/js/pace/pace.js"></script>
-<title>Home Administrador</title>
+<title>Home</title>
 <!-- Icon -->
 <link rel="shortcut icon" href="../assets/images/Sello.png"
 	type="image/x-icon">

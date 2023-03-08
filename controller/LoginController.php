@@ -11,24 +11,33 @@ class LoginController
 
         $email = $_POST['email'];
         $pass = $_POST['clave'];
-        $user = $db->consultarRegistro('SELECT * FROM usuario WHERE email = :email', [
+        $user = $db->consultarRegistro('SELECT u.*, r.nombreRol FROM usuario u JOIN rol r ON u.codRol = r.idRol WHERE email = :email', [
             'email' => $email
         ]);
         if ($user) {
             if ($user['password'] == $pass) {
-                session_start();
-                foreach ($user as $key => $value) {
-                    $userData[$key] = $value;
-                    self::setUser($key, $value);
+                if ($user['estado'] == 'activo') {
+                    session_start();
+                    self::setUser('nombre', nombreUsuario($user));
+                    self::setUser('identificacion', $user['numeroDocumento']);
+                    self::setUser('estado', $user['estado']);
+                    self::setUser('tipoUsuario', $user['codRol']);
+                    self::setUser('idUsuario', $user['idUsuario']);
+                    self::setUser('session', true);
+                    return respuesta('00', '', $user);
+                } else {
+                    $cod = '99';
+                    $msj = 'Usuario inactivo.';
                 }
-                self::setUser('session', true);
-                return respuesta('00', '', $userData);
             } else {
-                return respuesta('99', 'Contraseña incorrecta');
+                $cod = '99';
+                $msj = 'Contraseña incorrecta.';
             }
         } else {
-            return respuesta('99', 'No se encontro datos del usuario.');
+            $cod = '99';
+            $msj = 'No se encontro datos del usuario.';
         }
+        return respuesta($cod, $msj);
     }
 
     public function validarSesionLogin()
@@ -44,12 +53,12 @@ class LoginController
         $data = [];
         $cod = '00';
         if (self::getUser('session')) {
+
             $data['nombre'] = self::getUser('nombre');
             $data['identificacion'] = self::getUser('identificacion');
-            $data['fecha_nacimiento'] = self::getUser('fecha_nacimiento');
-            $data['nombreTipoUsuario'] = self::getUser('nombreTipoUsuario');
+            $data['estado'] = self::getUser('estado');
             $data['tipoUsuario'] = self::getUser('tipoUsuario');
-            $data['genero'] = self::getUser('genero');
+            $data['idUsuario'] = self::getUser('idUsuario');
             if ($tipo == 'login') {
                 return respuesta($cod, '', $data);
             } else {
@@ -89,6 +98,30 @@ class LoginController
     public function home()
     {
         // opciones por usuario para el menu
+        $menu = $opciones = $modulo = [];
+        $menu['home'] = [
+            'nombre' => 'Home',
+            'z' => 'home',
+            'icono' => 'bx bxs-dashboard icon'
+        ];
+        $opciones['tipoUsuario'] = self::getUser('tipoUsuario');
+        switch (self::getUser('tipoUsuario')) {
+            case '1':
+                $menu['opciones'][] = menuEstudiantes();
+                break;
+            case '2':
+                $menu['opciones'][] = menuEstudiantes();
+                break;
+            case '3':
+                $menu['opciones'][] = menuEstudiantes();
+                break;
+
+            default:
+                ;
+                break;
+        }
+        imprimirSalida($menu);
+        return $menu;
     }
 
     public function salir()
