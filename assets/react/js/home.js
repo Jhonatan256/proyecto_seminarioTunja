@@ -97,7 +97,7 @@ function vistaEstudiantes() {
       }
     }).done(function (result) {
       if (validarResult(result)) {
-        actualizarRuta('Lista estudiantes', 'vistaEstudiantes');
+        actualizarRuta("Lista estudiantes", "vistaEstudiantes");
         switch (result.cod) {
           case "00":
             ReactDOM.unmountComponentAtNode(document.getElementById("contenedor"));
@@ -134,6 +134,42 @@ function vistaDocentes() {
         switch (result.cod) {
           case "00":
             console.log(result);
+            break;
+          case "88":
+            modalLogout();
+            break;
+          case "99":
+            alerta("¡Error!", result.msj);
+            break;
+          default:
+            alerta("¡Error!", "Error de codificación");
+        }
+      }
+    }).fail(function () {
+      console.log("error");
+    });
+  });
+}
+function editarUsuario(identificacion) {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "buscarEstudiante",
+        ide: identificacion
+      }
+    }).done(function (result) {
+      if (validarResult(result)) {
+        switch (result.cod) {
+          case "00":
+            console.log(result);
+            ReactDOM.unmountComponentAtNode(document.getElementById("modal1"));
+            ReactDOM.render( /*#__PURE__*/React.createElement(ModalEstudiante, {
+              data: result.data
+            }), document.getElementById("modal1"));
+            $("#modalAuxiliar").modal("show");
             break;
           case "88":
             modalLogout();

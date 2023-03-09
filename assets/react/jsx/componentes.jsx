@@ -235,10 +235,9 @@ class NavBar extends React.Component {
   componentDidMount() {}
   render() {
     return (
-      <nav>
+      <nav class="navbar">
         <i class="bx bx-menu toggle-sidebar"></i>
-
-        <h1>Seminario Conciliar Tunja</h1>
+        <p>Seminario Conciliar Tunja</p>
         <span class="divider"></span>
         {this.state.nombre}
         <div class="profile">
@@ -309,33 +308,40 @@ class CrudEstudiantes extends React.Component {
       pageLength: 20,
       buttons: ["copy", "csv", "excel", "pdf", "print"],
     });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
   }
   componentWillUnmount() {}
   render() {
     console.log(this.state.data);
     var datos = this.state.data.registros.map((registro, i) => (
       <tr>
-      <th scope="row">{i + 1}</th>
-      <td dangerouslySetInnerHTML={{
+        <th scope="row">{i + 1}</th>
+        <td
+          dangerouslySetInnerHTML={{
             __html: registro.acciones,
-          }}></td>
-      <td>{registro.identificacion}</td>
-      <td>{registro.tipoDocumento}</td>
-      <td>{registro.nombre}</td>
-      <td>{registro.telefono}</td>
-      <td>{registro.direccion}</td>
-      <td>{registro.email}</td>
-      <td>{registro.estado}</td>
-    </tr>
+          }}
+        ></td>
+        <td>{registro.identificacion}</td>
+        <td>{registro.tipoDocumento}</td>
+        <td>{registro.nombre}</td>
+        <td>{registro.telefono}</td>
+        <td>{registro.direccion}</td>
+        <td>{registro.email}</td>
+        <td>{registro.estado}</td>
+      </tr>
     ));
     return (
       <div>
         <div class="head">
           <h3>Estudiantes</h3>
 
-          <a href="javascript:void(0)" class="btn btn-primary">Añadir estudiante</a>
+          <a href="javascript:void(0)" class="btn btn-primary">
+            Añadir estudiante
+          </a>
         </div>
-        <div class="table-responsive-sm">
+        <div class="table-responsive table-responsive-sm">
           <div class="table table-sm">
             <table id="tablaEstudiantes" className="table">
               <thead>
@@ -344,16 +350,16 @@ class CrudEstudiantes extends React.Component {
                   <th scope="col">Acciones</th>
                   <th scope="col">Identificación</th>
                   <th scope="col">TD</th>
-                  <th scope="col" style={{width: '50%'}}>Nombre</th>
+                  <th scope="col" style={{ width: "50%" }}>
+                    Nombre
+                  </th>
                   <th scope="col">Teléfono</th>
                   <th scope="col">Dirección</th>
                   <th scope="col">Email</th>
                   <th scope="col">Estado</th>
                 </tr>
               </thead>
-              <tbody>
-                {datos}
-              </tbody>
+              <tbody>{datos}</tbody>
             </table>
           </div>
         </div>
@@ -398,6 +404,175 @@ class Route extends React.Component {
         )}
         {/* <label id="user-sesion">Bienvenido</label> */}
       </ul>
+    );
+  }
+}
+class ModalEstudiante extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      datos: props.data,
+      invocacion: props.invocacion,
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+
+  componentDidMount() {}
+  componentWillUnmount() {}
+  render() {
+    var titulo =
+      this.state.invocacion == "registro"
+        ? "Nuevo estudiante"
+        : "Actualizar datos";
+    return (
+      <div
+        class="modal fade"
+        id="modalAuxiliar"
+        tabindex="-1"
+        aria-labelledby="modalAuxiliarLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header container">
+              <h5 class="modal-title" id="modalAuxiliarLabel">
+                {titulo}
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body container">
+              <form>
+                <div className="form-row">
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Primer nombre</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="primerNombre"
+                      name="primerNombre"
+                      defaultValue={this.state.datos.primerNombre}
+                      placeholder="Primer nombre"
+                      required="required"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Segundo nombre</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="segundoNombre"
+                      name="segundoNombre"
+                      defaultValue={this.state.datos.segundoNombre}
+                      placeholder="Segundo nombre"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Primer apellido</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="primerApellido"
+                      name="primerApellido"
+                      defaultValue={this.state.datos.primerApellido}
+                      placeholder="Primer apellido"
+                      required="required"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Segundo apellido</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="segundoApellido"
+                      name="segundoApellido"
+                      defaultValue={this.state.datos.segundoApellido}
+                      placeholder="Segundo apellido"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Tipo documento</label>
+                    <select class="form-control form-control-sm" defaultValue={this.state.datos.tipoDocumento}  required="required">
+                    <option value="">Seleccione...</option>
+                      <option value="CC">Cédula</option>
+                      <option value="TI">Tarjeta de identidad</option>
+                    </select>
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Identificación</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="numeroDocumento"
+                      name="numeroDocumento"
+                      defaultValue={this.state.datos.numeroDocumento}
+                      placeholder="Identificación"
+                      required="required"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Email</label>
+                    <input
+                      type="email"
+                      className="form-control form-control form-control-sm"
+                      id="email"
+                      name="email"
+                      defaultValue={this.state.datos.email}
+                      placeholder="Email"
+                      required="required"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Teléfono</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="telefono"
+                      name="telefono"
+                      defaultValue={this.state.datos.telefono}
+                      placeholder="Teléfono"
+                      required="required"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Dirección</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="direccion"
+                      name="direccion"
+                      defaultValue={this.state.datos.direccion}
+                      placeholder="Dirección"
+                      required="required"
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer container">
+              <button
+                type="button"
+                class="btn btn-secondary btn-sm"
+                data-dismiss="modal"
+              >
+                Cerrar
+              </button>
+              <button type="button" class="btn btn-primary btn-sm">
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 }

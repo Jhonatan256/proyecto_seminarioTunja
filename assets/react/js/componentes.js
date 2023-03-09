@@ -197,9 +197,11 @@ class NavBar extends React.Component {
   }
   componentDidMount() {}
   render() {
-    return /*#__PURE__*/React.createElement("nav", null, /*#__PURE__*/React.createElement("i", {
+    return /*#__PURE__*/React.createElement("nav", {
+      class: "navbar"
+    }, /*#__PURE__*/React.createElement("i", {
       class: "bx bx-menu toggle-sidebar"
-    }), /*#__PURE__*/React.createElement("h1", null, "Seminario Conciliar Tunja"), /*#__PURE__*/React.createElement("span", {
+    }), /*#__PURE__*/React.createElement("p", null, "Seminario Conciliar Tunja"), /*#__PURE__*/React.createElement("span", {
       class: "divider"
     }), this.state.nombre, /*#__PURE__*/React.createElement("div", {
       class: "profile"
@@ -272,6 +274,9 @@ class CrudEstudiantes extends React.Component {
       pageLength: 20,
       buttons: ["copy", "csv", "excel", "pdf", "print"]
     });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
   }
   componentWillUnmount() {}
   render() {
@@ -289,7 +294,7 @@ class CrudEstudiantes extends React.Component {
       href: "javascript:void(0)",
       class: "btn btn-primary"
     }, "A\xF1adir estudiante")), /*#__PURE__*/React.createElement("div", {
-      class: "table-responsive-sm"
+      class: "table-responsive table-responsive-sm"
     }, /*#__PURE__*/React.createElement("div", {
       class: "table table-sm"
     }, /*#__PURE__*/React.createElement("table", {
@@ -306,7 +311,7 @@ class CrudEstudiantes extends React.Component {
     }, "TD"), /*#__PURE__*/React.createElement("th", {
       scope: "col",
       style: {
-        width: '50%'
+        width: "50%"
       }
     }, "Nombre"), /*#__PURE__*/React.createElement("th", {
       scope: "col"
@@ -341,5 +346,167 @@ class Route extends React.Component {
       href: "javascript:void(0);",
       onClick: data => eval(this.state.ruta.z)
     }, this.state.ruta.nombre)) : "");
+  }
+}
+class ModalEstudiante extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      datos: props.data,
+      invocacion: props.invocacion
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+  componentDidMount() {}
+  componentWillUnmount() {}
+  render() {
+    var titulo = this.state.invocacion == "registro" ? "Nuevo estudiante" : "Actualizar datos";
+    return /*#__PURE__*/React.createElement("div", {
+      class: "modal fade",
+      id: "modalAuxiliar",
+      tabindex: "-1",
+      "aria-labelledby": "modalAuxiliarLabel",
+      "aria-hidden": "true"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-dialog modal-lg"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-content"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-header container"
+    }, /*#__PURE__*/React.createElement("h5", {
+      class: "modal-title",
+      id: "modalAuxiliarLabel"
+    }, titulo), /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "close",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }, /*#__PURE__*/React.createElement("span", {
+      "aria-hidden": "true"
+    }, "\xD7"))), /*#__PURE__*/React.createElement("div", {
+      class: "modal-body container"
+    }, /*#__PURE__*/React.createElement("form", null, /*#__PURE__*/React.createElement("div", {
+      className: "form-row"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Primer nombre"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "primerNombre",
+      name: "primerNombre",
+      defaultValue: this.state.datos.primerNombre,
+      placeholder: "Primer nombre",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Segundo nombre"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "segundoNombre",
+      name: "segundoNombre",
+      defaultValue: this.state.datos.segundoNombre,
+      placeholder: "Segundo nombre"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Primer apellido"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "primerApellido",
+      name: "primerApellido",
+      defaultValue: this.state.datos.primerApellido,
+      placeholder: "Primer apellido",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Segundo apellido"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "segundoApellido",
+      name: "segundoApellido",
+      defaultValue: this.state.datos.segundoApellido,
+      placeholder: "Segundo apellido"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Tipo documento"), /*#__PURE__*/React.createElement("select", {
+      class: "form-control form-control-sm",
+      defaultValue: this.state.datos.tipoDocumento,
+      required: "required"
+    }, /*#__PURE__*/React.createElement("option", {
+      value: ""
+    }, "Seleccione..."), /*#__PURE__*/React.createElement("option", {
+      value: "CC"
+    }, "C\xE9dula"), /*#__PURE__*/React.createElement("option", {
+      value: "TI"
+    }, "Tarjeta de identidad"))), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Identificaci\xF3n"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "numeroDocumento",
+      name: "numeroDocumento",
+      defaultValue: this.state.datos.numeroDocumento,
+      placeholder: "Identificaci\xF3n",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Email"), /*#__PURE__*/React.createElement("input", {
+      type: "email",
+      className: "form-control form-control form-control-sm",
+      id: "email",
+      name: "email",
+      defaultValue: this.state.datos.email,
+      placeholder: "Email",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Tel\xE9fono"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "telefono",
+      name: "telefono",
+      defaultValue: this.state.datos.telefono,
+      placeholder: "Tel\xE9fono",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Direcci\xF3n"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "direccion",
+      name: "direccion",
+      defaultValue: this.state.datos.direccion,
+      placeholder: "Direcci\xF3n",
+      required: "required"
+    }))))), /*#__PURE__*/React.createElement("div", {
+      class: "modal-footer container"
+    }, /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-secondary btn-sm",
+      "data-dismiss": "modal"
+    }, "Cerrar"), /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-primary btn-sm"
+    }, "Guardar")))));
   }
 }
