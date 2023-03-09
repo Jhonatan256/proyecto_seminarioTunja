@@ -355,15 +355,54 @@ class ModalEstudiante extends React.Component {
       datos: props.data,
       invocacion: props.invocacion
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.registrar = this.registrar.bind(this);
+    this.actualizar = this.actualizar.bind(this);
   }
-  handleSubmit(event) {
+  registrar(event) {
     event.preventDefault();
+    if ($('#formEstudiante').valid()) {}
+  }
+  actualizar(event) {
+    event.preventDefault();
+    if ($('#formEstudiante').valid()) {
+      let formData = $('#formEstudiante').serialize() + '&c=AdministradorController&m=actualizarEstudiante';
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          }
+        }).done(function (result) {
+          if (validarResult(result)) {
+            switch (result.cod) {
+              case "00":
+                $("#modalAuxiliar").hide();
+                alerta("Satisfactorio", result.msj);
+                break;
+              case "88":
+                modalLogout();
+                break;
+              case "99":
+                alerta("¡Error!", result.msj);
+                $("#modalAuxiliar").modal("show");
+                break;
+              default:
+                alerta("¡Error!", "Error de codificación");
+                $("#modalAuxiliar").modal("show");
+            }
+          }
+        }).fail(function () {
+          console.log("error");
+        });
+      });
+    }
   }
   componentDidMount() {}
   componentWillUnmount() {}
   render() {
-    var titulo = this.state.invocacion == "registro" ? "Nuevo estudiante" : "Actualizar datos";
+    let titulo = this.state.invocacion == "registro" ? "Nuevo estudiante" : "Actualizar datos";
     return /*#__PURE__*/React.createElement("div", {
       class: "modal fade",
       id: "modalAuxiliar",
@@ -386,9 +425,11 @@ class ModalEstudiante extends React.Component {
       "aria-label": "Close"
     }, /*#__PURE__*/React.createElement("span", {
       "aria-hidden": "true"
-    }, "\xD7"))), /*#__PURE__*/React.createElement("div", {
+    }, "\xD7"))), /*#__PURE__*/React.createElement("form", {
+      id: "formEstudiante"
+    }, /*#__PURE__*/React.createElement("div", {
       class: "modal-body container"
-    }, /*#__PURE__*/React.createElement("form", null, /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "form-row"
     }, /*#__PURE__*/React.createElement("div", {
       className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
@@ -498,15 +539,20 @@ class ModalEstudiante extends React.Component {
       defaultValue: this.state.datos.direccion,
       placeholder: "Direcci\xF3n",
       required: "required"
-    }))))), /*#__PURE__*/React.createElement("div", {
+    })))), /*#__PURE__*/React.createElement("div", {
       class: "modal-footer container"
     }, /*#__PURE__*/React.createElement("button", {
       type: "button",
       class: "btn btn-secondary btn-sm",
       "data-dismiss": "modal"
-    }, "Cerrar"), /*#__PURE__*/React.createElement("button", {
+    }, "Cerrar"), this.state.invocacion == "registro" ? /*#__PURE__*/React.createElement("button", {
       type: "button",
-      class: "btn btn-primary btn-sm"
-    }, "Guardar")))));
+      class: "btn btn-primary btn-sm",
+      onClick: this.registrar
+    }, "Guardar") : /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-primary btn-sm",
+      onClick: this.actualizar
+    }, "Actualizar"))))));
   }
 }

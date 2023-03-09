@@ -167,7 +167,8 @@ function editarUsuario(identificacion) {
             console.log(result);
             ReactDOM.unmountComponentAtNode(document.getElementById("modal1"));
             ReactDOM.render( /*#__PURE__*/React.createElement(ModalEstudiante, {
-              data: result.data
+              data: result.data,
+              invocacion: 'actualizacion'
             }), document.getElementById("modal1"));
             $("#modalAuxiliar").modal("show");
             break;

@@ -414,16 +414,59 @@ class ModalEstudiante extends React.Component {
       datos: props.data,
       invocacion: props.invocacion,
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.registrar = this.registrar.bind(this);
+    this.actualizar = this.actualizar.bind(this);
   }
-  handleSubmit(event) {
+  registrar(event) {
     event.preventDefault();
+    if($('#formEstudiante').valid()){
+
+    }
+  }
+  actualizar(event) {
+    event.preventDefault();
+    if($('#formEstudiante').valid()){
+      let formData = $('#formEstudiante').serialize() + '&c=AdministradorController&m=actualizarEstudiante'
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data:formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          }
+        })
+          .done(function (result) {
+            if (validarResult(result)) {
+              switch (result.cod) {
+                case "00":
+                  $("#modalAuxiliar").hide();
+                  alerta("Satisfactorio", result.msj);
+                  break;
+                case "88":
+                  modalLogout();
+                  break;
+                case "99":
+                  alerta("¡Error!", result.msj);
+                  $("#modalAuxiliar").modal("show");
+                  break;
+                default:
+                  alerta("¡Error!", "Error de codificación");
+                  $("#modalAuxiliar").modal("show");
+              }
+            }
+          })
+          .fail(function () {
+            console.log("error");
+          });
+      });
+    }
   }
 
   componentDidMount() {}
   componentWillUnmount() {}
   render() {
-    var titulo =
+    let titulo =
       this.state.invocacion == "registro"
         ? "Nuevo estudiante"
         : "Actualizar datos";
@@ -450,8 +493,8 @@ class ModalEstudiante extends React.Component {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body container">
-              <form>
+            <form id="formEstudiante">
+              <div class="modal-body container">
                 <div className="form-row">
                   <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
                     <label htmlFor="inputAddress">Primer nombre</label>
@@ -501,8 +544,12 @@ class ModalEstudiante extends React.Component {
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
                     <label htmlFor="inputAddress">Tipo documento</label>
-                    <select class="form-control form-control-sm" defaultValue={this.state.datos.tipoDocumento}  required="required">
-                    <option value="">Seleccione...</option>
+                    <select
+                      class="form-control form-control-sm"
+                      defaultValue={this.state.datos.tipoDocumento}
+                      required="required"
+                    >
+                      <option value="">Seleccione...</option>
                       <option value="CC">Cédula</option>
                       <option value="TI">Tarjeta de identidad</option>
                     </select>
@@ -556,20 +603,34 @@ class ModalEstudiante extends React.Component {
                     />
                   </div>
                 </div>
-              </form>
-            </div>
-            <div class="modal-footer container">
-              <button
-                type="button"
-                class="btn btn-secondary btn-sm"
-                data-dismiss="modal"
-              >
-                Cerrar
-              </button>
-              <button type="button" class="btn btn-primary btn-sm">
-                Guardar
-              </button>
-            </div>
+              </div>
+              <div class="modal-footer container">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm"
+                  data-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+                {this.state.invocacion == "registro" ? (
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    onClick={this.registrar}
+                  >
+                    Guardar
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    onClick={this.actualizar}
+                  >
+                    Actualizar
+                  </button>
+                )}
+              </div>
+            </form>
           </div>
         </div>
       </div>

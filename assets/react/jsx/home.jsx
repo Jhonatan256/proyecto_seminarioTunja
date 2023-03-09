@@ -189,7 +189,7 @@ function editarUsuario(identificacion) {
                 document.getElementById("modal1")
               );
               ReactDOM.render(
-                <ModalEstudiante data={result.data} />,
+                <ModalEstudiante data={result.data} invocacion={'actualizacion'}/>,
                 document.getElementById("modal1")
               );
               $("#modalAuxiliar").modal("show");
