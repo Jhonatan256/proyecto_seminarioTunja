@@ -360,12 +360,12 @@ class ModalEstudiante extends React.Component {
   }
   registrar(event) {
     event.preventDefault();
-    if ($('#formEstudiante').valid()) {}
+    if ($("#formEstudiante").valid()) {}
   }
   actualizar(event) {
     event.preventDefault();
-    if ($('#formEstudiante').valid()) {
-      let formData = $('#formEstudiante').serialize() + '&c=AdministradorController&m=actualizarEstudiante';
+    if ($("#formEstudiante").valid()) {
+      let formData = $("#formEstudiante").serialize() + "&c=AdministradorController&m=actualizarEstudiante";
       Pace.track(function () {
         $.ajax({
           url: "../Route.php",
@@ -379,7 +379,9 @@ class ModalEstudiante extends React.Component {
             switch (result.cod) {
               case "00":
                 $("#modalAuxiliar").hide();
-                alerta("Satisfactorio", result.msj);
+                swal("Usuario actualizado.", "", "success").then(value => {
+                  vistaEstudiantes();
+                });
                 break;
               case "88":
                 modalLogout();
@@ -482,6 +484,8 @@ class ModalEstudiante extends React.Component {
     }, /*#__PURE__*/React.createElement("label", {
       htmlFor: "inputAddress"
     }, "Tipo documento"), /*#__PURE__*/React.createElement("select", {
+      id: "tipoDocumento",
+      name: "tipoDocumento",
       class: "form-control form-control-sm",
       defaultValue: this.state.datos.tipoDocumento,
       required: "required"

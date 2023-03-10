@@ -66,8 +66,11 @@ class AdministradorController extends LoginController
             $estudiante = $db->consultarRegistro('SELECT * FROM usuario WHERE numeroDocumento = :ide', [
                 'ide' => $_POST['numeroDocumento']
             ]);
+            unset($_POST['m']);
+            unset($_POST['c']);
+            $_POST['ide'] = $_POST['numeroDocumento'];
             if ($estudiante) {
-                $db->crudRegistro("UPDATE usuario SET tipoDocumento = ?, numeroDocumento = ?, primerNombre = ?, segundoNombre = ?, primerApellido = ?, segundoApellido = ?, telefono = ?, direccion = ?, email = ?", $_POST);
+                $db->crudRegistro("UPDATE usuario SET tipoDocumento = :tipoDocumento, numeroDocumento = :numeroDocumento, primerNombre = :primerNombre, segundoNombre = :segundoNombre, primerApellido = :primerApellido, segundoApellido = :segundoApellido, telefono = :telefono, direccion = :direccion, email = :email WHERE numeroDocumento = :ide", $_POST);
                 return respuesta('00', '');
             } else {
                 $msj = 'No existen el estudiante.';
