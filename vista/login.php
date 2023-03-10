@@ -14,7 +14,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
     <link href="../assets/CSS/login.css" rel="stylesheet" type="text/css" />
     <link href="../assets/js/pace/center-radar.css" rel="stylesheet" type="text/css" />
-    <!-- <!-- <link href="../assets/js/pace/center-radar.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="../assets/js/pace/center-radar.css" rel="stylesheet" type="text/css" /> -->
     <!-- <script data-pace-options='{ "ajax": true }' src="../assets/js/pace/pace.js"></script> --> 
     <!-- Tab Icon -->
     <link rel="shortcut icon" href="../assets/images/Sello.png" type="image/x-icon">
