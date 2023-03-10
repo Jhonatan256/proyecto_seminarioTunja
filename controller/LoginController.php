@@ -35,6 +35,8 @@ class LoginController
                 $msj = 'Contraseña incorrecta.';
                 
                 if($user['password'] == $pass){
+                   
+                    imprimirSalida($user['password']);
                     imprimirSalida($pass);
                 }else{
                    imprimirSalida("Incorrecta");
