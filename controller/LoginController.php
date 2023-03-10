@@ -36,12 +36,12 @@ class LoginController
                 
                 if($user['password'] == $pass){
                    
-                    imprimirSalida($user['password']);
-                    imprimirSalida($pass);
+                    imprimirSalida(array($pass,$user['password']));
+                    
                 }else{
+                    imprimirSalida(array($pass, $user['password']));
                    imprimirSalida("Incorrecta");
-                    imprimirSalida($user['password']);
-                    imprimirSalida($pass);
+                    
                 }//Borrar
             }
         } else {
