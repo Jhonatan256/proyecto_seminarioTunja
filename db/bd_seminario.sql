@@ -184,7 +184,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`idUsuario`, `tipoDocumento`, `numeroDocumento`, `primerNombre`, `segundoNombre`, `primerApellido`, `segundoApellido`, `telefono`, `direccion`, `email`, `password`, `estado`, `codRol`) VALUES
-(3, 'CC', 100333, 'Alejandro', NULL, 'Sanchez', 'Martinez', '752411', 'calle 6 # 32', 'alejandro@gmail.com', '12345678', 'activo', 1),
+(3, 'CC', 100333, 'Alejandro', NULL, 'Sanchez', 'Martinez', '752411', 'calle 6 # 32', 'alejandro@gmail.com', '121212', 'activo', 1),
 (4, 'CC', 192727222, 'Sebastian', 'Camilo', 'Suarez', 'Flores', '744333', 'calle 23 -3 3', 'sebastian@gmail.com', 'sebas2023', 'activo', 2),
 (5, 'TI', 110643267, 'Carlos', 'Felipe', 'Gomez', 'Nuñez', '3104846322', 'diagonal 34 # 2-15', 'felipe@gmail.com', 'felipe2200', 'activo', 3),
 (6, 'TI', 914252611, 'Fabian', NULL, 'Cortez', 'Diaz', '744333', 'manzana 4 # 2 - 32', 'fabian@gmail.com', 'fabian1234', 'inactivo', 3);
