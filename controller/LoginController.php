@@ -33,7 +33,7 @@ class LoginController
             } else {
                 $cod = '99';
                 $msj = 'Contraseña incorrecta.';
-                imprimirSalida($pass);
+                imprimirSalida($user);
             }
         } else {
             $cod = '99';
