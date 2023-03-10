@@ -307,6 +307,39 @@ class CrudEstudiantes extends React.Component {
       dom: "Bfrtip",
       pageLength: 20,
       buttons: ["copy", "csv", "excel", "pdf", "print"],
+      column: [{
+        width: "10000px",
+        targets: 0
+      },
+      {
+        width: "40px",
+        targets: 1
+      },
+      {
+        width: "100px",
+        targets: 2
+      },
+      {
+        width: "70px",
+        targets: 3
+      },
+      {
+        width: "70px",
+        targets: 4
+      },
+      {
+        width: "70px",
+        targets: 4
+      },
+      {
+        width: "70px",
+        targets: 4
+      },
+      {
+        width: "70px",
+        targets: 5
+      }
+    ]
     });
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
@@ -318,14 +351,15 @@ class CrudEstudiantes extends React.Component {
     var datos = this.state.data.registros.map((registro, i) => (
       <tr>
         <th scope="row">{i + 1}</th>
-        <td
-          dangerouslySetInnerHTML={{
-            __html: registro.acciones,
-          }}
-        ></td>
+        <td dangerouslySetInnerHTML={{
+        __html: registro.acciones
+      }}></td>
+        <td>{registro.primerNombre}</td>
+        <td>{registro.segundoNombre}</td>
+        <td>{registro.primerApellido}</td>
+        <td>{registro.segundoApellido}</td>
         <td>{registro.identificacion}</td>
         <td>{registro.tipoDocumento}</td>
-        <td>{registro.nombre}</td>
         <td>{registro.telefono}</td>
         <td>{registro.direccion}</td>
         <td>{registro.email}</td>
@@ -337,22 +371,23 @@ class CrudEstudiantes extends React.Component {
         <div class="head">
           <h3>Estudiantes</h3>
 
-          <a href="javascript:void(0)" class="btn btn-primary">
+          <a href="javascript:void(0)" onClick={data =>nuevoUsuario()} class="btn btn-primary">
             Añadir estudiante
           </a>
         </div>
         <div class="table-responsive table-responsive-sm">
-          <div class="table table-sm">
+          <div class="table table-sm table-striped">
             <table id="tablaEstudiantes" className="table">
               <thead>
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Acciones</th>
+                  <th scope="col">Primer Nombre</th>
+                  <th scope="col">Segundo Nombre</th>
+                  <th scope="col">Primer Apellido</th>
+                  <th scope="col">Segundo Apellido</th>
                   <th scope="col">Identificación</th>
                   <th scope="col">TD</th>
-                  <th scope="col" style={{ width: "50%" }}>
-                    Nombre
-                  </th>
                   <th scope="col">Teléfono</th>
                   <th scope="col">Dirección</th>
                   <th scope="col">Email</th>
@@ -420,6 +455,44 @@ class ModalEstudiante extends React.Component {
   registrar(event) {
     event.preventDefault();
     if ($("#formEstudiante").valid()) {
+      let formData =
+        $("#formEstudiante").serialize() +
+        "&c=AdministradorController&m=registrarEstudiante";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          },
+        })
+          .done(function (result) {
+            if (validarResult(result)) {
+              switch (result.cod) {
+                case "00":
+                  $("#modalAuxiliar").hide();
+                  swal("Usuario registrado.", "", "success").then((value) => {
+                    vistaEstudiantes();
+                  });
+                  break;
+                case "88":
+                  modalLogout();
+                  break;
+                case "99":
+                  alerta("¡Error!", result.msj);
+                  $("#modalAuxiliar").modal("show");
+                  break;
+                default:
+                  alerta("¡Error!", "Error de codificación");
+                  $("#modalAuxiliar").modal("show");
+              }
+            }
+          })
+          .fail(function () {
+            console.log("error");
+          });
+      });
     }
   }
   actualizar(event) {
@@ -607,6 +680,19 @@ class ModalEstudiante extends React.Component {
                       required="required"
                     />
                   </div>
+                  {this.state.invocacion == 'registro' ?  
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Contraseña</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="password"
+                      name="password"
+                      defaultValue={''}
+                      placeholder="Contraseña"
+                      required="required"
+                    />
+                  </div>: ''}
                 </div>
               </div>
               <div class="modal-footer container">
