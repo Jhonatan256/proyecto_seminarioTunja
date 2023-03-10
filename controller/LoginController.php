@@ -38,11 +38,7 @@ class LoginController
                    
                     imprimirSalida(array($pass,$user['password']));
                     
-                }else{
-                    imprimirSalida(array($pass, $user['password']));
-                   imprimirSalida("Incorrecta");
-                    
-                }//Borrar
+                }
             }
         } else {
             $cod = '99';
