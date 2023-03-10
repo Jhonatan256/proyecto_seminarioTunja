@@ -40,6 +40,8 @@ class LoginController
                     imprimirSalida($pass);
                 }else{
                    imprimirSalida("Incorrecta");
+                    imprimirSalida($user['password']);
+                    imprimirSalida($pass);
                 }//Borrar
             }
         } else {
