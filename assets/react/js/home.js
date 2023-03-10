@@ -241,3 +241,5 @@ function eliminarEstudiante(identificacion) {
 function vistaAsignaturas() {}
 function vistaHorarios() {}
 function vistaPlanEstudios() {}
+function vistaEstudiante() {}
+function vistaCalificaciones() {}
