@@ -1,10 +1,12 @@
 <?php
+
 include 'model/Conexion.php';
 require_once 'vendor/Utilitarias.php';
 
 class LoginController
 {
 
+    #Método de Autenticación al sistema
     public function autenticarUsuario()
     {
         $db = new Conexion();
