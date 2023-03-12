@@ -1,17 +1,15 @@
 $(document).ready(function () {
   validarSesion();
-  $("#pass").on('keyup', function (e) {
+  $("#clave").on('keyup', function (e) {
     var keycode = e.keyCode || e.which;
     if (keycode == 13) {
-      loginA();
+      onSubmit();
     }
   });
 });
 function onSubmit(token) {
   if ($('#login').valid()) {
-    $('#load').removeClass('d-none');
-    $('#load2').addClass('d-none');
-    var formdata = $('#login').serialize() + '&c=LoginController' + '&m=autenticarUsuario';
+    let formdata = $('#login').serialize() + '&c=LoginController&m=autenticarUsuario';
     $.ajax({
       url: '../Route.php',
       type: 'POST',
@@ -20,8 +18,6 @@ function onSubmit(token) {
       if (result.cod == '00') {
         $(location).attr('href', 'home.php');
       } else {
-        $('#load').addClass('d-none');
-        $('#load2').removeClass('d-none');
         swal("¡Error!", result.msj, "error");
       }
     }).fail(function () {

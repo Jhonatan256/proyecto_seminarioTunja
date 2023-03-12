@@ -235,9 +235,9 @@ class NavBar extends React.Component {
   componentDidMount() {}
   render() {
     return (
-      <nav class="navbar">
+      <nav class="navbar border-bottom">
         <i class="bx bx-menu toggle-sidebar"></i>
-        <p>Seminario Conciliar Tunja</p>
+        <div class="d-none d-sm-none d-md-block d-lg-block">Seminario Conciliar Tunja</div>
         <span class="divider"></span>
         {this.state.nombre}
         <div class="profile">

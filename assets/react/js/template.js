@@ -21,3 +21,8 @@ function actualizarRuta(nombre, z) {
     ruta: ruta
   }), document.getElementById("route"));
 }
+function modalLogout() {
+  swal("¡Error!", "Sesión expirada, por favor vuelva a iniciar sesión.", "error").then(value => {
+    salir();
+  });
+}

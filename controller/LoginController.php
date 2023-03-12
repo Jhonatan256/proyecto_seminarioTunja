@@ -1,12 +1,11 @@
 <?php
-
 include 'model/Conexion.php';
 require_once 'vendor/Utilitarias.php';
 
 class LoginController
 {
 
-    #Método de Autenticación al sistema
+    # Método de Autenticación al sistema
     public function autenticarUsuario()
     {
         $db = new Conexion();
@@ -20,7 +19,7 @@ class LoginController
             if ($user['password'] == $pass) {
                 if ($user['estado'] == 'activo') {
                     session_start();
-                    self::setUser('nombre', nombreUsuario($user));
+                    self::setUser('nombre', $user['primerNombre'] . (empty($user['segundoNombre']) ? '' : ' ' . trim($user['segundoNombre'])));
                     self::setUser('identificacion', $user['numeroDocumento']);
                     self::setUser('estado', $user['estado']);
                     self::setUser('tipoUsuario', $user['codRol']);
@@ -35,11 +34,13 @@ class LoginController
             } else {
                 $cod = '99';
                 $msj = 'Contraseña incorrecta.';
-                
-                if($user['password'] == $pass){
-                   
-                    imprimirSalida(array($pass,$user['password']));
-                    
+
+                if ($user['password'] == $pass) {
+
+                    imprimirSalida(array(
+                        $pass,
+                        $user['password']
+                    ));
                 }
             }
         } else {
@@ -138,6 +139,7 @@ class LoginController
                 // $menu['opciones'][] = menuLibro();
                 break;
             case '3':
+                $menu['icono'] = 'bx bxs-user-pin';
                 $menu['opciones'][] = [
                     'nombre' => 'Estudiante',
                     'icono' => 'bx bxs-notepad icon',

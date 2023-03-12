@@ -19,3 +19,12 @@ function actualizarRuta(nombre, z) {
   ReactDOM.unmountComponentAtNode(document.getElementById("route"));
   ReactDOM.render(<Route ruta={ruta} />, document.getElementById("route"));
 }
+function modalLogout() {
+  swal(
+    "¡Error!",
+    "Sesión expirada, por favor vuelva a iniciar sesión.",
+    "error"
+  ).then((value) => {
+    salir();
+  });
+}

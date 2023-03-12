@@ -198,10 +198,12 @@ class NavBar extends React.Component {
   componentDidMount() {}
   render() {
     return /*#__PURE__*/React.createElement("nav", {
-      class: "navbar"
+      class: "navbar border-bottom"
     }, /*#__PURE__*/React.createElement("i", {
       class: "bx bx-menu toggle-sidebar"
-    }), /*#__PURE__*/React.createElement("p", null, "Seminario Conciliar Tunja"), /*#__PURE__*/React.createElement("span", {
+    }), /*#__PURE__*/React.createElement("div", {
+      class: "d-none d-sm-none d-md-block d-lg-block"
+    }, "Seminario Conciliar Tunja"), /*#__PURE__*/React.createElement("span", {
       class: "divider"
     }), this.state.nombre, /*#__PURE__*/React.createElement("div", {
       class: "profile"
