@@ -273,4 +273,9 @@ function vistaPlanEstudios() {}
 function vistaEstudiante(){
   
 }
-function vistaCalificaciones (){}
+function vistaCalificaciones (){
+
+}
+function vistaDocente (){
+  
+}

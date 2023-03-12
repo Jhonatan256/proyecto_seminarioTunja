@@ -243,3 +243,4 @@ function vistaHorarios() {}
 function vistaPlanEstudios() {}
 function vistaEstudiante() {}
 function vistaCalificaciones() {}
+function vistaDocente() {}
