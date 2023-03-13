@@ -644,3 +644,450 @@ class ModalEstudiante extends React.Component {
     }, "Actualizar"))))));
   }
 }
+class CrudDocentes extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.data
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+  componentDidMount() {
+    $("#tablaDocentes").DataTable({
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+      },
+      responsive: true,
+      dom: "Bfrtip",
+      pageLength: 20,
+      buttons: ["copy", "csv", "excel", "pdf", "print"],
+      column: [{
+        width: "10000px",
+        targets: 0
+      }, {
+        width: "40px",
+        targets: 1
+      }, {
+        width: "100px",
+        targets: 2
+      }, {
+        width: "70px",
+        targets: 3
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 5
+      }]
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  }
+  componentWillUnmount() {}
+  render() {
+    console.log(this.state.data);
+    var datos = this.state.data.registros.map((registro, i) => /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+      scope: "row"
+    }, i + 1), /*#__PURE__*/React.createElement("td", {
+      dangerouslySetInnerHTML: {
+        __html: registro.acciones
+      }
+    }), /*#__PURE__*/React.createElement("td", null, registro.tipoDocumento), /*#__PURE__*/React.createElement("td", null, registro.identificacion), /*#__PURE__*/React.createElement("td", null, registro.primerNombre), /*#__PURE__*/React.createElement("td", null, registro.segundoNombre), /*#__PURE__*/React.createElement("td", null, registro.primerApellido), /*#__PURE__*/React.createElement("td", null, registro.segundoApellido), /*#__PURE__*/React.createElement("td", null, registro.telefono), /*#__PURE__*/React.createElement("td", null, registro.direccion), /*#__PURE__*/React.createElement("td", null, registro.email), /*#__PURE__*/React.createElement("td", null, registro.estado)));
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      class: "head"
+    }, /*#__PURE__*/React.createElement("h3", null, "Docentes"), /*#__PURE__*/React.createElement("a", {
+      href: "javascript:void(0)",
+      onClick: data => nuevoDocente(),
+      class: "btn btn-primary d-sm-block d-lg-block"
+    }, "A\xF1adir docente")), /*#__PURE__*/React.createElement("div", {
+      class: "table-responsive table-responsive-sm"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "table table-sm table-striped"
+    }, /*#__PURE__*/React.createElement("table", {
+      id: "tablaDocentes",
+      className: "table"
+    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "#"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Acciones"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "TD"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Identificaci\xF3n"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Primer Nombre"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Segundo Nombre"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Primer Apellido"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Segundo Apellido"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Tel\xE9fono"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Direcci\xF3n"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Email"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Estado"))), /*#__PURE__*/React.createElement("tbody", null, datos)))));
+  }
+}
+class ModalDocente extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      datos: props.data,
+      invocacion: props.invocacion
+    };
+    this.registrar = this.registrar.bind(this);
+    this.actualizar = this.actualizar.bind(this);
+  }
+  registrar(event) {
+    event.preventDefault();
+    if ($("#formDocente").valid()) {
+      let formData = $("#formDocente").serialize() + "&c=AdministradorController&m=registrarDocente";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          }
+        }).done(function (result) {
+          if (validarResult(result)) {
+            switch (result.cod) {
+              case "00":
+                $("#modalAuxiliar").hide();
+                swal("Usuario registrado.", "", "success").then(value => {
+                  vistaEstudiantes();
+                });
+                break;
+              case "88":
+                modalLogout();
+                break;
+              case "99":
+                alerta("¡Error!", result.msj);
+                $("#modalAuxiliar").modal("show");
+                break;
+              default:
+                alerta("¡Error!", "Error de codificación");
+                $("#modalAuxiliar").modal("show");
+            }
+          }
+        }).fail(function () {
+          console.log("error");
+        });
+      });
+    }
+  }
+  actualizar(event) {
+    event.preventDefault();
+    if ($("#formDocente").valid()) {
+      let formData = $("#formDocente").serialize() + "&c=AdministradorController&m=actualizarDocente";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          }
+        }).done(function (result) {
+          if (validarResult(result)) {
+            switch (result.cod) {
+              case "00":
+                $("#modalAuxiliar").hide();
+                swal("Usuario actualizado.", "", "success").then(value => {
+                  vistaDocente();
+                });
+                break;
+              case "88":
+                modalLogout();
+                break;
+              case "99":
+                alerta("¡Error!", result.msj);
+                $("#modalAuxiliar").modal("show");
+                break;
+              default:
+                alerta("¡Error!", "Error de codificación");
+                $("#modalAuxiliar").modal("show");
+            }
+          }
+        }).fail(function () {
+          console.log("error");
+        });
+      });
+    }
+  }
+  componentDidMount() {}
+  componentWillUnmount() {}
+  render() {
+    let titulo = this.state.invocacion == "registro" ? "Nuevo estudiante" : "Actualizar datos";
+    return /*#__PURE__*/React.createElement("div", {
+      class: "modal fade",
+      id: "modalAuxiliar",
+      tabindex: "-1",
+      "aria-labelledby": "modalAuxiliarLabel",
+      "aria-hidden": "true"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-dialog modal-lg"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-content"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-header container"
+    }, /*#__PURE__*/React.createElement("h5", {
+      class: "modal-title",
+      id: "modalAuxiliarLabel"
+    }, titulo), /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "close",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }, /*#__PURE__*/React.createElement("span", {
+      "aria-hidden": "true"
+    }, "\xD7"))), /*#__PURE__*/React.createElement("form", {
+      id: "formDocente"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-body container"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-row"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Primer nombre"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "primerNombre",
+      name: "primerNombre",
+      defaultValue: this.state.datos.primerNombre,
+      placeholder: "Primer nombre",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Segundo nombre"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "segundoNombre",
+      name: "segundoNombre",
+      defaultValue: this.state.datos.segundoNombre,
+      placeholder: "Segundo nombre"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Primer apellido"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "primerApellido",
+      name: "primerApellido",
+      defaultValue: this.state.datos.primerApellido,
+      placeholder: "Primer apellido",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Segundo apellido"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "segundoApellido",
+      name: "segundoApellido",
+      defaultValue: this.state.datos.segundoApellido,
+      placeholder: "Segundo apellido"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Tipo documento"), /*#__PURE__*/React.createElement("select", {
+      id: "tipoDocumento",
+      name: "tipoDocumento",
+      class: "form-control form-control-sm",
+      defaultValue: this.state.datos.tipoDocumento,
+      required: "required"
+    }, /*#__PURE__*/React.createElement("option", {
+      value: ""
+    }, "Seleccione..."), /*#__PURE__*/React.createElement("option", {
+      value: "CC"
+    }, "C\xE9dula"), /*#__PURE__*/React.createElement("option", {
+      value: "TI"
+    }, "Tarjeta de identidad"))), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Identificaci\xF3n"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "numeroDocumento",
+      name: "numeroDocumento",
+      defaultValue: this.state.datos.numeroDocumento,
+      placeholder: "Identificaci\xF3n",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Email"), /*#__PURE__*/React.createElement("input", {
+      type: "email",
+      className: "form-control form-control form-control-sm",
+      id: "email",
+      name: "email",
+      defaultValue: this.state.datos.email,
+      placeholder: "Email",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Tel\xE9fono"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "telefono",
+      name: "telefono",
+      defaultValue: this.state.datos.telefono,
+      placeholder: "Tel\xE9fono",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Direcci\xF3n"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "direccion",
+      name: "direccion",
+      defaultValue: this.state.datos.direccion,
+      placeholder: "Direcci\xF3n",
+      required: "required"
+    })), this.state.invocacion == 'registro' ? /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Contrase\xF1a"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "password",
+      name: "password",
+      defaultValue: '',
+      placeholder: "Contrase\xF1a",
+      required: "required"
+    })) : '')), /*#__PURE__*/React.createElement("div", {
+      class: "modal-footer container"
+    }, /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-secondary btn-sm",
+      "data-dismiss": "modal"
+    }, "Cerrar"), this.state.invocacion == "registro" ? /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-primary btn-sm",
+      onClick: this.registrar
+    }, "Guardar") : /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-primary btn-sm",
+      onClick: this.actualizar
+    }, "Actualizar"))))));
+  }
+}
+class CrudAsignaturas extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.data
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+  componentDidMount() {
+    $("#tablaAsignaturas").DataTable({
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+      },
+      responsive: true,
+      dom: "Bfrtip",
+      pageLength: 20,
+      buttons: ["copy", "csv", "excel", "pdf", "print"],
+      column: [{
+        width: "10000px",
+        targets: 0
+      }, {
+        width: "40px",
+        targets: 1
+      }, {
+        width: "100px",
+        targets: 2
+      }, {
+        width: "70px",
+        targets: 3
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 5
+      }]
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  }
+  componentWillUnmount() {}
+  render() {
+    console.log(this.state.data);
+    var datos = this.state.data.registros.map((registro, i) => /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+      scope: "row"
+    }, i + 1), /*#__PURE__*/React.createElement("td", {
+      dangerouslySetInnerHTML: {
+        __html: registro.acciones
+      }
+    }), /*#__PURE__*/React.createElement("td", null, registro.nombreAsignatura), /*#__PURE__*/React.createElement("td", null, registro.intensidadHorariaSemanal), /*#__PURE__*/React.createElement("td", null, registro.descripcion), /*#__PURE__*/React.createElement("td", null, registro.cod_Grupo)));
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      class: "head"
+    }, /*#__PURE__*/React.createElement("h3", null, "Asignaturas"), /*#__PURE__*/React.createElement("a", {
+      href: "javascript:void(0)",
+      onClick: data => nuevoUsuario(),
+      class: "btn btn-primary d-sm-block d-lg-block"
+    }, "A\xF1adir asignatura")), /*#__PURE__*/React.createElement("div", {
+      class: "table-responsive table-responsive-sm"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "table table-sm table-striped"
+    }, /*#__PURE__*/React.createElement("table", {
+      id: "tablaEstudiantes",
+      className: "table"
+    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "#"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Acciones"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Nombre asignatura"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Intensidad horaria"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Descripci\xF3n"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "C\xF3digo asignatura"))), /*#__PURE__*/React.createElement("tbody", null, datos)))));
+  }
+}

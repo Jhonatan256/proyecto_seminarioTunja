@@ -127,13 +127,17 @@ function vistaDocentes() {
       type: "POST",
       data: {
         c: "AdministradorController",
-        m: "listarEstudiantes"
+        m: "listarDocente"
       }
     }).done(function (result) {
       if (validarResult(result)) {
+        actualizarRuta("Lista docentes", "vistaDocentes");
         switch (result.cod) {
           case "00":
-            console.log(result);
+            ReactDOM.unmountComponentAtNode(document.getElementById("contenedor"));
+            ReactDOM.render( /*#__PURE__*/React.createElement(CrudDocentes, {
+              data: result.data
+            }), document.getElementById("contenedor"));
             break;
           case "88":
             modalLogout();
@@ -195,6 +199,14 @@ function nuevoUsuario() {
   }), document.getElementById("modal1"));
   $("#modalAuxiliar").modal("show");
 }
+function nuevoDocente() {
+  ReactDOM.unmountComponentAtNode(document.getElementById("modal1"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(ModalDocente, {
+    invocacion: "registro",
+    data: ""
+  }), document.getElementById("modal1"));
+  $("#modalAuxiliar").modal("show");
+}
 function eliminarEstudiante(identificacion) {
   swal({
     title: "¡Cuidado!",
@@ -238,9 +250,80 @@ function eliminarEstudiante(identificacion) {
     }
   });
 }
-function vistaAsignaturas() {}
+function vistaAsignaturas() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "listarAsignatura"
+      }
+    }).done(function (result) {
+      if (validarResult(result)) {
+        actualizarRuta("Lista asignaturas", "vistaAsignaturas");
+        switch (result.cod) {
+          case "00":
+            console.log(result);
+            ReactDOM.unmountComponentAtNode(document.getElementById("contenedor"));
+            ReactDOM.render( /*#__PURE__*/React.createElement(CrudAsignaturas, {
+              data: result.data
+            }), document.getElementById("contenedor"));
+            break;
+          case "88":
+            modalLogout();
+            break;
+          case "99":
+            alerta("¡Error!", result.msj);
+            break;
+          default:
+            alerta("¡Error!", "Error de codificación");
+        }
+      }
+    }).fail(function () {
+      console.log("error");
+    });
+  });
+}
 function vistaHorarios() {}
 function vistaPlanEstudios() {}
 function vistaEstudiante() {}
 function vistaCalificaciones() {}
-function vistaDocente() {}
+function vistaDocente() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "listarDocente"
+      }
+    }).done(function (result) {
+      if (validarResult(result)) {
+        actualizarRuta("Lista estudiantes", "vistaEstudiantes");
+        switch (result.cod) {
+          case "00":
+            console.log(result);
+            // ReactDOM.unmountComponentAtNode(
+            //   document.getElementById("contenedor")
+            // );
+            // ReactDOM.render(
+            //   <CrudEstudiantes data={result.data} />,
+            //   document.getElementById("contenedor")
+            // );
+            break;
+          case "88":
+            modalLogout();
+            break;
+          case "99":
+            alerta("¡Error!", result.msj);
+            break;
+          default:
+            alerta("¡Error!", "Error de codificación");
+        }
+      }
+    }).fail(function () {
+      console.log("error");
+    });
+  });
+}
