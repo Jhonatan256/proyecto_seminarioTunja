@@ -280,6 +280,8 @@ class Principal extends React.Component {
             <img src="../assets/images/actividad1.jpg" alt="" />
             <img src="../assets/images/actividad1.jpg" alt="" />
             <img src="../assets/images/actividad1.jpg" alt="" />
+            <img src="../assets/images/actividad1.jpg" alt="" />
+            <img src="../assets/images/actividad1.jpg" alt="" />
           </figure>
         </div>
       </div>
@@ -354,12 +356,12 @@ class CrudEstudiantes extends React.Component {
         <td dangerouslySetInnerHTML={{
         __html: registro.acciones
       }}></td>
+        <td>{registro.tipoDocumento}</td>
+        <td>{registro.identificacion}</td>
         <td>{registro.primerNombre}</td>
         <td>{registro.segundoNombre}</td>
         <td>{registro.primerApellido}</td>
-        <td>{registro.segundoApellido}</td>
-        <td>{registro.identificacion}</td>
-        <td>{registro.tipoDocumento}</td>
+        <td>{registro.segundoApellido}</td>     
         <td>{registro.telefono}</td>
         <td>{registro.direccion}</td>
         <td>{registro.email}</td>
@@ -371,7 +373,7 @@ class CrudEstudiantes extends React.Component {
         <div class="head">
           <h3>Estudiantes</h3>
 
-          <a href="javascript:void(0)" onClick={data =>nuevoUsuario()} class="btn btn-primary">
+          <a href="javascript:void(0)" onClick={data =>nuevoUsuario()} class="btn btn-primary d-sm-block d-lg-block">
             Añadir estudiante
           </a>
         </div>
@@ -380,14 +382,14 @@ class CrudEstudiantes extends React.Component {
             <table id="tablaEstudiantes" className="table">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
+                  <th scope="col">#</th>                  
                   <th scope="col">Acciones</th>
+                  <th scope="col">TD</th>
+                  <th scope="col">Identificación</th>
                   <th scope="col">Primer Nombre</th>
                   <th scope="col">Segundo Nombre</th>
                   <th scope="col">Primer Apellido</th>
-                  <th scope="col">Segundo Apellido</th>
-                  <th scope="col">Identificación</th>
-                  <th scope="col">TD</th>
+                  <th scope="col">Segundo Apellido</th>               
                   <th scope="col">Teléfono</th>
                   <th scope="col">Dirección</th>
                   <th scope="col">Email</th>
