@@ -252,6 +252,12 @@ class Principal extends React.Component {
     }), /*#__PURE__*/React.createElement("img", {
       src: "../assets/images/actividad1.jpg",
       alt: ""
+    }), /*#__PURE__*/React.createElement("img", {
+      src: "../assets/images/actividad1.jpg",
+      alt: ""
+    }), /*#__PURE__*/React.createElement("img", {
+      src: "../assets/images/actividad1.jpg",
+      alt: ""
     }))));
   }
 }
@@ -314,13 +320,13 @@ class CrudEstudiantes extends React.Component {
       dangerouslySetInnerHTML: {
         __html: registro.acciones
       }
-    }), /*#__PURE__*/React.createElement("td", null, registro.primerNombre), /*#__PURE__*/React.createElement("td", null, registro.segundoNombre), /*#__PURE__*/React.createElement("td", null, registro.primerApellido), /*#__PURE__*/React.createElement("td", null, registro.segundoApellido), /*#__PURE__*/React.createElement("td", null, registro.identificacion), /*#__PURE__*/React.createElement("td", null, registro.tipoDocumento), /*#__PURE__*/React.createElement("td", null, registro.telefono), /*#__PURE__*/React.createElement("td", null, registro.direccion), /*#__PURE__*/React.createElement("td", null, registro.email), /*#__PURE__*/React.createElement("td", null, registro.estado)));
+    }), /*#__PURE__*/React.createElement("td", null, registro.tipoDocumento), /*#__PURE__*/React.createElement("td", null, registro.identificacion), /*#__PURE__*/React.createElement("td", null, registro.primerNombre), /*#__PURE__*/React.createElement("td", null, registro.segundoNombre), /*#__PURE__*/React.createElement("td", null, registro.primerApellido), /*#__PURE__*/React.createElement("td", null, registro.segundoApellido), /*#__PURE__*/React.createElement("td", null, registro.telefono), /*#__PURE__*/React.createElement("td", null, registro.direccion), /*#__PURE__*/React.createElement("td", null, registro.email), /*#__PURE__*/React.createElement("td", null, registro.estado)));
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       class: "head"
     }, /*#__PURE__*/React.createElement("h3", null, "Estudiantes"), /*#__PURE__*/React.createElement("a", {
       href: "javascript:void(0)",
       onClick: data => nuevoUsuario(),
-      class: "btn btn-primary"
+      class: "btn btn-primary d-sm-block d-lg-block"
     }, "A\xF1adir estudiante")), /*#__PURE__*/React.createElement("div", {
       class: "table-responsive table-responsive-sm"
     }, /*#__PURE__*/React.createElement("div", {
@@ -334,6 +340,10 @@ class CrudEstudiantes extends React.Component {
       scope: "col"
     }, "Acciones"), /*#__PURE__*/React.createElement("th", {
       scope: "col"
+    }, "TD"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Identificaci\xF3n"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
     }, "Primer Nombre"), /*#__PURE__*/React.createElement("th", {
       scope: "col"
     }, "Segundo Nombre"), /*#__PURE__*/React.createElement("th", {
@@ -341,10 +351,6 @@ class CrudEstudiantes extends React.Component {
     }, "Primer Apellido"), /*#__PURE__*/React.createElement("th", {
       scope: "col"
     }, "Segundo Apellido"), /*#__PURE__*/React.createElement("th", {
-      scope: "col"
-    }, "Identificaci\xF3n"), /*#__PURE__*/React.createElement("th", {
-      scope: "col"
-    }, "TD"), /*#__PURE__*/React.createElement("th", {
       scope: "col"
     }, "Tel\xE9fono"), /*#__PURE__*/React.createElement("th", {
       scope: "col"

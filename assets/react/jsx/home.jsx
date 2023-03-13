@@ -277,5 +277,43 @@ function vistaCalificaciones (){
 
 }
 function vistaDocente (){
+    Pace.track(function () {
+      $.ajax({
+        url: "../Route.php",
+        type: "POST",
+        data: {
+          c: "AdministradorController",
+          m: "listarDOcentes",
+        },
+      })
+        .done(function (result) {
+          if (validarResult(result)) {
+            actualizarRuta("Lista estudiantes", "vistaEstudiantes");
+            switch (result.cod) {
+              case "00":
+                console.log(result);
+                // ReactDOM.unmountComponentAtNode(
+                //   document.getElementById("contenedor")
+                // );
+                // ReactDOM.render(
+                //   <CrudEstudiantes data={result.data} />,
+                //   document.getElementById("contenedor")
+                // );
+                break;
+              case "88":
+                modalLogout();
+                break;
+              case "99":
+                alerta("¡Error!", result.msj);
+                break;
+              default:
+                alerta("¡Error!", "Error de codificación");
+            }
+          }
+        })
+        .fail(function () {
+          console.log("error");
+        });
+    });
   
 }
