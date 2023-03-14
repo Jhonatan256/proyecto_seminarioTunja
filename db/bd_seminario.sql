@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 10-03-2023 a las 04:23:43
+-- Tiempo de generación: 14-03-2023 a las 01:28:43
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 7.4.33
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `bd_seminario`
+-- Base de datos: `bd_seminariov3`
 --
 
 -- --------------------------------------------------------
@@ -29,14 +29,14 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `asignatura`;
 CREATE TABLE IF NOT EXISTS `asignatura` (
-  `idAsignatura` int NOT NULL,
-  `nombreAsignatura` varchar(200) COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `idAsignatura` int NOT NULL AUTO_INCREMENT,
+  `nombreAsignatura` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
   `intensidadHorariaSemanal` int NOT NULL,
-  `descripcion` varchar(450) COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
+  `descripcion` varchar(450) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
   `cod_Grupo` int NOT NULL,
   PRIMARY KEY (`idAsignatura`),
   KEY `cod_Grupo` (`cod_Grupo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `asignatura`
@@ -60,7 +60,8 @@ INSERT INTO `asignatura` (`idAsignatura`, `nombreAsignatura`, `intensidadHoraria
 (15, 'Ingles III', 2, NULL, 2),
 (16, 'Claves Lectura Biblica', 4, 'aspectos Literarios y teologia', 2),
 (17, 'Hermenéutica', 2, NULL, 2),
-(18, 'Inglés IV', 2, NULL, 2);
+(18, 'Inglés IV', 2, NULL, 2),
+(19, 'teste', 3, 'dssdsd', 2);
 
 -- --------------------------------------------------------
 
@@ -87,9 +88,9 @@ CREATE TABLE IF NOT EXISTS `asig_carga_docente` (
 DROP TABLE IF EXISTS `calificaciones`;
 CREATE TABLE IF NOT EXISTS `calificaciones` (
   `idCalificaciones` int NOT NULL AUTO_INCREMENT,
-  `notaHabilitacion` float DEFAULT NULL,
-  `notaTutoria` float DEFAULT NULL,
-  `notaFinal` float DEFAULT NULL,
+  `notaHabilitacion` decimal(10,2) DEFAULT NULL,
+  `notaTutoria` decimal(10,2) DEFAULT NULL,
+  `notaFinal` decimal(10,2) DEFAULT NULL,
   `codAsignatura` int NOT NULL,
   `codUsuario` int NOT NULL,
   `codCiclo` int NOT NULL,
@@ -104,14 +105,14 @@ CREATE TABLE IF NOT EXISTS `calificaciones` (
 --
 
 INSERT INTO `calificaciones` (`idCalificaciones`, `notaHabilitacion`, `notaTutoria`, `notaFinal`, `codAsignatura`, `codUsuario`, `codCiclo`) VALUES
-(124, 0, 0, 4.8, 11, 3, 1),
-(125, 0, 0, 3.8, 3, 4, 1),
-(126, 0, 0, 4.5, 5, 10, 1),
-(127, 0, 0, 4, 12, 5, 2),
-(128, 0, 3.8, 3, 7, 8, 1),
-(129, 0, 0, 3.8, 6, 9, 2),
-(130, 3.5, 4, 4, 16, 3, 2),
-(131, 0, 4, 4, 8, 14, 2);
+(124, '0.00', '0.00', '4.80', 11, 3, 1),
+(125, '0.00', '0.00', '3.80', 3, 4, 1),
+(126, '0.00', '0.00', '4.50', 5, 10, 1),
+(127, '0.00', '0.00', '4.00', 12, 5, 2),
+(128, '0.00', '3.80', '3.00', 7, 8, 1),
+(129, '0.00', '0.00', '3.80', 6, 9, 2),
+(130, '3.50', '4.00', '4.00', 16, 3, 2),
+(131, '0.00', '4.00', '4.00', 8, 14, 2);
 
 -- --------------------------------------------------------
 
@@ -122,9 +123,9 @@ INSERT INTO `calificaciones` (`idCalificaciones`, `notaHabilitacion`, `notaTutor
 DROP TABLE IF EXISTS `ciclo`;
 CREATE TABLE IF NOT EXISTS `ciclo` (
   `idCiclo` int NOT NULL AUTO_INCREMENT,
-  `nombreCiclo` varchar(50) COLLATE utf8mb3_spanish2_ci NOT NULL,
-  `semestre` enum('1','2') COLLATE utf8mb3_spanish2_ci NOT NULL,
-  `descripcion` varchar(250) COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
+  `nombreCiclo` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `semestre` enum('1','2') CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `descripcion` varchar(250) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
   `fechaInicio` date NOT NULL,
   `fechaFinalizacion` date NOT NULL,
   PRIMARY KEY (`idCiclo`)
@@ -147,7 +148,7 @@ INSERT INTO `ciclo` (`idCiclo`, `nombreCiclo`, `semestre`, `descripcion`, `fecha
 DROP TABLE IF EXISTS `grupo`;
 CREATE TABLE IF NOT EXISTS `grupo` (
   `IdGrupo` int NOT NULL AUTO_INCREMENT,
-  `nombreGrupo` varchar(50) COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `nombreGrupo` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
   PRIMARY KEY (`IdGrupo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
@@ -173,7 +174,7 @@ INSERT INTO `grupo` (`IdGrupo`, `nombreGrupo`) VALUES
 DROP TABLE IF EXISTS `horario`;
 CREATE TABLE IF NOT EXISTS `horario` (
   `idHorario` int NOT NULL AUTO_INCREMENT,
-  `dia` varchar(10) COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `dia` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
   `horaInicio` time NOT NULL,
   `horaFin` time NOT NULL,
   `codCiclo` int NOT NULL,
@@ -209,7 +210,7 @@ INSERT INTO `horario` (`idHorario`, `dia`, `horaInicio`, `horaFin`, `codCiclo`, 
 DROP TABLE IF EXISTS `login`;
 CREATE TABLE IF NOT EXISTS `login` (
   `Id` int NOT NULL AUTO_INCREMENT,
-  `usuario` varchar(100) COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `usuario` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
   `fecha_hora_ingreso` datetime NOT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
@@ -223,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `login` (
 DROP TABLE IF EXISTS `rol`;
 CREATE TABLE IF NOT EXISTS `rol` (
   `idRol` int NOT NULL AUTO_INCREMENT,
-  `nombreRol` varchar(20) COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `nombreRol` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
   PRIMARY KEY (`idRol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
@@ -245,17 +246,17 @@ INSERT INTO `rol` (`idRol`, `nombreRol`) VALUES
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
   `idUsuario` int NOT NULL AUTO_INCREMENT,
-  `tipoDocumento` enum('TI','CC') COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `tipoDocumento` enum('TI','CC') CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
   `numeroDocumento` bigint NOT NULL,
-  `primerNombre` varchar(20) COLLATE utf8mb3_spanish2_ci NOT NULL,
-  `segundoNombre` varchar(20) COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
-  `primerApellido` varchar(20) COLLATE utf8mb3_spanish2_ci NOT NULL,
-  `segundoApellido` varchar(20) COLLATE utf8mb3_spanish2_ci NOT NULL,
-  `telefono` varchar(10) COLLATE utf8mb3_spanish2_ci NOT NULL,
-  `direccion` varchar(200) COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
-  `email` varchar(254) COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `primerNombre` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `segundoNombre` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
+  `primerApellido` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `segundoApellido` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `telefono` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `direccion` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
+  `email` varchar(254) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
-  `estado` enum('activo','inactivo') COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `estado` enum('activo','inactivo') CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
   `codRol` int NOT NULL,
   PRIMARY KEY (`idUsuario`),
   KEY `codRol` (`codRol`)
@@ -301,8 +302,8 @@ ALTER TABLE `asig_carga_docente`
 --
 ALTER TABLE `calificaciones`
   ADD CONSTRAINT `calificaciones_ibfk_1` FOREIGN KEY (`codUsuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `calificaciones_ibfk_2` FOREIGN KEY (`codAsignatura`) REFERENCES `asignatura` (`idAsignatura`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `calificaciones_ibfk_3` FOREIGN KEY (`codCiclo`) REFERENCES `ciclo` (`idCiclo`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `calificaciones_ibfk_3` FOREIGN KEY (`codCiclo`) REFERENCES `ciclo` (`idCiclo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `calificaciones_ibfk_4` FOREIGN KEY (`codAsignatura`) REFERENCES `asignatura` (`idAsignatura`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `horario`
