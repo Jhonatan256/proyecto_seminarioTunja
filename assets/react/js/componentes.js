@@ -663,32 +663,7 @@ class CrudDocentes extends React.Component {
       responsive: true,
       dom: "Bfrtip",
       pageLength: 20,
-      buttons: ["copy", "csv", "excel", "pdf", "print"],
-      column: [{
-        width: "10000px",
-        targets: 0
-      }, {
-        width: "40px",
-        targets: 1
-      }, {
-        width: "100px",
-        targets: 2
-      }, {
-        width: "70px",
-        targets: 3
-      }, {
-        width: "70px",
-        targets: 4
-      }, {
-        width: "70px",
-        targets: 4
-      }, {
-        width: "70px",
-        targets: 4
-      }, {
-        width: "70px",
-        targets: 5
-      }]
+      buttons: ["copy", "csv", "excel", "pdf", "print"]
     });
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
@@ -1021,33 +996,8 @@ class CrudAsignaturas extends React.Component {
       },
       responsive: true,
       dom: "Bfrtip",
-      pageLength: 20,
-      buttons: ["copy", "csv", "excel", "pdf", "print"],
-      column: [{
-        width: "10000px",
-        targets: 0
-      }, {
-        width: "40px",
-        targets: 1
-      }, {
-        width: "100px",
-        targets: 2
-      }, {
-        width: "70px",
-        targets: 3
-      }, {
-        width: "70px",
-        targets: 4
-      }, {
-        width: "70px",
-        targets: 4
-      }, {
-        width: "70px",
-        targets: 4
-      }, {
-        width: "70px",
-        targets: 5
-      }]
+      pageLength: 10,
+      buttons: ["copy", "csv", "excel", "pdf", "print"]
     });
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
@@ -1067,14 +1017,14 @@ class CrudAsignaturas extends React.Component {
       class: "head"
     }, /*#__PURE__*/React.createElement("h3", null, "Asignaturas"), /*#__PURE__*/React.createElement("a", {
       href: "javascript:void(0)",
-      onClick: data => nuevoUsuario(),
+      onClick: data => console.log('proximamente'),
       class: "btn btn-primary d-sm-block d-lg-block"
     }, "A\xF1adir asignatura")), /*#__PURE__*/React.createElement("div", {
       class: "table-responsive table-responsive-sm"
     }, /*#__PURE__*/React.createElement("div", {
       class: "table table-sm table-striped"
     }, /*#__PURE__*/React.createElement("table", {
-      id: "tablaEstudiantes",
+      id: "tablaAsignaturas",
       className: "table"
     }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
       scope: "col"

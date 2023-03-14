@@ -751,40 +751,7 @@ class CrudDocentes extends React.Component {
       responsive: true,
       dom: "Bfrtip",
       pageLength: 20,
-      buttons: ["copy", "csv", "excel", "pdf", "print"],
-      column: [{
-        width: "10000px",
-        targets: 0
-      },
-      {
-        width: "40px",
-        targets: 1
-      },
-      {
-        width: "100px",
-        targets: 2
-      },
-      {
-        width: "70px",
-        targets: 3
-      },
-      {
-        width: "70px",
-        targets: 4
-      },
-      {
-        width: "70px",
-        targets: 4
-      },
-      {
-        width: "70px",
-        targets: 4
-      },
-      {
-        width: "70px",
-        targets: 5
-      }
-    ]
+      buttons: ["copy", "csv", "excel", "pdf", "print"]
     });
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
@@ -1153,41 +1120,8 @@ class CrudAsignaturas extends React.Component {
       },
       responsive: true,
       dom: "Bfrtip",
-      pageLength: 20,
-      buttons: ["copy", "csv", "excel", "pdf", "print"],
-      column: [{
-        width: "10000px",
-        targets: 0
-      },
-      {
-        width: "40px",
-        targets: 1
-      },
-      {
-        width: "100px",
-        targets: 2
-      },
-      {
-        width: "70px",
-        targets: 3
-      },
-      {
-        width: "70px",
-        targets: 4
-      },
-      {
-        width: "70px",
-        targets: 4
-      },
-      {
-        width: "70px",
-        targets: 4
-      },
-      {
-        width: "70px",
-        targets: 5
-      }
-    ]
+      pageLength: 10,
+      buttons: ["copy", "csv", "excel", "pdf", "print"]
     });
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
@@ -1213,13 +1147,13 @@ class CrudAsignaturas extends React.Component {
         <div class="head">
           <h3>Asignaturas</h3>
 
-          <a href="javascript:void(0)" onClick={data =>nuevoUsuario()} class="btn btn-primary d-sm-block d-lg-block">
+          <a href="javascript:void(0)" onClick={data =>console.log('proximamente')} class="btn btn-primary d-sm-block d-lg-block">
             Añadir asignatura
           </a>
         </div>
         <div class="table-responsive table-responsive-sm">
           <div class="table table-sm table-striped">
-            <table id="tablaEstudiantes" className="table">
+            <table id="tablaAsignaturas" className="table">
               <thead>
                 <tr>
                   <th scope="col">#</th>                  

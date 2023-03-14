@@ -143,8 +143,8 @@ class AdministradorController extends LoginController
                     $data['primerApellido'] = $value->primerApellido;
                     $data['segundoApellido'] = $value->segundoApellido;
                     $data['acciones'] = '<div class="btn-group" role="group" aria-label="First group">';
-                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="editarUsuario(\'' . base64_encode($value->numeroDocumento) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar estudiante" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
-                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="eliminarEstudiante(\'' . base64_encode($value->numeroDocumento) . '\');" class="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="Eliminar estudiante" data-placement="top">' . '<i class="bx bx-trash" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="editarUsuario(\'' . base64_encode($value->numeroDocumento) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar docente" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="eliminarEstudiante(\'' . base64_encode($value->numeroDocumento) . '\');" class="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="Eliminar docente" data-placement="top">' . '<i class="bx bx-trash" aria-hidden="true"></i> </a>';
                     $data['acciones'] .= '</div>';
                     $data['identificacion'] = $value->numeroDocumento;
                     $data['tipoDocumento'] = $value->tipoDocumento;
@@ -243,8 +243,8 @@ class AdministradorController extends LoginController
                     $data['descripcion'] = $value->descripcion;
                     $data['cod_Grupo'] = $value->cod_Grupo;
                     $data['acciones'] = '<div class="btn-group" role="group" aria-label="First group">';
-                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="editarUsuario(\'' . base64_encode($value->numeroDocumento) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar estudiante" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
-                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="eliminarEstudiante(\'' . base64_encode($value->numeroDocumento) . '\');" class="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="Eliminar estudiante" data-placement="top">' . '<i class="bx bx-trash" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="editarUsuario(\'' . base64_encode($value->numeroDocumento) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar asignatura" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="eliminarEstudiante(\'' . base64_encode($value->numeroDocumento) . '\');" class="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="Eliminar asignatura" data-placement="top">' . '<i class="bx bx-trash" aria-hidden="true"></i> </a>';
                     $data['acciones'] .= '</div>';
                     $salida['registros'][] = $data;
                 }
