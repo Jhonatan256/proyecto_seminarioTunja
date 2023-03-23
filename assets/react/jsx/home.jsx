@@ -236,15 +236,14 @@ function nuevoDocente() {
   );
   $("#modalAuxiliar").modal("show");
 }
-function eliminarEstudiante(identificacion){
+function eliminarEstudiante(identificacion) {
   swal({
     title: "¡Cuidado!",
     text: "¿Seguró que desear eliminar el registro?",
     icon: "warning",
     buttons: true,
     dangerMode: true,
- })
-  .then((willDelete) => {
+  }).then((willDelete) => {
     if (willDelete) {
       Pace.track(function () {
         $.ajax({
@@ -279,7 +278,7 @@ function eliminarEstudiante(identificacion){
             console.log("error");
           });
       });
-    } 
+    }
   });
 }
 function vistaAsignaturas() {
@@ -321,54 +320,173 @@ function vistaAsignaturas() {
         console.log("error");
       });
   });
-
 }
 function vistaHorarios() {}
 function vistaPlanEstudios() {}
-function vistaEstudiante(){
-  
-}
-function vistaCalificaciones (){
-
-}
-function vistaDocente (){
-    Pace.track(function () {
-      $.ajax({
-        url: "../Route.php",
-        type: "POST",
-        data: {
-          c: "AdministradorController",
-          m: "listarDocente",
-        },
-      })
-        .done(function (result) {
-          if (validarResult(result)) {
-            actualizarRuta("Lista estudiantes", "vistaEstudiantes");
-            switch (result.cod) {
-              case "00":
-                console.log(result);
-                // ReactDOM.unmountComponentAtNode(
-                //   document.getElementById("contenedor")
-                // );
-                // ReactDOM.render(
-                //   <CrudEstudiantes data={result.data} />,
-                //   document.getElementById("contenedor")
-                // );
-                break;
-              case "88":
-                modalLogout();
-                break;
-              case "99":
-                alerta("¡Error!", result.msj);
-                break;
-              default:
-                alerta("¡Error!", "Error de codificación");
-            }
+function vistaEstudiante() {}
+function vistaCalificaciones() {}
+function vistaDocente() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "listarDocente",
+      },
+    })
+      .done(function (result) {
+        if (validarResult(result)) {
+          actualizarRuta("Lista estudiantes", "vistaEstudiantes");
+          switch (result.cod) {
+            case "00":
+              console.log(result);
+              // ReactDOM.unmountComponentAtNode(
+              //   document.getElementById("contenedor")
+              // );
+              // ReactDOM.render(
+              //   <CrudEstudiantes data={result.data} />,
+              //   document.getElementById("contenedor")
+              // );
+              break;
+            case "88":
+              modalLogout();
+              break;
+            case "99":
+              alerta("¡Error!", result.msj);
+              break;
+            default:
+              alerta("¡Error!", "Error de codificación");
           }
-        })
-        .fail(function () {
-          console.log("error");
-        });
-    });
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  });
+}
+function nuevaAsignatura() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "selectGruposAsignatura",
+      },
+    })
+      .done(function (result) {
+        if (validarResult(result)) {
+          switch (result.cod) {
+            case "00":
+              ReactDOM.unmountComponentAtNode(
+                document.getElementById("modal1")
+              );
+              ReactDOM.render(
+                <ModalAsignatura invocacion={"registro"} data={""} select={result.data}/>,
+                document.getElementById("modal1")
+              );
+              $("#modalAuxiliar").modal("show");
+              break;
+            case "88":
+              modalLogout();
+              break;
+            case "99":
+              alerta("¡Error!", result.msj);
+              break;
+            default:
+              alerta("¡Error!", "Error de codificación");
+          }
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  });
+}
+function buscarAsignatura(id){
   
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "buscarAsignatura",
+        id: id
+      },
+    })
+      .done(function (result) {
+        if (validarResult(result)) {
+          switch (result.cod) {
+            case "00":
+              ReactDOM.unmountComponentAtNode(
+                document.getElementById("modal1")
+              );
+              ReactDOM.render(
+                <ModalAsignatura invocacion={"actualizar"} data={result.data} select={result.data.select}/>,
+                document.getElementById("modal1")
+              );
+              $("#modalAuxiliar").modal("show");
+              break;
+            case "88":
+              modalLogout();
+              break;
+            case "99":
+              alerta("¡Error!", result.msj);
+              break;
+            default:
+              alerta("¡Error!", "Error de codificación");
+          }
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  });
+}
+function eliminarAsignatura(id) {
+  swal({
+    title: "¡Cuidado!",
+    text: "¿Seguró que desear eliminar el registro?",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: {
+            c: "AdministradorController",
+            m: "eliminarAsignatura",
+            ide: id,
+          },
+        })
+          .done(function (result) {
+            if (validarResult(result)) {
+              switch (result.cod) {
+                case "00":
+                  swal("Registro Eliminado.", "", "success").then((value) => {
+                    vistaAsignaturas();
+                  });
+                  break;
+                case "88":
+                  modalLogout();
+                  break;
+                case "99":
+                  alerta("¡Error!", result.msj);
+                  break;
+                default:
+                  alerta("¡Error!", "Error de codificación");
+              }
+            }
+          })
+          .fail(function () {
+            console.log("error");
+          });
+      });
+    }
+  });
 }

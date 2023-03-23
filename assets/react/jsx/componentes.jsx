@@ -237,7 +237,9 @@ class NavBar extends React.Component {
     return (
       <nav class="navbar border-bottom">
         <i class="bx bx-menu toggle-sidebar"></i>
-        <div class="d-none d-sm-none d-md-block d-lg-block">Seminario Conciliar Tunja</div>
+        <div class="d-none d-sm-none d-md-block d-lg-block">
+          Seminario Conciliar Tunja
+        </div>
         <span class="divider"></span>
         {this.state.nombre}
         <div class="profile">
@@ -309,39 +311,40 @@ class CrudEstudiantes extends React.Component {
       dom: "Bfrtip",
       pageLength: 20,
       buttons: ["copy", "csv", "excel", "pdf", "print"],
-      column: [{
-        width: "10000px",
-        targets: 0
-      },
-      {
-        width: "40px",
-        targets: 1
-      },
-      {
-        width: "100px",
-        targets: 2
-      },
-      {
-        width: "70px",
-        targets: 3
-      },
-      {
-        width: "70px",
-        targets: 4
-      },
-      {
-        width: "70px",
-        targets: 4
-      },
-      {
-        width: "70px",
-        targets: 4
-      },
-      {
-        width: "70px",
-        targets: 5
-      }
-    ]
+      column: [
+        {
+          width: "10000px",
+          targets: 0,
+        },
+        {
+          width: "40px",
+          targets: 1,
+        },
+        {
+          width: "100px",
+          targets: 2,
+        },
+        {
+          width: "70px",
+          targets: 3,
+        },
+        {
+          width: "70px",
+          targets: 4,
+        },
+        {
+          width: "70px",
+          targets: 4,
+        },
+        {
+          width: "70px",
+          targets: 4,
+        },
+        {
+          width: "70px",
+          targets: 5,
+        },
+      ],
     });
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
@@ -353,15 +356,17 @@ class CrudEstudiantes extends React.Component {
     var datos = this.state.data.registros.map((registro, i) => (
       <tr>
         <th scope="row">{i + 1}</th>
-        <td dangerouslySetInnerHTML={{
-        __html: registro.acciones
-      }}></td>
+        <td
+          dangerouslySetInnerHTML={{
+            __html: registro.acciones,
+          }}
+        ></td>
         <td>{registro.tipoDocumento}</td>
         <td>{registro.identificacion}</td>
         <td>{registro.primerNombre}</td>
         <td>{registro.segundoNombre}</td>
         <td>{registro.primerApellido}</td>
-        <td>{registro.segundoApellido}</td>     
+        <td>{registro.segundoApellido}</td>
         <td>{registro.telefono}</td>
         <td>{registro.direccion}</td>
         <td>{registro.email}</td>
@@ -373,7 +378,11 @@ class CrudEstudiantes extends React.Component {
         <div class="head">
           <h3>Estudiantes</h3>
 
-          <a href="javascript:void(0)" onClick={data =>nuevoUsuario()} class="btn btn-primary d-sm-block d-lg-block">
+          <a
+            href="javascript:void(0)"
+            onClick={(data) => nuevoUsuario()}
+            class="btn btn-primary d-sm-block d-lg-block"
+          >
             Añadir estudiante
           </a>
         </div>
@@ -382,14 +391,14 @@ class CrudEstudiantes extends React.Component {
             <table id="tablaEstudiantes" className="table">
               <thead>
                 <tr>
-                  <th scope="col">#</th>                  
+                  <th scope="col">#</th>
                   <th scope="col">Acciones</th>
                   <th scope="col">TD</th>
                   <th scope="col">Identificación</th>
                   <th scope="col">Primer Nombre</th>
                   <th scope="col">Segundo Nombre</th>
                   <th scope="col">Primer Apellido</th>
-                  <th scope="col">Segundo Apellido</th>               
+                  <th scope="col">Segundo Apellido</th>
                   <th scope="col">Teléfono</th>
                   <th scope="col">Dirección</th>
                   <th scope="col">Email</th>
@@ -683,19 +692,22 @@ class ModalEstudiante extends React.Component {
                       required="required"
                     />
                   </div>
-                  {this.state.invocacion == 'registro' ?  
-                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
-                    <label htmlFor="inputAddress">Contraseña</label>
-                    <input
-                      type="text"
-                      className="form-control form-control form-control-sm"
-                      id="password"
-                      name="password"
-                      defaultValue={''}
-                      placeholder="Contraseña"
-                      required="required"
-                    />
-                  </div>: ''}
+                  {this.state.invocacion == "registro" ? (
+                    <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                      <label htmlFor="inputAddress">Contraseña</label>
+                      <input
+                        type="text"
+                        className="form-control form-control form-control-sm"
+                        id="password"
+                        name="password"
+                        defaultValue={""}
+                        placeholder="Contraseña"
+                        required="required"
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
               <div class="modal-footer container">
@@ -751,7 +763,7 @@ class CrudDocentes extends React.Component {
       responsive: true,
       dom: "Bfrtip",
       pageLength: 20,
-      buttons: ["copy", "csv", "excel", "pdf", "print"]
+      buttons: ["copy", "csv", "excel", "pdf", "print"],
     });
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
@@ -763,15 +775,17 @@ class CrudDocentes extends React.Component {
     var datos = this.state.data.registros.map((registro, i) => (
       <tr>
         <th scope="row">{i + 1}</th>
-        <td dangerouslySetInnerHTML={{
-        __html: registro.acciones
-      }}></td>
+        <td
+          dangerouslySetInnerHTML={{
+            __html: registro.acciones,
+          }}
+        ></td>
         <td>{registro.tipoDocumento}</td>
         <td>{registro.identificacion}</td>
         <td>{registro.primerNombre}</td>
         <td>{registro.segundoNombre}</td>
         <td>{registro.primerApellido}</td>
-        <td>{registro.segundoApellido}</td>     
+        <td>{registro.segundoApellido}</td>
         <td>{registro.telefono}</td>
         <td>{registro.direccion}</td>
         <td>{registro.email}</td>
@@ -783,7 +797,11 @@ class CrudDocentes extends React.Component {
         <div class="head">
           <h3>Docentes</h3>
 
-          <a href="javascript:void(0)" onClick={data =>nuevoDocente()} class="btn btn-primary d-sm-block d-lg-block">
+          <a
+            href="javascript:void(0)"
+            onClick={(data) => nuevoDocente()}
+            class="btn btn-primary d-sm-block d-lg-block"
+          >
             Añadir docente
           </a>
         </div>
@@ -792,14 +810,14 @@ class CrudDocentes extends React.Component {
             <table id="tablaDocentes" className="table">
               <thead>
                 <tr>
-                  <th scope="col">#</th>                  
+                  <th scope="col">#</th>
                   <th scope="col">Acciones</th>
                   <th scope="col">TD</th>
                   <th scope="col">Identificación</th>
                   <th scope="col">Primer Nombre</th>
                   <th scope="col">Segundo Nombre</th>
                   <th scope="col">Primer Apellido</th>
-                  <th scope="col">Segundo Apellido</th>               
+                  <th scope="col">Segundo Apellido</th>
                   <th scope="col">Teléfono</th>
                   <th scope="col">Dirección</th>
                   <th scope="col">Email</th>
@@ -1052,19 +1070,22 @@ class ModalDocente extends React.Component {
                       required="required"
                     />
                   </div>
-                  {this.state.invocacion == 'registro' ?  
-                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
-                    <label htmlFor="inputAddress">Contraseña</label>
-                    <input
-                      type="text"
-                      className="form-control form-control form-control-sm"
-                      id="password"
-                      name="password"
-                      defaultValue={''}
-                      placeholder="Contraseña"
-                      required="required"
-                    />
-                  </div>: ''}
+                  {this.state.invocacion == "registro" ? (
+                    <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                      <label htmlFor="inputAddress">Contraseña</label>
+                      <input
+                        type="text"
+                        className="form-control form-control form-control-sm"
+                        id="password"
+                        name="password"
+                        defaultValue={""}
+                        placeholder="Contraseña"
+                        required="required"
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
               <div class="modal-footer container">
@@ -1121,7 +1142,7 @@ class CrudAsignaturas extends React.Component {
       responsive: true,
       dom: "Bfrtip",
       pageLength: 10,
-      buttons: ["copy", "csv", "excel", "pdf", "print"]
+      buttons: ["copy", "csv", "excel", "pdf", "print"],
     });
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
@@ -1133,9 +1154,11 @@ class CrudAsignaturas extends React.Component {
     var datos = this.state.data.registros.map((registro, i) => (
       <tr>
         <th scope="row">{i + 1}</th>
-        <td dangerouslySetInnerHTML={{
-        __html: registro.acciones
-      }}></td>
+        <td
+          dangerouslySetInnerHTML={{
+            __html: registro.acciones,
+          }}
+        ></td>
         <td>{registro.nombreAsignatura}</td>
         <td>{registro.intensidadHorariaSemanal}</td>
         <td>{registro.descripcion}</td>
@@ -1147,7 +1170,11 @@ class CrudAsignaturas extends React.Component {
         <div class="head">
           <h3>Asignaturas</h3>
 
-          <a href="javascript:void(0)" onClick={data =>console.log('proximamente')} class="btn btn-primary d-sm-block d-lg-block">
+          <a
+            href="javascript:void(0)"
+            onClick={(data) => nuevaAsignatura()}
+            class="btn btn-primary d-sm-block d-lg-block"
+          >
             Añadir asignatura
           </a>
         </div>
@@ -1156,16 +1183,250 @@ class CrudAsignaturas extends React.Component {
             <table id="tablaAsignaturas" className="table">
               <thead>
                 <tr>
-                  <th scope="col">#</th>                  
+                  <th scope="col">#</th>
                   <th scope="col">Acciones</th>
                   <th scope="col">Nombre asignatura</th>
                   <th scope="col">Intensidad horaria</th>
                   <th scope="col">Descripción</th>
-                  <th scope="col">Código asignatura</th>               
+                  <th scope="col">Código asignatura</th>
                 </tr>
               </thead>
               <tbody>{datos}</tbody>
             </table>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+class ModalAsignatura extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      datos: props.data,
+      invocacion: props.invocacion,
+      select: props.select,
+    };
+    this.registrar = this.registrar.bind(this);
+    this.actualizar = this.actualizar.bind(this);
+  }
+  registrar(event) {
+    event.preventDefault();
+    if ($("#formAsignatura").valid()) {
+      let formData =
+        $("#formAsignatura").serialize() +
+        "&c=AdministradorController&m=registrarAsignatura";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          },
+        })
+          .done(function (result) {
+            if (validarResult(result)) {
+              switch (result.cod) {
+                case "00":
+                  $("#modalAuxiliar").hide();
+                  swal("Asignatura registrada.", "", "success").then(
+                    (value) => {
+                      vistaAsignaturas();
+                    }
+                  );
+                  break;
+                case "88":
+                  modalLogout();
+                  break;
+                case "99":
+                  alerta("¡Error!", result.msj);
+                  $("#modalAuxiliar").modal("show");
+                  break;
+                default:
+                  alerta("¡Error!", "Error de codificación");
+                  $("#modalAuxiliar").modal("show");
+              }
+            }
+          })
+          .fail(function () {
+            console.log("error");
+          });
+      });
+    }
+  }
+  actualizar(event) {
+    event.preventDefault();
+    if ($("#formAsignatura").valid()) {
+      let formData =
+        $("#formAsignatura").serialize() +
+        "&c=AdministradorController&m=actualizarAsignatura";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          },
+        })
+          .done(function (result) {
+            if (validarResult(result)) {
+              switch (result.cod) {
+                case "00":
+                  $("#modalAuxiliar").hide();
+                  swal("Asignatura actualizada.", "", "success").then(
+                    (value) => {
+                      vistaAsignaturas();
+                    }
+                  );
+                  break;
+                case "88":
+                  modalLogout();
+                  break;
+                case "99":
+                  alerta("¡Error!", result.msj);
+                  $("#modalAuxiliar").modal("show");
+                  break;
+                default:
+                  alerta("¡Error!", "Error de codificación");
+                  $("#modalAuxiliar").modal("show");
+              }
+            }
+          })
+          .fail(function () {
+            console.log("error");
+          });
+      });
+    }
+  }
+
+  componentDidMount() {}
+  componentWillUnmount() {}
+  render() {
+    let titulo =
+      this.state.invocacion == "registro"
+        ? "Nueva asignatura"
+        : "Actualizar asignatura";
+    let opciones = this.state.select.map((opcion, i) => (
+      <option value={opcion.IdGrupo}>{opcion.nombreGrupo}</option>
+    ));
+    return (
+      <div
+        class="modal fade"
+        id="modalAuxiliar"
+        tabindex="-1"
+        aria-labelledby="modalAuxiliarLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header container">
+              <h5 class="modal-title" id="modalAuxiliarLabel">
+                {titulo}
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form id="formAsignatura">
+              <div class="modal-body container">
+                <div className="form-row">
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Nombre asignatura</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="nombreAsignatura"
+                      name="nombreAsignatura"
+                      defaultValue={this.state.datos.nombreAsignatura}
+                      placeholder="Nombre asignatura"
+                      required="required"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Intensidad semanal</label>
+                    <input
+                      type="number"
+                      className="form-control form-control form-control-sm"
+                      id="intensidadHorariaSemanal"
+                      name="intensidadHorariaSemanal"
+                      defaultValue={this.state.datos.intensidadHorariaSemanal}
+                      placeholder="Intensidad semanal"
+                      required="required"
+                    />
+                  </div>
+
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Descripción</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="descripcion"
+                      name="descripcion"
+                      defaultValue={this.state.datos.descripcion}
+                      placeholder="Descripción "
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Grupo</label>
+                    <select
+                      id="cod_Grupo"
+                      name="cod_Grupo"
+                      class="form-control form-control-sm"
+                      defaultValue={this.state.datos.cod_Grupo}
+                      required="required"
+                    >
+                      <option value="">Seleccione...</option>
+                      {opciones}
+                    </select>
+                  </div>
+                  {this.state.invocacion != "registro" ? (
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm d-none"
+                      id="idAsignatura"
+                      name="idAsignatura"
+                      defaultValue={this.state.datos.idAsignatura}
+                      placeholder=" "
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+              <div class="modal-footer container">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm"
+                  data-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+                {this.state.invocacion == "registro" ? (
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    onClick={this.registrar}
+                  >
+                    Guardar
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    onClick={this.actualizar}
+                  >
+                    Actualizar
+                  </button>
+                )}
+              </div>
+            </form>
           </div>
         </div>
       </div>

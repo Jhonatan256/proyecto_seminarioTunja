@@ -231,7 +231,7 @@ class AdministradorController extends LoginController
     {
         if (self::getUser('tipoUsuario') == '1') {
             $db = new Conexion();
-            $asignatura = $db->consultarRegistros('SELECT * FROM asignatura');
+            $asignatura = $db->consultarRegistros('SELECT a.*, g.nombreGrupo FROM asignatura a LEFT JOIN grupo g ON a.cod_Grupo = g.idGrupo');
             if ($asignatura) {
                 $salida = [];
                 $salida['tipoUsuario'] = self::getUser('tipoUsuario');
@@ -241,10 +241,10 @@ class AdministradorController extends LoginController
                     $data['nombreAsignatura'] = $value->nombreAsignatura;
                     $data['intensidadHorariaSemanal'] = $value->intensidadHorariaSemanal;
                     $data['descripcion'] = $value->descripcion;
-                    $data['cod_Grupo'] = $value->cod_Grupo;
+                    $data['cod_Grupo'] = $value->nombreGrupo;
                     $data['acciones'] = '<div class="btn-group" role="group" aria-label="First group">';
-                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="editarUsuario(\'' . base64_encode($value->numeroDocumento) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar asignatura" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
-                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="eliminarEstudiante(\'' . base64_encode($value->numeroDocumento) . '\');" class="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="Eliminar asignatura" data-placement="top">' . '<i class="bx bx-trash" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="buscarAsignatura(\'' . base64_encode($value->idAsignatura) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar asignatura" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="eliminarAsignatura(\'' . base64_encode($value->idAsignatura) . '\');" class="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="Eliminar asignatura" data-placement="top">' . '<i class="bx bx-trash" aria-hidden="true"></i> </a>';
                     $data['acciones'] .= '</div>';
                     $salida['registros'][] = $data;
                 }
@@ -258,7 +258,83 @@ class AdministradorController extends LoginController
         return respuesta('99', $msj);
     }
 
+    public function selectGruposAsignatura($tipoSalida = true){
+        $db = new Conexion();
+        $salida = $db->consultarRegistros('SELECT * FROM grupo');
+        if($tipoSalida){
+            return respuesta('00', '', $salida);
+        }else{
+            return $salida;
+        }
+    }
+    public function buscarAsignatura(){
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            $asignatura = $db->consultarRegistro('SELECT * FROM asignatura WHERE idAsignatura =:id', ['id' =>base64_decode( $_POST['id'])]);
+            if ($asignatura) { 
+                $asignatura['select'] = self::selectGruposAsignatura(false);               
+                return respuesta('00', '', $asignatura);
+            } else {
+                $msj = 'No existen registros.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);  
+    }
+    public function registrarAsignatura()
+    {
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            unset($_POST['m']);
+            unset($_POST['c']);
+            $db->crudRegistro("INSERT INTO asignatura (nombreAsignatura, descripcion, intensidadHorariaSemanal, cod_Grupo) VALUES (:nombreAsignatura, :descripcion, :intensidadHorariaSemanal , :cod_Grupo)", $_POST);
+            return respuesta('00', '');
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+    }
 
+    public function actualizarAsignatura()
+    {
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            $asignatura = $db->consultarRegistro('SELECT * FROM asignatura WHERE idAsignatura = :ide', [
+                'ide' => $_POST['idAsignatura']
+            ]);
+            unset($_POST['m']);
+            unset($_POST['c']);
+            if ($asignatura) {
+                $db->crudRegistro("UPDATE asignatura SET nombreAsignatura = :nombreAsignatura, descripcion = :descripcion, intensidadHorariaSemanal = :intensidadHorariaSemanal, cod_Grupo = :cod_Grupo WHERE idAsignatura = :idAsignatura", $_POST);
+                return respuesta('00', '');
+            } else {
+                $msj = 'No existe la asignatura.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+    }
+    public function eliminarAsignatura()
+    {
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            $asignatura = $db->consultarRegistro('SELECT * FROM asignatura WHERE idAsignatura = :ide', [
+                'ide' => base64_decode($_POST['ide'])
+            ]);
+            if ($asignatura) {
+                $db->crudRegistro("DELETE FROM asignatura WHERE idAsignatura = :ide", ['ide' =>base64_decode($_POST['ide'])]);
+                return respuesta('00', '');
+            } else {
+                $msj = 'No existe la asignatura.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+        
+    }
 }
 
 

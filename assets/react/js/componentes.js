@@ -615,7 +615,7 @@ class ModalEstudiante extends React.Component {
       defaultValue: this.state.datos.direccion,
       placeholder: "Direcci\xF3n",
       required: "required"
-    })), this.state.invocacion == 'registro' ? /*#__PURE__*/React.createElement("div", {
+    })), this.state.invocacion == "registro" ? /*#__PURE__*/React.createElement("div", {
       className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
     }, /*#__PURE__*/React.createElement("label", {
       htmlFor: "inputAddress"
@@ -624,10 +624,10 @@ class ModalEstudiante extends React.Component {
       className: "form-control form-control form-control-sm",
       id: "password",
       name: "password",
-      defaultValue: '',
+      defaultValue: "",
       placeholder: "Contrase\xF1a",
       required: "required"
-    })) : '')), /*#__PURE__*/React.createElement("div", {
+    })) : "")), /*#__PURE__*/React.createElement("div", {
       class: "modal-footer container"
     }, /*#__PURE__*/React.createElement("button", {
       type: "button",
@@ -949,7 +949,7 @@ class ModalDocente extends React.Component {
       defaultValue: this.state.datos.direccion,
       placeholder: "Direcci\xF3n",
       required: "required"
-    })), this.state.invocacion == 'registro' ? /*#__PURE__*/React.createElement("div", {
+    })), this.state.invocacion == "registro" ? /*#__PURE__*/React.createElement("div", {
       className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
     }, /*#__PURE__*/React.createElement("label", {
       htmlFor: "inputAddress"
@@ -958,10 +958,10 @@ class ModalDocente extends React.Component {
       className: "form-control form-control form-control-sm",
       id: "password",
       name: "password",
-      defaultValue: '',
+      defaultValue: "",
       placeholder: "Contrase\xF1a",
       required: "required"
-    })) : '')), /*#__PURE__*/React.createElement("div", {
+    })) : "")), /*#__PURE__*/React.createElement("div", {
       class: "modal-footer container"
     }, /*#__PURE__*/React.createElement("button", {
       type: "button",
@@ -1017,7 +1017,7 @@ class CrudAsignaturas extends React.Component {
       class: "head"
     }, /*#__PURE__*/React.createElement("h3", null, "Asignaturas"), /*#__PURE__*/React.createElement("a", {
       href: "javascript:void(0)",
-      onClick: data => console.log('proximamente'),
+      onClick: data => nuevaAsignatura(),
       class: "btn btn-primary d-sm-block d-lg-block"
     }, "A\xF1adir asignatura")), /*#__PURE__*/React.createElement("div", {
       class: "table-responsive table-responsive-sm"
@@ -1039,5 +1039,200 @@ class CrudAsignaturas extends React.Component {
     }, "Descripci\xF3n"), /*#__PURE__*/React.createElement("th", {
       scope: "col"
     }, "C\xF3digo asignatura"))), /*#__PURE__*/React.createElement("tbody", null, datos)))));
+  }
+}
+class ModalAsignatura extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      datos: props.data,
+      invocacion: props.invocacion,
+      select: props.select
+    };
+    this.registrar = this.registrar.bind(this);
+    this.actualizar = this.actualizar.bind(this);
+  }
+  registrar(event) {
+    event.preventDefault();
+    if ($("#formAsignatura").valid()) {
+      let formData = $("#formAsignatura").serialize() + "&c=AdministradorController&m=registrarAsignatura";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          }
+        }).done(function (result) {
+          if (validarResult(result)) {
+            switch (result.cod) {
+              case "00":
+                $("#modalAuxiliar").hide();
+                swal("Asignatura registrada.", "", "success").then(value => {
+                  vistaAsignaturas();
+                });
+                break;
+              case "88":
+                modalLogout();
+                break;
+              case "99":
+                alerta("¡Error!", result.msj);
+                $("#modalAuxiliar").modal("show");
+                break;
+              default:
+                alerta("¡Error!", "Error de codificación");
+                $("#modalAuxiliar").modal("show");
+            }
+          }
+        }).fail(function () {
+          console.log("error");
+        });
+      });
+    }
+  }
+  actualizar(event) {
+    event.preventDefault();
+    if ($("#formAsignatura").valid()) {
+      let formData = $("#formAsignatura").serialize() + "&c=AdministradorController&m=actualizarAsignatura";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          }
+        }).done(function (result) {
+          if (validarResult(result)) {
+            switch (result.cod) {
+              case "00":
+                $("#modalAuxiliar").hide();
+                swal("Asignatura actualizada.", "", "success").then(value => {
+                  vistaAsignaturas();
+                });
+                break;
+              case "88":
+                modalLogout();
+                break;
+              case "99":
+                alerta("¡Error!", result.msj);
+                $("#modalAuxiliar").modal("show");
+                break;
+              default:
+                alerta("¡Error!", "Error de codificación");
+                $("#modalAuxiliar").modal("show");
+            }
+          }
+        }).fail(function () {
+          console.log("error");
+        });
+      });
+    }
+  }
+  componentDidMount() {}
+  componentWillUnmount() {}
+  render() {
+    let titulo = this.state.invocacion == "registro" ? "Nueva asignatura" : "Actualizar asignatura";
+    let opciones = this.state.select.map((opcion, i) => /*#__PURE__*/React.createElement("option", {
+      value: opcion.IdGrupo
+    }, opcion.nombreGrupo));
+    return /*#__PURE__*/React.createElement("div", {
+      class: "modal fade",
+      id: "modalAuxiliar",
+      tabindex: "-1",
+      "aria-labelledby": "modalAuxiliarLabel",
+      "aria-hidden": "true"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-dialog modal-lg"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-content"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-header container"
+    }, /*#__PURE__*/React.createElement("h5", {
+      class: "modal-title",
+      id: "modalAuxiliarLabel"
+    }, titulo), /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "close",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }, /*#__PURE__*/React.createElement("span", {
+      "aria-hidden": "true"
+    }, "\xD7"))), /*#__PURE__*/React.createElement("form", {
+      id: "formAsignatura"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-body container"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-row"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Nombre asignatura"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "nombreAsignatura",
+      name: "nombreAsignatura",
+      defaultValue: this.state.datos.nombreAsignatura,
+      placeholder: "Nombre asignatura",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Intensidad semanal"), /*#__PURE__*/React.createElement("input", {
+      type: "number",
+      className: "form-control form-control form-control-sm",
+      id: "intensidadHorariaSemanal",
+      name: "intensidadHorariaSemanal",
+      defaultValue: this.state.datos.intensidadHorariaSemanal,
+      placeholder: "Intensidad semanal",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Descripci\xF3n"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "descripcion",
+      name: "descripcion",
+      defaultValue: this.state.datos.descripcion,
+      placeholder: "Descripci\xF3n "
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Grupo"), /*#__PURE__*/React.createElement("select", {
+      id: "cod_Grupo",
+      name: "cod_Grupo",
+      class: "form-control form-control-sm",
+      defaultValue: this.state.datos.cod_Grupo,
+      required: "required"
+    }, /*#__PURE__*/React.createElement("option", {
+      value: ""
+    }, "Seleccione..."), opciones)), this.state.invocacion != "registro" ? /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm d-none",
+      id: "idAsignatura",
+      name: "idAsignatura",
+      defaultValue: this.state.datos.idAsignatura,
+      placeholder: " "
+    }) : "")), /*#__PURE__*/React.createElement("div", {
+      class: "modal-footer container"
+    }, /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-secondary btn-sm",
+      "data-dismiss": "modal"
+    }, "Cerrar"), this.state.invocacion == "registro" ? /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-primary btn-sm",
+      onClick: this.registrar
+    }, "Guardar") : /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-primary btn-sm",
+      onClick: this.actualizar
+    }, "Actualizar"))))));
   }
 }
