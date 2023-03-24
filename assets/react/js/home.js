@@ -285,7 +285,6 @@ function vistaAsignaturas() {
     });
   });
 }
-function vistaHorarios() {}
 function vistaPlanEstudios() {}
 function vistaEstudiante() {}
 function vistaCalificaciones() {}
@@ -441,5 +440,76 @@ function eliminarAsignatura(id) {
         });
       });
     }
+  });
+}
+function vistaHorarios() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "listarHorarios"
+      }
+    }).done(function (result) {
+      if (validarResult(result)) {
+        actualizarRuta("Lista horarios", "vistaHorarios");
+        switch (result.cod) {
+          case "00":
+            console.log(result);
+            ReactDOM.unmountComponentAtNode(document.getElementById("contenedor"));
+            ReactDOM.render( /*#__PURE__*/React.createElement(CrudHorarios, {
+              data: result.data
+            }), document.getElementById("contenedor"));
+            break;
+          case "88":
+            modalLogout();
+            break;
+          case "99":
+            alerta("¡Error!", result.msj);
+            break;
+          default:
+            alerta("¡Error!", "Error de codificación");
+        }
+      }
+    }).fail(function () {
+      console.log("error");
+    });
+  });
+}
+function nuevoHorario() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "selectGruposHorarios"
+      }
+    }).done(function (result) {
+      if (validarResult(result)) {
+        switch (result.cod) {
+          case "00":
+            ReactDOM.unmountComponentAtNode(document.getElementById("modal1"));
+            ReactDOM.render( /*#__PURE__*/React.createElement(ModalHorarios, {
+              invocacion: "registro",
+              data: "",
+              select: result.data
+            }), document.getElementById("modal1"));
+            $("#modalAuxiliar").modal("show");
+            break;
+          case "88":
+            modalLogout();
+            break;
+          case "99":
+            alerta("¡Error!", result.msj);
+            break;
+          default:
+            alerta("¡Error!", "Error de codificación");
+        }
+      }
+    }).fail(function () {
+      console.log("error");
+    });
   });
 }

@@ -335,8 +335,118 @@ class AdministradorController extends LoginController
         return respuesta('99', $msj);
         
     }
+
+#HORARIOS
+    public function listarHorarios()
+    {
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            $horario = $db->consultarRegistros('SELECT h.*, c.*, a.* FROM horario h LEFT JOIN ciclo c ON h.codCiclo = c.idCiclo RIGHT JOIN asignatura a ON h.codAsignaturaH = a.idAsignatura');
+            if ($horario) {
+                $salida = [];
+                $salida['tipoUsuario'] = self::getUser('tipoUsuario');
+                foreach ($horario as $value) {
+                    $data = [];
+                    $data['idHorario'] = $value->idHorario;
+                    $data['dia'] = $value->dia;
+                    $data['horaInicio'] = $value->horaInicio;
+                    $data['horaFin'] = $value->horaFin;
+                    $data['idCiclo'] = $value->idCiclo;
+                    $data['codCiclo'] = $value->nombreCiclo;
+                    $data['idAsignatura'] = $value->idAsignatura;
+                    $data['codAsignaturaH'] = $value->nombreAsignatura;
+                    $data['acciones'] = '<div class="btn-group" role="group" aria-label="First group">';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="buscarHorario(\'' . base64_encode($value->idHorario) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar horario" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="eliminarHorario(\'' . base64_encode($value->idHorario) . '\');" class="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="Eliminar horario" data-placement="top">' . '<i class="bx bx-trash" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '</div>';
+                    $salida['registros'][] = $data;
+                }
+                return respuesta('00', '', $salida);
+            } else {
+                $msj = 'No existen registros.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+    }
+
+    public function registrarHorario()
+    {
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            unset($_POST['m']);
+            unset($_POST['c']);
+            $db->crudRegistro("INSERT INTO horario (dia, horaInicio, horaFin, codCiclo, codAsignaturaH) VALUES (:dia, :horaInicio, horaFin, :codCiclo, :codAsignaturaH)", $_POST);
+            return respuesta('00', '');
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+    }
+
+    public function actualizarHorario()
+    {
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            $asignatura = $db->consultarRegistro('SELECT * FROM asignatura WHERE idAsignatura = :ide', [
+                'ide' => $_POST['idAsignatura']
+            ]);
+            unset($_POST['m']);
+            unset($_POST['c']);
+            if ($asignatura) {
+                $db->crudRegistro("UPDATE asignatura SET nombreAsignatura = :nombreAsignatura, descripcion = :descripcion, intensidadHorariaSemanal = :intensidadHorariaSemanal, cod_Grupo = :cod_Grupo WHERE idAsignatura = :idAsignatura", $_POST);
+                return respuesta('00', '');
+            } else {
+                $msj = 'No existe la asignatura.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+    }
+    public function eliminarHorario()
+    {
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            $asignatura = $db->consultarRegistro('SELECT * FROM asignatura WHERE idAsignatura = :ide', [
+                'ide' => base64_decode($_POST['ide'])
+            ]);
+            if ($asignatura) {
+                $db->crudRegistro("DELETE FROM asignatura WHERE idAsignatura = :ide", ['ide' =>base64_decode($_POST['ide'])]);
+                return respuesta('00', '');
+            } else {
+                $msj = 'No existe la asignatura.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+        
+    }
+    public function selectGruposHorarios($tipoSalida = true){
+        $db = new Conexion();
+        $salida['ciclo'] = $db->consultarRegistros('SELECT * FROM ciclo');
+        $salida['asiganturas'] = self::selectGruposAsignatura(false);
+        if($tipoSalida){
+            return respuesta('00', '', $salida);
+        }else{
+            return $salida;
+        }
+    }
+    public function buscarHorario(){
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            $horario = $db->consultarRegistro('SELECT * FROM ciclo WHERE idCiclo =:id', ['id' =>base64_decode( $_POST['id'])]);
+            if ($horario) { 
+                $horario['select'] = self::selectGruposHorarios(false);               
+                return respuesta('00', '', $horario);
+            } else {
+                $msj = 'No existen registros.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);  
+    }
 }
-
-
-
-

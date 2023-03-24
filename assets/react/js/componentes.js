@@ -1236,3 +1236,298 @@ class ModalAsignatura extends React.Component {
     }, "Actualizar"))))));
   }
 }
+class CrudHorarios extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.data
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+  componentDidMount() {
+    $("#tablaHorarios").DataTable({
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+      },
+      responsive: true,
+      dom: "Bfrtip",
+      pageLength: 10,
+      buttons: ["copy", "csv", "excel", "pdf", "print"]
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  }
+  componentWillUnmount() {}
+  render() {
+    console.log(this.state.data);
+    var datos = this.state.data.registros.map((registro, i) => /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+      scope: "row"
+    }, i + 1), /*#__PURE__*/React.createElement("td", {
+      dangerouslySetInnerHTML: {
+        __html: registro.acciones
+      }
+    }), /*#__PURE__*/React.createElement("td", null, registro.idAsignatura), /*#__PURE__*/React.createElement("td", null, registro.codAsignaturaH), /*#__PURE__*/React.createElement("td", null, registro.idCiclo), /*#__PURE__*/React.createElement("td", null, registro.codCiclo), /*#__PURE__*/React.createElement("td", null, registro.dia), /*#__PURE__*/React.createElement("td", null, registro.horaInicio), /*#__PURE__*/React.createElement("td", null, registro.horaFin)));
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      class: "head"
+    }, /*#__PURE__*/React.createElement("h3", null, "Horarios"), /*#__PURE__*/React.createElement("a", {
+      href: "javascript:void(0)",
+      onClick: data => nuevoHorario(),
+      class: "btn btn-primary d-sm-block d-lg-block"
+    }, "A\xF1adir Horario")), /*#__PURE__*/React.createElement("div", {
+      class: "table-responsive table-responsive-sm"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "table table-sm table-striped"
+    }, /*#__PURE__*/React.createElement("table", {
+      id: "tablaHorarios",
+      className: "table"
+    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "#"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Acciones"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "C\xF3digo asignatura"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Nombre asignatura"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "C\xF3digo ciclo"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Nombre ciclo"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Dia"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Hora Inicio"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Hora Fin"))), /*#__PURE__*/React.createElement("tbody", null, datos)))));
+  }
+}
+class ModalHorarios extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      datos: props.data,
+      invocacion: props.invocacion,
+      select: props.select
+    };
+    this.registrar = this.registrar.bind(this);
+    this.actualizar = this.actualizar.bind(this);
+  }
+  registrar(event) {
+    event.preventDefault();
+    if ($("#formHorarios").valid()) {
+      let formData = $("#formHorarios").serialize() + "&c=AdministradorController&m=registrarHorarios";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          }
+        }).done(function (result) {
+          if (validarResult(result)) {
+            switch (result.cod) {
+              case "00":
+                $("#modalAuxiliar").hide();
+                swal("Horario registrado.", "", "success").then(value => {
+                  vistaHorarios();
+                });
+                break;
+              case "88":
+                modalLogout();
+                break;
+              case "99":
+                alerta("¡Error!", result.msj);
+                $("#modalAuxiliar").modal("show");
+                break;
+              default:
+                alerta("¡Error!", "Error de codificación");
+                $("#modalAuxiliar").modal("show");
+            }
+          }
+        }).fail(function () {
+          console.log("error");
+        });
+      });
+    }
+  }
+  actualizar(event) {
+    event.preventDefault();
+    if ($("#formHorarios").valid()) {
+      let formData = $("#formHorarios").serialize() + "&c=AdministradorController&m=actualizarHorario";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          }
+        }).done(function (result) {
+          if (validarResult(result)) {
+            switch (result.cod) {
+              case "00":
+                $("#modalAuxiliar").hide();
+                swal("Horario actualizado.", "", "success").then(value => {
+                  vistaAsignaturas();
+                });
+                break;
+              case "88":
+                modalLogout();
+                break;
+              case "99":
+                alerta("¡Error!", result.msj);
+                $("#modalAuxiliar").modal("show");
+                break;
+              default:
+                alerta("¡Error!", "Error de codificación");
+                $("#modalAuxiliar").modal("show");
+            }
+          }
+        }).fail(function () {
+          console.log("error");
+        });
+      });
+    }
+  }
+  componentDidMount() {}
+  componentWillUnmount() {}
+  render() {
+    let titulo = this.state.invocacion == "registro" ? "Nueva Horario" : "Actualizar Horario";
+    let opciones = this.state.select.map((opcion, i) => /*#__PURE__*/React.createElement("option", {
+      value: opcion.idCiclo
+    }, opcion.nombreCiclo));
+    return /*#__PURE__*/React.createElement("div", {
+      class: "modal fade",
+      id: "modalAuxiliar",
+      tabindex: "-1",
+      "aria-labelledby": "modalAuxiliarLabel",
+      "aria-hidden": "true"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-dialog modal-lg"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-content"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-header container"
+    }, /*#__PURE__*/React.createElement("h5", {
+      class: "modal-title",
+      id: "modalAuxiliarLabel"
+    }, titulo), /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "close",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }, /*#__PURE__*/React.createElement("span", {
+      "aria-hidden": "true"
+    }, "\xD7"))), /*#__PURE__*/React.createElement("form", {
+      id: "formHorarios"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-body container"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-row"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Nombre Asignatura"), /*#__PURE__*/React.createElement("select", {
+      id: "codAsignaturaH",
+      name: "codAsignaturaH",
+      defaultValue: this.state.datos.codAsignaturaH,
+      class: "form-control form-control-sm",
+      required: "required"
+    }, /*#__PURE__*/React.createElement("option", {
+      value: ""
+    }, "Seleccione..."), opciones)), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Nombre Ciclo"), /*#__PURE__*/React.createElement("select", {
+      id: "codCiclo",
+      name: "codCiclo",
+      class: "form-control form-control-sm",
+      defaultValue: this.state.datos.codCiclo,
+      required: "required"
+    }, /*#__PURE__*/React.createElement("option", {
+      value: ""
+    }, "Seleccione..."), opciones)), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Dia"), /*#__PURE__*/React.createElement("select", {
+      id: "dia",
+      name: "dia",
+      class: "form-control form-control-sm",
+      defaultValue: this.state.datos.dia,
+      required: "required"
+    }, /*#__PURE__*/React.createElement("option", {
+      value: ""
+    }, "Seleccione..."), /*#__PURE__*/React.createElement("option", {
+      value: "Lunes"
+    }, "lunes"), /*#__PURE__*/React.createElement("option", {
+      value: "Martes"
+    }, "Martes"), /*#__PURE__*/React.createElement("option", {
+      value: "Miercoles"
+    }, "Miercoles"), /*#__PURE__*/React.createElement("option", {
+      value: "Jueves"
+    }, "Jueves"), /*#__PURE__*/React.createElement("option", {
+      value: "Viernes"
+    }, "Viernes"), /*#__PURE__*/React.createElement("option", {
+      value: "Sabado"
+    }, "Sabado"), /*#__PURE__*/React.createElement("option", {
+      value: "Domingo"
+    }, "Domingo"))), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Hora Inicio"), /*#__PURE__*/React.createElement("input", {
+      type: "time",
+      className: "form-control form-control form-control-sm",
+      name: "horaInicio",
+      defaultValue: this.state.datos.horaInicio,
+      value: "08:15:00",
+      max: "12:00:00",
+      min: "08:00:00",
+      step: "1",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Hora Fin"), /*#__PURE__*/React.createElement("input", {
+      type: "time",
+      className: "form-control form-control form-control-sm",
+      name: "horaFin",
+      defaultValue: this.state.datos.horaFin,
+      value: "14:15",
+      min: "14:00",
+      max: "18:00",
+      step: "1",
+      required: "required"
+    })), this.state.invocacion != "registro" ? /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm d-none",
+      id: "idHorario",
+      name: "idHorario",
+      defaultValue: this.state.datos.idHorario,
+      placeholder: " "
+    }) : "")), /*#__PURE__*/React.createElement("div", {
+      class: "modal-footer container"
+    }, /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-secondary btn-sm",
+      "data-dismiss": "modal"
+    }, "Cerrar"), this.state.invocacion == "registro" ? /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-primary btn-sm",
+      onClick: this.registrar
+    }, "Guardar") : /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-primary btn-sm",
+      onClick: this.actualizar
+    }, "Actualizar"))))));
+  }
+}
