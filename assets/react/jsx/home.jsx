@@ -99,6 +99,7 @@ function home() {
   });
 }
 function vistaEstudiantes() {
+  // $('a.active').removeClass('active')
   Pace.track(function () {
     $.ajax({
       url: "../Route.php",
@@ -253,6 +254,53 @@ function eliminarEstudiante(identificacion) {
             c: "AdministradorController",
             m: "eliminarEstudiante",
             ide: identificacion,
+            modulo: "estudiante",
+          },
+        })
+          .done(function (result) {
+            if (validarResult(result)) {
+              switch (result.cod) {
+                case "00":
+                  swal("Registro Eliminado.", "", "success").then((value) => {
+                    vistaEstudiantes();
+                  });
+                  break;
+                case "88":
+                  modalLogout();
+                  break;
+                case "99":
+                  alerta("¡Error!", result.msj);
+                  break;
+                default:
+                  alerta("¡Error!", "Error de codificación");
+              }
+            }
+          })
+          .fail(function () {
+            console.log("error");
+          });
+      });
+    }
+  });
+}
+function eliminarDocente(identificacion) {
+  swal({
+    title: "¡Cuidado!",
+    text: "¿Seguró que desear eliminar el registro?",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: {
+            c: "AdministradorController",
+            m: "eliminarEstudiante",
+            ide: identificacion,
+            modulo: "docente",
           },
         })
           .done(function (result) {
@@ -421,7 +469,11 @@ function nuevaAsignatura() {
                 document.getElementById("modal1")
               );
               ReactDOM.render(
-                <ModalAsignatura invocacion={"registro"} data={""} select={result.data}/>,
+                <ModalAsignatura
+                  invocacion={"registro"}
+                  data={""}
+                  select={result.data}
+                />,
                 document.getElementById("modal1")
               );
               $("#modalAuxiliar").modal("show");
@@ -442,8 +494,7 @@ function nuevaAsignatura() {
       });
   });
 }
-function buscarAsignatura(id){
-  
+function buscarAsignatura(id) {
   Pace.track(function () {
     $.ajax({
       url: "../Route.php",
@@ -451,7 +502,7 @@ function buscarAsignatura(id){
       data: {
         c: "AdministradorController",
         m: "buscarAsignatura",
-        id: id
+        id: id,
       },
     })
       .done(function (result) {
@@ -462,7 +513,11 @@ function buscarAsignatura(id){
                 document.getElementById("modal1")
               );
               ReactDOM.render(
-                <ModalAsignatura invocacion={"actualizar"} data={result.data} select={result.data.select}/>,
+                <ModalAsignatura
+                  invocacion={"actualizar"}
+                  data={result.data}
+                  select={result.data.select}
+                />,
                 document.getElementById("modal1")
               );
               $("#modalAuxiliar").modal("show");
@@ -576,7 +631,7 @@ function nuevoHorario() {
       type: "POST",
       data: {
         c: "AdministradorController",
-        m: "selectGruposHorarios",         
+        m: "selectGruposHorarios",
       },
     })
       .done(function (result) {
@@ -587,10 +642,14 @@ function nuevoHorario() {
                 document.getElementById("modal1")
               );
               ReactDOM.render(
-                <ModalHorarios invocacion={"registro"} data={""} select={result.data}/>,
+                <ModalHorarios
+                  invocacion={"registro"}
+                  data={""}
+                  select={result.data}
+                />,
                 document.getElementById("modal1")
               );
-              
+
               $("#modalAuxiliar").modal("show");
               break;
             case "88":
@@ -666,7 +725,11 @@ function nuevoCiclo() {
                 document.getElementById("modal1")
               );
               ReactDOM.render(
-                <ModalCiclo invocacion={"registro"} data={""} select={result.data}/>,
+                <ModalCiclo
+                  invocacion={"registro"}
+                  data={""}
+                  select={result.data}
+                />,
                 document.getElementById("modal1")
               );
               $("#modalAuxiliar").modal("show");
@@ -687,8 +750,7 @@ function nuevoCiclo() {
       });
   });
 }
-function buscarCiclo(id){
-  
+function buscarCiclo(id) {
   Pace.track(function () {
     $.ajax({
       url: "../Route.php",
@@ -696,7 +758,7 @@ function buscarCiclo(id){
       data: {
         c: "AdministradorController",
         m: "buscarCiclo",
-        id: id
+        id: id,
       },
     })
       .done(function (result) {
@@ -707,7 +769,11 @@ function buscarCiclo(id){
                 document.getElementById("modal1")
               );
               ReactDOM.render(
-                <ModalCiclo invocacion={"actualizar"} data={result.data} select={result.data.select}/>,
+                <ModalCiclo
+                  invocacion={"actualizar"}
+                  data={result.data}
+                  select={result.data.select}
+                />,
                 document.getElementById("modal1")
               );
               $("#modalAuxiliar").modal("show");
@@ -728,7 +794,7 @@ function buscarCiclo(id){
       });
   });
 }
-function actualizarCiclo(id){ 
+function actualizarCiclo(id) {
   Pace.track(function () {
     $.ajax({
       url: "../Route.php",
@@ -736,7 +802,7 @@ function actualizarCiclo(id){
       data: {
         c: "AdministradorController",
         m: "actualizarCiclo",
-        id: id
+        id: id,
       },
     })
       .done(function (result) {
@@ -747,7 +813,11 @@ function actualizarCiclo(id){
                 document.getElementById("modal1")
               );
               ReactDOM.render(
-                <ModalCiclo invocacion={"actualizar"} data={result.data} select={result.data.select}/>,
+                <ModalCiclo
+                  invocacion={"actualizar"}
+                  data={result.data}
+                  select={result.data.select}
+                />,
                 document.getElementById("modal1")
               );
               $("#modalAuxiliar").modal("show");

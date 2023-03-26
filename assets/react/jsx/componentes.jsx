@@ -712,7 +712,7 @@ class ModalEstudiante extends React.Component {
                     this.state.invocacion != 'registro' ? 
                     <input
                       type="text"
-                      className="form-control form-control form-control-sm"
+                      className="form-control form-control form-control-sm d-none"
                       id="idUsuario"
                       name="idUsuario"
                       defaultValue={this.state.datos.idUsuario}
@@ -732,7 +732,7 @@ class ModalEstudiante extends React.Component {
                 </button>
                 {this.state.invocacion == "registro" ? (
                   <button
-                    type="button"
+                    type="submit"
                     class="btn btn-primary btn-sm"
                     onClick={this.registrar}
                   >
@@ -740,7 +740,7 @@ class ModalEstudiante extends React.Component {
                   </button>
                 ) : (
                   <button
-                    type="button"
+                    type="submit"
                     class="btn btn-primary btn-sm"
                     onClick={this.actualizar}
                   >
@@ -875,15 +875,15 @@ class ModalDocente extends React.Component {
                 case "00":
                   $("#modalAuxiliar").hide();
                   swal("Usuario registrado.", "", "success").then((value) => {
-                    vistaEstudiantes();
+                    vistaDocente();
                   });
                   break;
                 case "88":
                   modalLogout();
                   break;
                 case "99":
-                  alerta("¡Error!", result.msj);
                   $("#modalAuxiliar").modal("show");
+                  alerta("¡Error!", result.msj);
                   break;
                 default:
                   alerta("¡Error!", "Error de codificación");
@@ -946,7 +946,7 @@ class ModalDocente extends React.Component {
   render() {
     let titulo =
       this.state.invocacion == "registro"
-        ? "Nuevo estudiante"
+        ? "Nuevo docente"
         : "Actualizar datos";
     return (
       <div
@@ -1098,6 +1098,18 @@ class ModalDocente extends React.Component {
                   ) : (
                     ""
                   )}
+                  {
+                    this.state.invocacion != 'registro' ? 
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm d-none"
+                      id="idUsuario"
+                      name="idUsuario"
+                      defaultValue={this.state.datos.idUsuario}
+                      placeholder=""
+                      required="required"
+                    />:''
+                  }
                 </div>
               </div>
               <div class="modal-footer container">
@@ -1110,7 +1122,7 @@ class ModalDocente extends React.Component {
                 </button>
                 {this.state.invocacion == "registro" ? (
                   <button
-                    type="button"
+                    type="submit"
                     class="btn btn-primary btn-sm"
                     onClick={this.registrar}
                   >
@@ -1118,7 +1130,7 @@ class ModalDocente extends React.Component {
                   </button>
                 ) : (
                   <button
-                    type="button"
+                    type="submit"
                     class="btn btn-primary btn-sm"
                     onClick={this.actualizar}
                   >
