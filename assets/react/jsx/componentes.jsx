@@ -1162,7 +1162,7 @@ class CrudAsignaturas extends React.Component {
         <td>{registro.nombreAsignatura}</td>
         <td>{registro.intensidadHorariaSemanal}</td>
         <td>{registro.descripcion}</td>
-        <td>{registro.cod_Grupo}</td>
+        <td>{registro.ciclo}</td>
       </tr>
     ));
     return (
@@ -1188,7 +1188,7 @@ class CrudAsignaturas extends React.Component {
                   <th scope="col">Nombre asignatura</th>
                   <th scope="col">Intensidad horaria</th>
                   <th scope="col">Descripción</th>
-                  <th scope="col">Código asignatura</th>
+                  <th scope="col">Ciclo</th>
                 </tr>
               </thead>
               <tbody>{datos}</tbody>
@@ -1469,11 +1469,7 @@ class CrudHorarios extends React.Component {
           dangerouslySetInnerHTML={{
             __html: registro.acciones,
           }}
-        ></td>
-        <td>{registro.idAsignatura}</td>
-        <td>{registro.codAsignaturaH}</td>
-        <td>{registro.idCiclo}</td>
-        <td>{registro.codCiclo}</td>
+        ></td>        
         <td>{registro.dia}</td>
         <td>{registro.horaInicio}</td>
         <td>{registro.horaFin}</td>
@@ -1498,11 +1494,7 @@ class CrudHorarios extends React.Component {
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Acciones</th>
-                  <th scope="col">Código asignatura</th>
-                  <th scope="col">Nombre asignatura</th>
-                  <th scope="col">Código ciclo</th>
-                  <th scope="col">Nombre ciclo</th>
+                  <th scope="col">Acciones</th>                  
                   <th scope="col">Dia</th>
                   <th scope="col">Hora Inicio</th>
                   <th scope="col">Hora Fin</th>

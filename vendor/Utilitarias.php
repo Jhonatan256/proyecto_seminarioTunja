@@ -112,6 +112,7 @@ function menuCalificaciones()
         'z' => 'vistaCalificaciones'
     ];
 }
+
 function menuCiclo()
 {
     return [
@@ -120,6 +121,18 @@ function menuCiclo()
         'z' => 'vistaCiclo'
     ];
 }
+
 // function menuLibro(){
-//     return ['nombre' =>'Calificaciones', 'icono' => 'bx bxs-widget icon', 'z' => 'vistaCalificaciones'];
+// return ['nombre' =>'Calificaciones', 'icono' => 'bx bxs-widget icon', 'z' => 'vistaCalificaciones'];
 // }
+function generarLogAuditoria($db, $usuario, $tabla, $id, $modificacion)
+{
+    date_default_timezone_set('America/Bogota');
+    $campos['fechaModificacion'] = date('d-m-Y');
+    $campos['usuarioModificacion'] = $usuario;
+    $campos['tabla'] = $tabla;
+    $campos['idRegistro'] = $id;
+    $campos['tipoModificacion'] = $modificacion;
+    $campos['horaModificacion'] = date('h:i:s');
+    $db->crudRegistro('INSERT INTO log (fechaModificacion, usuarioModificacion, tabla, idRegistro, tipoModificacion, horaModificacion) VALUES (:fechaModificacion, :usuarioModificacion, :tabla, :idRegistro, :tipoModificacion, :horaModificacion)', $campos);
+}

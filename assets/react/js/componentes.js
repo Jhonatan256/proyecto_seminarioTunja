@@ -1012,7 +1012,7 @@ class CrudAsignaturas extends React.Component {
       dangerouslySetInnerHTML: {
         __html: registro.acciones
       }
-    }), /*#__PURE__*/React.createElement("td", null, registro.nombreAsignatura), /*#__PURE__*/React.createElement("td", null, registro.intensidadHorariaSemanal), /*#__PURE__*/React.createElement("td", null, registro.descripcion), /*#__PURE__*/React.createElement("td", null, registro.cod_Grupo)));
+    }), /*#__PURE__*/React.createElement("td", null, registro.nombreAsignatura), /*#__PURE__*/React.createElement("td", null, registro.intensidadHorariaSemanal), /*#__PURE__*/React.createElement("td", null, registro.descripcion), /*#__PURE__*/React.createElement("td", null, registro.ciclo)));
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       class: "head"
     }, /*#__PURE__*/React.createElement("h3", null, "Asignaturas"), /*#__PURE__*/React.createElement("a", {
@@ -1038,7 +1038,7 @@ class CrudAsignaturas extends React.Component {
       scope: "col"
     }, "Descripci\xF3n"), /*#__PURE__*/React.createElement("th", {
       scope: "col"
-    }, "C\xF3digo asignatura"))), /*#__PURE__*/React.createElement("tbody", null, datos)))));
+    }, "Ciclo"))), /*#__PURE__*/React.createElement("tbody", null, datos)))));
   }
 }
 class ModalAsignatura extends React.Component {
@@ -1270,7 +1270,7 @@ class CrudHorarios extends React.Component {
       dangerouslySetInnerHTML: {
         __html: registro.acciones
       }
-    }), /*#__PURE__*/React.createElement("td", null, registro.idAsignatura), /*#__PURE__*/React.createElement("td", null, registro.codAsignaturaH), /*#__PURE__*/React.createElement("td", null, registro.idCiclo), /*#__PURE__*/React.createElement("td", null, registro.codCiclo), /*#__PURE__*/React.createElement("td", null, registro.dia), /*#__PURE__*/React.createElement("td", null, registro.horaInicio), /*#__PURE__*/React.createElement("td", null, registro.horaFin)));
+    }), /*#__PURE__*/React.createElement("td", null, registro.dia), /*#__PURE__*/React.createElement("td", null, registro.horaInicio), /*#__PURE__*/React.createElement("td", null, registro.horaFin)));
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       class: "head"
     }, /*#__PURE__*/React.createElement("h3", null, "Horarios"), /*#__PURE__*/React.createElement("a", {
@@ -1289,14 +1289,6 @@ class CrudHorarios extends React.Component {
     }, "#"), /*#__PURE__*/React.createElement("th", {
       scope: "col"
     }, "Acciones"), /*#__PURE__*/React.createElement("th", {
-      scope: "col"
-    }, "C\xF3digo asignatura"), /*#__PURE__*/React.createElement("th", {
-      scope: "col"
-    }, "Nombre asignatura"), /*#__PURE__*/React.createElement("th", {
-      scope: "col"
-    }, "C\xF3digo ciclo"), /*#__PURE__*/React.createElement("th", {
-      scope: "col"
-    }, "Nombre ciclo"), /*#__PURE__*/React.createElement("th", {
       scope: "col"
     }, "Dia"), /*#__PURE__*/React.createElement("th", {
       scope: "col"

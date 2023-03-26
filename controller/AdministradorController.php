@@ -94,8 +94,14 @@ class AdministradorController extends LoginController
             $db = new Conexion();
             unset($_POST['m']);
             unset($_POST['c']);
+            $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $db->crudRegistro("INSERT INTO usuario (tipoDocumento, numeroDocumento, primerNombre, segundoNombre, primerApellido, segundoApellido, telefono, direccion, email, password, estado, codRol) VALUES (:tipoDocumento, :numeroDocumento, :primerNombre, :segundoNombre, :primerApellido, :segundoApellido, :telefono, :direccion, :email, :password, 'activo', 3)", $_POST);
-            return respuesta('00', '');
+            try {
+                generarLogAuditoria($db, self::getUser('idUsuario'), 'estudiante', $db->lastInsertId(), 'registrar');
+                return respuesta('00', '');
+            } catch (Exception $e) {
+                return respuesta('99', 'Excepción capturada: ' . $e->getMessage() . "\n");
+            }
         } else {
             $msj = self::ERROR_USUARIO;
         }
@@ -346,7 +352,7 @@ class AdministradorController extends LoginController
     {
         if (self::getUser('tipoUsuario') == '1') {
             $db = new Conexion();
-            $horario = $db->consultarRegistros('SELECT h.*, c.*, a.* FROM horario h LEFT JOIN ciclo c ON h.codCiclo = c.idCiclo RIGHT JOIN asignatura a ON h.codAsignaturaH = a.idAsignatura');
+            $horario = $db->consultarRegistros('SELECT * FROM horario');
             if ($horario) {
                 $salida = [];
                 $salida['tipoUsuario'] = self::getUser('tipoUsuario');
@@ -356,10 +362,6 @@ class AdministradorController extends LoginController
                     $data['dia'] = $value->dia;
                     $data['horaInicio'] = $value->horaInicio;
                     $data['horaFin'] = $value->horaFin;
-                    $data['idCiclo'] = $value->idCiclo;
-                    $data['codCiclo'] = $value->nombreCiclo;
-                    $data['idAsignatura'] = $value->idAsignatura;
-                    $data['codAsignaturaH'] = $value->nombreAsignatura;
                     $data['acciones'] = '<div class="btn-group" role="group" aria-label="First group">';
                     $data['acciones'] .= '<a href="javascript:void(0);" onclick="buscarHorario(\'' . base64_encode($value->idHorario) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar horario" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
                     $data['acciones'] .= '<a href="javascript:void(0);" onclick="eliminarHorario(\'' . base64_encode($value->idHorario) . '\');" class="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="Eliminar horario" data-placement="top">' . '<i class="bx bx-trash" aria-hidden="true"></i> </a>';
@@ -382,7 +384,7 @@ class AdministradorController extends LoginController
             $db = new Conexion();
             unset($_POST['m']);
             unset($_POST['c']);
-            $db->crudRegistro("INSERT INTO horario (dia, horaInicio, horaFin, codCiclo, codAsignaturaH) VALUES (:dia, :horaInicio, horaFin, :codCiclo, :codAsignaturaH)", $_POST);
+            $db->crudRegistro("INSERT INTO horario (dia, horaInicio, horaFin) VALUES (:dia, :horaInicio, horaFin)", $_POST);
             return respuesta('00', '');
         } else {
             $msj = self::ERROR_USUARIO;
@@ -436,8 +438,8 @@ class AdministradorController extends LoginController
     {
         $db = new Conexion();
         $salida = $db->consultarRegistros('SELECT * FROM ciclo');
-        //$salida['asiganturas'] = self::selectGruposAsignatura(false);
-        if($tipoSalida){
+        // $salida['asiganturas'] = self::selectGruposAsignatura(false);
+        if ($tipoSalida) {
             return respuesta('00', '', $salida);
         } else {
             return $salida;
@@ -495,9 +497,8 @@ class AdministradorController extends LoginController
             $msj = self::ERROR_USUARIO;
         }
         return respuesta('99', $msj);
-
-        
     }
+
     public function registrarCiclo()
     {
         if (self::getUser('tipoUsuario') == '1') {
@@ -512,12 +513,16 @@ class AdministradorController extends LoginController
         }
         return respuesta('99', $msj);
     }
-    public function buscarCiclo(){
+
+    public function buscarCiclo()
+    {
         if (self::getUser('tipoUsuario') == '1') {
             $db = new Conexion();
-            $asignatura = $db->consultarRegistro('SELECT * FROM ciclo WHERE idCiclo =:id', ['id' =>base64_decode( $_POST['id'])]);
-            if ($asignatura) { 
-                $asignatura['select'] = self::selectGruposAsignatura(false);               
+            $asignatura = $db->consultarRegistro('SELECT * FROM ciclo WHERE idCiclo =:id', [
+                'id' => base64_decode($_POST['id'])
+            ]);
+            if ($asignatura) {
+                $asignatura['select'] = self::selectGruposAsignatura(false);
                 return respuesta('00', '', $asignatura);
             } else {
                 $msj = 'No existen registros.';
@@ -525,8 +530,9 @@ class AdministradorController extends LoginController
         } else {
             $msj = self::ERROR_USUARIO;
         }
-        return respuesta('99', $msj);  
+        return respuesta('99', $msj);
     }
+
     public function actualizarCiclo()
     {
         if (self::getUser('tipoUsuario') == '1') {
@@ -547,6 +553,7 @@ class AdministradorController extends LoginController
         }
         return respuesta('99', $msj);
     }
+
     public function eliminarCiclo()
     {
         if (self::getUser('tipoUsuario') == '1') {
@@ -555,7 +562,9 @@ class AdministradorController extends LoginController
                 'ide' => base64_decode($_POST['ide'])
             ]);
             if ($ciclo) {
-                $db->crudRegistro("DELETE FROM ciclo WHERE idCiclo = :ide", ['ide' =>base64_decode($_POST['ide'])]);
+                $db->crudRegistro("DELETE FROM ciclo WHERE idCiclo = :ide", [
+                    'ide' => base64_decode($_POST['ide'])
+                ]);
                 return respuesta('00', '');
             } else {
                 $msj = 'No existe el ciclo.';
@@ -564,6 +573,5 @@ class AdministradorController extends LoginController
             $msj = self::ERROR_USUARIO;
         }
         return respuesta('99', $msj);
-        
-    }    
+    }
 }
