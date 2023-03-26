@@ -459,7 +459,7 @@ class ModalEstudiante extends React.Component {
     super(props);
     this.state = {
       datos: props.data,
-      invocacion: props.invocacion,
+      invocacion: props.invocacion
     };
     this.registrar = this.registrar.bind(this);
     this.actualizar = this.actualizar.bind(this);
@@ -708,6 +708,18 @@ class ModalEstudiante extends React.Component {
                   ) : (
                     ""
                   )}
+                  {
+                    this.state.invocacion != 'registro' ? 
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="idUsuario"
+                      name="idUsuario"
+                      defaultValue={this.state.datos.idUsuario}
+                      placeholder=""
+                      required="required"
+                    />:''
+                  }
                 </div>
               </div>
               <div class="modal-footer container">

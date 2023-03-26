@@ -627,7 +627,15 @@ class ModalEstudiante extends React.Component {
       defaultValue: "",
       placeholder: "Contrase\xF1a",
       required: "required"
-    })) : "")), /*#__PURE__*/React.createElement("div", {
+    })) : "", this.state.invocacion != 'registro' ? /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "idUsuario",
+      name: "idUsuario",
+      defaultValue: this.state.datos.idUsuario,
+      placeholder: "",
+      required: "required"
+    }) : '')), /*#__PURE__*/React.createElement("div", {
       class: "modal-footer container"
     }, /*#__PURE__*/React.createElement("button", {
       type: "button",
