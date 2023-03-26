@@ -344,7 +344,6 @@ function vistaAsignaturas() {
           actualizarRuta("Lista asignaturas", "vistaAsignaturas");
           switch (result.cod) {
             case "00":
-              console.log(result);
               ReactDOM.unmountComponentAtNode(
                 document.getElementById("contenedor")
               );
@@ -599,7 +598,6 @@ function vistaHorarios() {
           actualizarRuta("Lista horarios", "vistaHorarios");
           switch (result.cod) {
             case "00":
-              console.log(result);
               ReactDOM.unmountComponentAtNode(
                 document.getElementById("contenedor")
               );

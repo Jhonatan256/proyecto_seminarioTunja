@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 26-03-2023 a las 20:17:49
+-- Tiempo de generación: 26-03-2023 a las 22:10:47
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -24,6 +24,22 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `anexo`
+--
+
+DROP TABLE IF EXISTS `anexo`;
+CREATE TABLE IF NOT EXISTS `anexo` (
+  `idAnexo` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(30) NOT NULL,
+  `path` varchar(50) NOT NULL,
+  `fechaCarga` varchar(10) NOT NULL,
+  `eliminado` varchar(2) NOT NULL,
+  PRIMARY KEY (`idAnexo`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `asignatura`
 --
 
@@ -37,18 +53,18 @@ CREATE TABLE IF NOT EXISTS `asignatura` (
   PRIMARY KEY (`idAsignatura`),
   KEY `idCiclo` (`idCiclo`),
   KEY `id_ciclo` (`idCiclo`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `asignatura`
 --
 
 INSERT INTO `asignatura` (`idAsignatura`, `nombreAsignatura`, `intensidadHorariaSemanal`, `descripcion`, `idCiclo`) VALUES
-(1, 'Kerigma Cristiano', 3, 'Introducción a la Biblia', 1),
-(2, 'Introducción a la Fe', 4, NULL, 1),
-(3, 'Gramática y Sintaxis', 2, NULL, 1),
-(4, 'Introducción a la filosofía', 4, NULL, 1),
-(5, 'Ingles I', 2, NULL, 1),
+(1, 'Kerigma Cristiano2', 33, 'Introducción a la Biblia2', 2),
+(2, 'Introducción a la Fe3', 43, '3', 2),
+(3, 'Gramática y Sintaxis2', 22, '22', 2),
+(4, 'Introducción a la filosofía', 4, '', 2),
+(5, 'Ingles I1', 21, '111', 2),
 (6, 'Taller de lecto escritura I', 6, NULL, 1),
 (7, 'Mundo Bíblico', 4, 'Historia y geografía', 1),
 (8, 'Epistemología', 3, NULL, 1),
@@ -81,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `ciclo` (
   `idGrupo` int(11) NOT NULL,
   PRIMARY KEY (`idCiclo`),
   KEY `idGrupo` (`idGrupo`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `ciclo`
@@ -187,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `idRegistro` int(11) NOT NULL,
   `tipoModificacion` varchar(10) NOT NULL,
   PRIMARY KEY (`idLog`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `log`
@@ -216,7 +232,37 @@ INSERT INTO `log` (`idLog`, `fechaModificacion`, `horaModificacion`, `usuarioMod
 (21, '26-03-2023', '03:00:52', '3', 'Asignatura', 0, 'Eliminar'),
 (22, '26-03-2023', '03:11:07', '3', 'Ciclo', 3, 'Registrar'),
 (23, '26-03-2023', '03:11:17', '3', 'Ciclo', 0, 'Actualizar'),
-(24, '26-03-2023', '03:11:22', '3', 'Ciclo', 0, 'Eliminar');
+(24, '26-03-2023', '03:11:22', '3', 'Ciclo', 0, 'Eliminar'),
+(25, '26-03-2023', '03:20:23', '3', 'estudiante', 0, 'Actualizar'),
+(26, '26-03-2023', '03:23:09', '3', 'estudiante', 5, 'Actualizar'),
+(27, '26-03-2023', '03:24:00', '3', 'estudiante', 5, 'Actualizar'),
+(28, '26-03-2023', '03:28:36', '3', 'estudiante', 39, 'registrar'),
+(29, '26-03-2023', '03:33:51', '3', 'estudiante', 40, 'Registrar'),
+(30, '26-03-2023', '03:34:46', '3', 'estudiante', 5, 'Actualizar'),
+(31, '26-03-2023', '03:34:50', '3', 'estudiante', 5, 'Actualizar'),
+(32, '26-03-2023', '03:34:52', '3', 'estudiante', 5, 'Actualizar'),
+(33, '26-03-2023', '03:35:25', '3', 'estudiante', 39, 'Eliminar'),
+(34, '26-03-2023', '03:40:03', '3', 'estudiante', 38, 'Eliminar'),
+(35, '26-03-2023', '03:40:28', '3', 'estudiante', 37, 'Eliminar'),
+(36, '26-03-2023', '03:41:29', '3', 'estudiante', 41, 'Registrar'),
+(37, '26-03-2023', '03:49:04', '3', 'docente', 42, 'Registrar'),
+(38, '26-03-2023', '03:49:44', '3', 'docente', 43, 'Registrar'),
+(39, '26-03-2023', '03:51:40', '3', 'docente', 44, 'Registrar'),
+(40, '26-03-2023', '03:56:52', '3', 'docente', 43, 'Eliminar'),
+(41, '26-03-2023', '03:58:17', '3', 'estudiante', 5, 'Actualizar'),
+(42, '26-03-2023', '03:58:24', '3', 'estudiante', 5, 'Actualizar'),
+(43, '26-03-2023', '03:58:36', '3', 'estudiante', 5, 'Actualizar'),
+(44, '26-03-2023', '04:11:57', '3', 'Ciclo', 4, 'Registrar'),
+(45, '26-03-2023', '04:12:16', '3', 'Ciclo', 0, 'Actualizar'),
+(46, '26-03-2023', '04:12:28', '3', 'Ciclo', 0, 'Eliminar'),
+(47, '26-03-2023', '04:17:39', '3', 'Asignatura', 1, 'Actualizar'),
+(48, '26-03-2023', '04:18:12', '3', 'Asignatura', 2, 'Actualizar'),
+(49, '26-03-2023', '04:18:59', '3', 'Asignatura', 3, 'Actualizar'),
+(50, '26-03-2023', '04:19:40', '3', 'Asignatura', 4, 'Actualizar'),
+(51, '26-03-2023', '04:20:22', '3', 'Asignatura', 5, 'Actualizar'),
+(52, '26-03-2023', '04:28:07', '3', 'Asignatura', 22, 'Registrar'),
+(53, '26-03-2023', '04:28:20', '3', 'Asignatura', 22, 'Actualizar'),
+(54, '26-03-2023', '04:28:29', '3', 'Asignatura', 0, 'Eliminar');
 
 -- --------------------------------------------------------
 
@@ -277,7 +323,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `codRol` int(11) NOT NULL,
   PRIMARY KEY (`idUsuario`),
   KEY `codRol` (`codRol`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
@@ -286,7 +332,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 INSERT INTO `usuario` (`idUsuario`, `tipoDocumento`, `numeroDocumento`, `primerNombre`, `segundoNombre`, `primerApellido`, `segundoApellido`, `telefono`, `direccion`, `email`, `password`, `estado`, `codRol`) VALUES
 (3, 'CC', 100333, 'Alejandro', '', 'Sanchez', 'Martinez', '752411', 'calle 6 # 32', 'alejandro@gmail.com', '$2y$10$qf4htZpU9iJnnBsbvs2R.eTu0usniH4/2HgZlijpG9jmLli8FiDK6', 'activo', 1),
 (4, 'TI', 192727222, 'Juan', 'Sebastian', 'Suarez', 'Flores', '744333', 'calle 23 -3 3', 'sebastian@gmail.com', 'sebas2023', 'activo', 2),
-(5, 'TI', 110643267, 'Carlos2', 'Felipe2', 'Gomez2', 'Nuñez', '3104846322', 'diagonal 34 # 2-15', 'felipe@gmail.com', 'felipe2200', 'activo', 3),
+(5, 'CC', 11064326711, 'Carlos', 'Felipe', 'Gomez', 'Nuñez', '3104846322', 'diagonal 34 # 2-15', 'felipe@gmail.com', 'felipe2200', 'activo', 3),
 (7, 'CC', 1049654252, 'Jhonatan', 'Andres', 'Roncancio', 'Pinzon', '345345', '345345', 'jhoit@fsdf', '123', 'activo', 3),
 (8, 'CC', 120093923, 'Orlando', '', 'Salcedo', 'Chavez', '3192622311', 'calle 34 # 2-65', 'orlandoChavez@gmail.com', '123456', 'activo', 3),
 (9, 'TI', 38833, 'Augusto', 'Fernando', 'Tamara', 'Gutierrez', '752411', 'diagonal 32 # 4 mzna 5 barrio la esperanza', 'augustoM@gmail.com', 'augusto2304', 'activo', 2),
@@ -296,8 +342,10 @@ INSERT INTO `usuario` (`idUsuario`, `tipoDocumento`, `numeroDocumento`, `primerN
 (33, 'CC', 9854155, 'Juan', 'Francisco', 'Castro', 'Chavez', '7541122', 'calle 34c # 2 -35', 'francisco@hotmail.com', '$2y$10$Yo6MMXyTFt/E9zoBMxHDQePZ9gGV4vH1uWTgiDzASAJQzUnEhmX9m', 'activo', 3),
 (35, 'TI', 456741, 'Juan', 'Andres', 'Diaz', 'Hernandez', '74414142', 'calle 34', 'juanes@gmail.com', '$2y$10$sCaTSruAqGQuaXm7vF0UHOjI5QfTZWJIxljnuIchKaPYEjSJm1k8.', 'activo', 3),
 (36, 'TI', 456741, 'felipe', '', 'Gomez', 'ALvarez', '3102418654', 'calle 34', 'juanes@gmail.com', '$2y$10$I35ZPWkfBb8IuOcDVcm.AO8x7dcAe/KW7dY1XO1aYa3mashFP9ece', 'activo', 3),
-(37, 'CC', 541564, 'Camilo', '', 'Camilo', 'Camilo', '7451212', 'calle 32 sur', 'Camilo@gmail.com', '$2y$10$K1HbOIXKZBvTKIVQxlW1oeDDxNjkFzkJkbWI6gamWKlrcTdG7vMrW', 'activo', 3),
-(38, 'CC', 1654, 'Camilo', 'Camilo', 'Camilo', 'Camilo', 'Camilo', 'Camilo', 'Camilo@gmail.com', '$2y$10$eWkfgLpQp7ukFmkeX0UqvuimJsfP.H8FvXUAxnb4ZcXHQJ7cxowbO', 'activo', 3);
+(40, 'CC', 1049656144, 'ERIKA', ' FONSECA', 'GORDILLO', '', '1111111', 'calle algo con algo', 'erika@gmail.com', '$2y$10$jYFo0Q2Q8nXf8xlwZ9sfyudlvesRPvAG9anC.wR5IFs7bnpEaOhJW', 'activo', 3),
+(41, 'CC', 1049656144, 'JHONATAN', 'ANDRES', 'ASDASD', '', '1111', 'calle algo', 'jh.23@asd.cas', '$2y$10$QbN9aIf6pT9HXvbG5CIsquF4DXjCI7z28S6jUgonq9tOtrah2WZX.', 'activo', 3),
+(42, 'CC', 1049654252, 'jhonatan', '', 'andres', '', '11111', 'calle agl con algo', 'jhot.256@gmailcom', '2023', 'activo', 2),
+(44, 'CC', 1049654252, 'monica', '', 'fonseca', '', '11111', 'calle agl con algo', 'jhot.25@6gsdf', '2023', 'activo', 2);
 
 --
 -- Restricciones para tablas volcadas

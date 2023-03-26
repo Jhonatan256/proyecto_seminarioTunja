@@ -332,15 +332,8 @@ class AdministradorController extends LoginController
             unset($_POST['m']);
             unset($_POST['c']);
             $db->crudRegistro("INSERT INTO asignatura (nombreAsignatura, descripcion, intensidadHorariaSemanal, idCiclo) VALUES (:nombreAsignatura, :descripcion, :intensidadHorariaSemanal , :idCiclo)", $_POST);
-            // Excepcion de Auditoria
-            try {
-                generarLogAuditoria($db, self::getUser('idUsuario'), 'Asignatura', $db->lastInsertId(), 'Registrar');
-                return respuesta('00', '');
-            } catch (Exception $e) {
-                return respuesta('99', 'Excepción capturada: ' . $e->getMessage() . "\n");
-            }
-
-            // return respuesta('00', '');
+            generarLogAuditoria($db, self::getUser('idUsuario'), 'Asignatura', $db->lastInsertId(), 'Registrar');
+            return respuesta('00', '');
         } else {
             $msj = self::ERROR_USUARIO;
         }

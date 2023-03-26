@@ -310,7 +310,6 @@ function vistaAsignaturas() {
         actualizarRuta("Lista asignaturas", "vistaAsignaturas");
         switch (result.cod) {
           case "00":
-            console.log(result);
             ReactDOM.unmountComponentAtNode(document.getElementById("contenedor"));
             ReactDOM.render( /*#__PURE__*/React.createElement(CrudAsignaturas, {
               data: result.data
@@ -536,7 +535,6 @@ function vistaHorarios() {
         actualizarRuta("Lista horarios", "vistaHorarios");
         switch (result.cod) {
           case "00":
-            console.log(result);
             ReactDOM.unmountComponentAtNode(document.getElementById("contenedor"));
             ReactDOM.render( /*#__PURE__*/React.createElement(CrudHorarios, {
               data: result.data
