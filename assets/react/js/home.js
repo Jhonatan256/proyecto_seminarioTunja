@@ -87,6 +87,7 @@ function home() {
   });
 }
 function vistaEstudiantes() {
+  // $('a.active').removeClass('active')
   Pace.track(function () {
     $.ajax({
       url: "../Route.php",
@@ -223,7 +224,52 @@ function eliminarEstudiante(identificacion) {
           data: {
             c: "AdministradorController",
             m: "eliminarEstudiante",
-            ide: identificacion
+            ide: identificacion,
+            modulo: "estudiante"
+          }
+        }).done(function (result) {
+          if (validarResult(result)) {
+            switch (result.cod) {
+              case "00":
+                swal("Registro Eliminado.", "", "success").then(value => {
+                  vistaEstudiantes();
+                });
+                break;
+              case "88":
+                modalLogout();
+                break;
+              case "99":
+                alerta("¡Error!", result.msj);
+                break;
+              default:
+                alerta("¡Error!", "Error de codificación");
+            }
+          }
+        }).fail(function () {
+          console.log("error");
+        });
+      });
+    }
+  });
+}
+function eliminarDocente(identificacion) {
+  swal({
+    title: "¡Cuidado!",
+    text: "¿Seguró que desear eliminar el registro?",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true
+  }).then(willDelete => {
+    if (willDelete) {
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: {
+            c: "AdministradorController",
+            m: "eliminarEstudiante",
+            ide: identificacion,
+            modulo: "docente"
           }
         }).done(function (result) {
           if (validarResult(result)) {

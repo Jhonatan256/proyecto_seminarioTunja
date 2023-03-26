@@ -77,14 +77,8 @@ class AdministradorController extends LoginController
             unset($_POST['c']);
             if ($estudiante) {
                 $db->crudRegistro("UPDATE usuario SET tipoDocumento = :tipoDocumento, numeroDocumento = :numeroDocumento, primerNombre = :primerNombre, segundoNombre = :segundoNombre, primerApellido = :primerApellido, segundoApellido = :segundoApellido, telefono = :telefono, direccion = :direccion, email = :email WHERE idUsuario = :idUsuario", $_POST);
-
-                // Excepcion Auditoria
-                try {
-                    generarLogAuditoria($db, self::getUser('idUsuario'), 'estudiante', $db->lastInsertId(), 'Actualizar');
-                    return respuesta('00', '');
-                } catch (Exception $e) {
-                    return respuesta('99', 'Excepción capturada: ' . $e->getMessage() . "\n");
-                }
+                generarLogAuditoria($db, self::getUser('idUsuario'), 'estudiante', $_POST['idUsuario'], 'Actualizar');
+                return respuesta('00', '');
             } else {
                 $msj = 'No existe el estudiante.';
             }
@@ -99,17 +93,24 @@ class AdministradorController extends LoginController
     {
         if (self::getUser('tipoUsuario') == '1') {
             $db = new Conexion();
+            $usuario = $db->consultarRegistro('SELECT idUsuario FROM usuario WHERE numeroDocumento = :numeroDocumento', [
+                'numeroDocumento' => $_POST['numeroDocumento']
+            ]);
+            if ($usuario) {
+                return respuesta('99', 'El usuario ya existe.');
+            }
             unset($_POST['m']);
             unset($_POST['c']);
+
             $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $_POST['primerNombre'] = strtoupper($_POST['primerNombre']);
+            $_POST['segundoNombre'] = strtoupper($_POST['segundoNombre']);
+            $_POST['primerApellido'] = strtoupper($_POST['primerApellido']);
+            $_POST['segundoApellido'] = strtoupper($_POST['segundoApellido']);
+
             $db->crudRegistro("INSERT INTO usuario (tipoDocumento, numeroDocumento, primerNombre, segundoNombre, primerApellido, segundoApellido, telefono, direccion, email, password, estado, codRol) VALUES (:tipoDocumento, :numeroDocumento, :primerNombre, :segundoNombre, :primerApellido, :segundoApellido, :telefono, :direccion, :email, :password, 'activo', 3)", $_POST);
-            // Excepcion de auditoria
-            try {
-                generarLogAuditoria($db, self::getUser('idUsuario'), 'estudiante', $db->lastInsertId(), 'registrar');
-                return respuesta('00', '');
-            } catch (Exception $e) {
-                return respuesta('99', 'Excepción capturada: ' . $e->getMessage() . "\n");
-            }
+            generarLogAuditoria($db, self::getUser('idUsuario'), 'estudiante', $db->lastInsertId(), 'Registrar');
+            return respuesta('00', '');
         } else {
             $msj = self::ERROR_USUARIO;
         }
@@ -121,22 +122,16 @@ class AdministradorController extends LoginController
     {
         if (self::getUser('tipoUsuario') == '1') {
             $db = new Conexion();
-            $estudiante = $db->consultarRegistro('SELECT * FROM usuario WHERE numeroDocumento = :ide', [
-                'ide' => base64_decode($_POST['ide'])
+            $_POST['ide'] = base64_decode($_POST['ide']);
+            $estudiante = $db->consultarRegistro('SELECT * FROM usuario WHERE idUsuario = :ide', [
+                'ide' => $_POST['ide']
             ]);
             if ($estudiante) {
-                $db->crudRegistro("DELETE FROM usuario WHERE numeroDocumento = :ide", [
-                    'ide' => base64_decode($_POST['ide'])
+                $db->crudRegistro("DELETE FROM usuario WHERE idUsuario = :ide", [
+                    'ide' => $_POST['ide']
                 ]);
-                // Excepcion Auditoria
-                try {
-                    generarLogAuditoria($db, self::getUser('idUsuario'), 'estudiante', $db->lastInsertId(), 'Eliminar');
-                    return respuesta('00', '');
-                } catch (Exception $e) {
-                    return respuesta('99', 'Excepción capturada: ' . $e->getMessage() . "\n");
-                }
-
-                // return respuesta('00', '');
+                generarLogAuditoria($db, self::getUser('idUsuario'), $_POST['modulo'], $_POST['ide'], 'Eliminar');
+                return respuesta('00', '');
             } else {
                 $msj = 'No existe el estudiante.';
             }
@@ -167,8 +162,8 @@ class AdministradorController extends LoginController
                     $data['primerApellido'] = $value->primerApellido;
                     $data['segundoApellido'] = $value->segundoApellido;
                     $data['acciones'] = '<div class="btn-group" role="group" aria-label="First group">';
-                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="editarUsuario(\'' . base64_encode($value->numeroDocumento) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar docente" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
-                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="eliminarEstudiante(\'' . base64_encode($value->numeroDocumento) . '\');" class="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="Eliminar docente" data-placement="top">' . '<i class="bx bx-trash" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="editarUsuario(\'' . base64_encode($value->idUsuario) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar docente" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="eliminarDocente(\'' . base64_encode($value->idUsuario) . '\');" class="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="Eliminar docente" data-placement="top">' . '<i class="bx bx-trash" aria-hidden="true"></i> </a>';
                     $data['acciones'] .= '</div>';
                     $data['identificacion'] = $value->numeroDocumento;
                     $data['tipoDocumento'] = $value->tipoDocumento;
@@ -243,18 +238,25 @@ class AdministradorController extends LoginController
     {
         if (self::getUser('tipoUsuario') == '1') {
             $db = new Conexion();
+            $usuario = $db->consultarRegistro('SELECT idUsuario FROM usuario WHERE numeroDocumento = :numeroDocumento', [
+                'numeroDocumento' => $_POST['numeroDocumento']
+            ]);
+            if ($usuario) {
+                return respuesta('99', 'El usuario ya existe.');
+            }
+            //
             unset($_POST['m']);
             unset($_POST['c']);
+            //
+            $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $_POST['primerNombre'] = strtoupper($_POST['primerNombre']);
+            $_POST['segundoNombre'] = strtoupper($_POST['segundoNombre']);
+            $_POST['primerApellido'] = strtoupper($_POST['primerApellido']);
+            $_POST['segundoApellido'] = strtoupper($_POST['segundoApellido']);
+            //
             $db->crudRegistro("INSERT INTO usuario (tipoDocumento, numeroDocumento, primerNombre, segundoNombre, primerApellido, segundoApellido, telefono, direccion, email, password, estado, codRol) VALUES (:tipoDocumento, :numeroDocumento, :primerNombre, :segundoNombre, :primerApellido, :segundoApellido, :telefono, :direccion, :email, :password, 'activo', 2)", $_POST);
-            // Excepcion de Auditoria
-            try {
-                generarLogAuditoria($db, self::getUser('idUsuario'), 'docente', $db->lastInsertId(), 'Registrar');
-                return respuesta('00', '');
-            } catch (Exception $e) {
-                return respuesta('99', 'Excepción capturada: ' . $e->getMessage() . "\n");
-            }
-
-            // return respuesta('00', '');
+            generarLogAuditoria($db, self::getUser('idUsuario'), 'docente', $db->lastInsertId(), 'Registrar');
+            return respuesta('00', '');
         } else {
             $msj = self::ERROR_USUARIO;
         }
@@ -312,7 +314,7 @@ class AdministradorController extends LoginController
                 'id' => base64_decode($_POST['id'])
             ]);
             if ($asignatura) {
-                $asignatura['select'] = self::selectGruposAsignatura(false);
+                $asignatura['select'] = self::selectGruposHorarios(false);
                 return respuesta('00', '', $asignatura);
             } else {
                 $msj = 'No existen registros.';
