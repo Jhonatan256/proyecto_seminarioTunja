@@ -518,11 +518,10 @@ class AdministradorController extends LoginController
         return respuesta('99', $msj);
     }
 
-    public function selectGruposHorarios($tipoSalida = true)
+    public function selectCicloHorarios($tipoSalida = true)
     {
         $db = new Conexion();
         $salida = $db->consultarRegistros('SELECT * FROM ciclo');
-        // $salida['asiganturas'] = self::selectGruposAsignatura(false);
         if ($tipoSalida) {
             return respuesta('00', '', $salida);
         } else {
