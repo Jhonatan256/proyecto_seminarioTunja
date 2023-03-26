@@ -552,7 +552,7 @@ class AdministradorController extends LoginController
     {
         if (self::getUser('tipoUsuario') == '1') {
             $db = new Conexion();
-            $ciclo = $db->consultarRegistros('SELECT * FROM ciclo');
+            $ciclo = $db->consultarRegistros('SELECT c.*, g.nombreGrupo FROM ciclo c LEFT JOIN grupo g ON c.idGrupo = g.idGrupo; ');
             if ($ciclo) {
                 $salida = [];
                 $salida['tipoUsuario'] = self::getUser('tipoUsuario');
@@ -568,8 +568,7 @@ class AdministradorController extends LoginController
                     $data['acciones'] .= '</div>';
                     $data['fechaInicio'] = $value->fechaInicio;
                     $data['fechaFinalizacion'] = $value->fechaFinalizacion;
-                    $data['idLog'] = $value->idLog;
-                    $data['idGrupo'] = $value->idGrupo;
+                    $data['nombreGrupo'] = $value->nombreGrupo;
                     $salida['registros'][] = $data;
                 }
                 return respuesta('00', '', $salida);
@@ -679,4 +678,5 @@ class AdministradorController extends LoginController
         }
         return respuesta('99', $msj);
     }
+    
 }

@@ -1600,7 +1600,7 @@ class CrudCiclo extends React.Component {
       dangerouslySetInnerHTML: {
         __html: registro.acciones
       }
-    }), /*#__PURE__*/React.createElement("td", null, registro.idCiclo), /*#__PURE__*/React.createElement("td", null, registro.nombreCiclo), /*#__PURE__*/React.createElement("td", null, registro.semestre), /*#__PURE__*/React.createElement("td", null, registro.descripcion), /*#__PURE__*/React.createElement("td", null, registro.fechaInicio), /*#__PURE__*/React.createElement("td", null, registro.fechaFinalizacion), /*#__PURE__*/React.createElement("td", null, registro.idLog), /*#__PURE__*/React.createElement("td", null, registro.idGrupo)));
+    }), /*#__PURE__*/React.createElement("td", null, registro.idCiclo), /*#__PURE__*/React.createElement("td", null, registro.nombreCiclo), /*#__PURE__*/React.createElement("td", null, registro.semestre), /*#__PURE__*/React.createElement("td", null, registro.descripcion), /*#__PURE__*/React.createElement("td", null, registro.fechaInicio), /*#__PURE__*/React.createElement("td", null, registro.fechaFinalizacion), /*#__PURE__*/React.createElement("td", null, registro.nombreGrupo)));
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       class: "head"
     }, /*#__PURE__*/React.createElement("h3", null, "Ciclo"), /*#__PURE__*/React.createElement("a", {
@@ -1632,9 +1632,7 @@ class CrudCiclo extends React.Component {
       scope: "col"
     }, "Fecha Finalizaci\xF3n"), /*#__PURE__*/React.createElement("th", {
       scope: "col"
-    }, "Id Log"), /*#__PURE__*/React.createElement("th", {
-      scope: "col"
-    }, "Id Grupo"))), /*#__PURE__*/React.createElement("tbody", null, datos)))));
+    }, "Nombre Grupo"))), /*#__PURE__*/React.createElement("tbody", null, datos)))));
   }
 }
 class ModalCiclo extends React.Component {
@@ -1822,7 +1820,6 @@ class ModalCiclo extends React.Component {
       className: "form-control form-control form-control-sm",
       name: "fechaInicio",
       defaultValue: this.state.datos.fechaInicio,
-      value: "2017-04-01",
       required: "required"
     })), /*#__PURE__*/React.createElement("div", {
       className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
@@ -1833,7 +1830,6 @@ class ModalCiclo extends React.Component {
       className: "form-control form-control form-control-sm",
       name: "fechaFin",
       defaultValue: this.state.datos.fechaFinalizacion,
-      value: "2017-04-01",
       required: "required"
     })), this.state.invocacion != "registro" ? /*#__PURE__*/React.createElement("input", {
       type: "text",

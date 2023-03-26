@@ -707,6 +707,7 @@ function vistaCiclo() {
       });
   });
 }
+
 function nuevoCiclo() {
   Pace.track(function () {
     $.ajax({
