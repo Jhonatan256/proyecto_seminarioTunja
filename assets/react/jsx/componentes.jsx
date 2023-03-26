@@ -1861,8 +1861,7 @@ class CrudCiclo extends React.Component {
         <td>{registro.descripcion}</td>
         <td>{registro.fechaInicio}</td>
         <td>{registro.fechaFinalizacion}</td>
-        <td>{registro.idLog}</td>
-        <td>{registro.idGrupo}</td>
+        <td>{registro.nombreGrupo}</td>
       </tr>
     ));
     return (
@@ -1891,8 +1890,7 @@ class CrudCiclo extends React.Component {
                   <th scope="col">Descripción</th>
                   <th scope="col">Fecha Inicio</th>
                   <th scope="col">Fecha Finalización</th>
-                  <th scope="col">Id Log</th>
-                  <th scope="col">Id Grupo</th>
+                  <th scope="col">Nombre Grupo</th>
                 </tr>
               </thead>
               <tbody>{datos}</tbody>
@@ -2101,8 +2099,7 @@ class ModalCiclo extends React.Component {
                       className="form-control form-control form-control-sm"
                       name="fechaInicio" 
                       defaultValue={this.state.datos.fechaInicio}
-                      value="2017-04-01"
-                      required="required"
+                      required = "required"
                     />
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
@@ -2112,8 +2109,7 @@ class ModalCiclo extends React.Component {
                       className="form-control form-control form-control-sm"
                       name="fechaFin" 
                       defaultValue={this.state.datos.fechaFinalizacion}
-                      value="2017-04-01"
-                      required="required"
+                      required = "required"
                     />
                   </div>
                   {this.state.invocacion != "registro" ? (
