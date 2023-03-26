@@ -426,8 +426,8 @@ class AdministradorController extends LoginController
     }
     public function selectGruposHorarios($tipoSalida = true){
         $db = new Conexion();
-        $salida['ciclo'] = $db->consultarRegistros('SELECT * FROM ciclo');
-        $salida['asiganturas'] = self::selectGruposAsignatura(false);
+        $salida = $db->consultarRegistros('SELECT * FROM ciclo');
+        //$salida['asiganturas'] = self::selectGruposAsignatura(false);
         if($tipoSalida){
             return respuesta('00', '', $salida);
         }else{
@@ -449,4 +449,108 @@ class AdministradorController extends LoginController
         }
         return respuesta('99', $msj);  
     }
+
+    public function listarCiclo()
+    {
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            $ciclo = $db->consultarRegistros('SELECT * FROM ciclo');
+            if ($ciclo) {
+                $salida = [];
+                $salida['tipoUsuario'] = self::getUser('tipoUsuario');
+                foreach ($ciclo as $value) {
+                    $data = [];
+                    $data['idCiclo'] = $value->idCiclo;
+                    $data['nombreCiclo'] = $value->nombreCiclo;
+                    $data['semestre'] = $value->semestre;
+                    $data['descripcion'] = $value->descripcion;
+                    $data['acciones'] = '<div class="btn-group" role="group" aria-label="First group">';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="buscarCiclo(\'' . base64_encode($value->idCiclo) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar ciclo" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="eliminarCiclo(\'' . base64_encode($value->idCiclo) . '\');" class="btn btn-sm btn-outline-danger" data-toggle="tooltip" title="Eliminar ciclo" data-placement="top">' . '<i class="bx bx-trash" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '</div>';
+                    $data['fechaInicio'] = $value->fechaInicio;
+                    $data['fechaFinalizacion'] = $value->fechaFinalizacion;
+                    $data['idLog'] = $value->idLog;
+                    $data['idGrupo'] = $value->idGrupo;
+                    $salida['registros'][] = $data;
+                }
+                return respuesta('00', '', $salida);
+            } else {
+                $msj = 'No existen registros.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+
+        
+    }
+    public function registrarCiclo()
+    {
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            unset($_POST['m']);
+            unset($_POST['c']);
+            // imprimirSalida($_POST);
+            $db->crudRegistro("INSERT INTO ciclo (nombreCiclo, idGrupo, semestre, descripcion, fechaInicio, fechaFinalizacion) VALUES (:nombreCiclo, :idGrupo, :semestre, :descripcion, :fechaInicio, :fechaFin)", $_POST);
+            return respuesta('00', '');
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+    }
+    public function buscarCiclo(){
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            $asignatura = $db->consultarRegistro('SELECT * FROM ciclo WHERE idCiclo =:id', ['id' =>base64_decode( $_POST['id'])]);
+            if ($asignatura) { 
+                $asignatura['select'] = self::selectGruposAsignatura(false);               
+                return respuesta('00', '', $asignatura);
+            } else {
+                $msj = 'No existen registros.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);  
+    }
+    public function actualizarCiclo()
+    {
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            $ciclo = $db->consultarRegistro('SELECT * FROM ciclo WHERE idCiclo = :ide', [
+                'ide' => $_POST['idCiclo']
+            ]);
+            unset($_POST['m']);
+            unset($_POST['c']);
+            if ($ciclo) {
+                $db->crudRegistro("UPDATE ciclo SET nombreCiclo = :nombreCiclo, idGrupo = :idGrupo, semestre = :semestre, descripcion = :descripcion, fechaInicio = :fechaInicio, fechaFinalizacion = :fechaFin WHERE idCiclo = :idCiclo", $_POST);
+                return respuesta('00', '');
+            } else {
+                $msj = 'No existe el ciclo.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+    }
+    public function eliminarCiclo()
+    {
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            $ciclo = $db->consultarRegistro('SELECT * FROM ciclo WHERE idCiclo = :ide', [
+                'ide' => base64_decode($_POST['ide'])
+            ]);
+            if ($ciclo) {
+                $db->crudRegistro("DELETE FROM ciclo WHERE idCiclo = :ide", ['ide' =>base64_decode($_POST['ide'])]);
+                return respuesta('00', '');
+            } else {
+                $msj = 'No existe el ciclo.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+        
+    }    
 }

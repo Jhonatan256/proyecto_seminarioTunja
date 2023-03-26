@@ -112,6 +112,14 @@ function menuCalificaciones()
         'z' => 'vistaCalificaciones'
     ];
 }
+function menuCiclo()
+{
+    return [
+        'nombre' => 'Ciclo ',
+        'icono' => 'bx bxs-widget icon',
+        'z' => 'vistaCiclo'
+    ];
+}
 // function menuLibro(){
 //     return ['nombre' =>'Calificaciones', 'icono' => 'bx bxs-widget icon', 'z' => 'vistaCalificaciones'];
 // }

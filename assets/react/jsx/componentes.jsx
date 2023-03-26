@@ -1778,3 +1778,384 @@ class ModalHorarios extends React.Component {
     );
   }
 }
+
+// CICLO
+class CrudCiclo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.data,
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+
+  componentDidMount() {
+    $("#tablaCiclo").DataTable({
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+      },
+      responsive: true,
+      dom: "Bfrtip",
+      pageLength: 20,
+      buttons: ["copy", "csv", "excel", "pdf", "print"],
+      column: [
+        {
+          width: "10000px",
+          targets: 0,
+        },
+        {
+          width: "40px",
+          targets: 1,
+        },
+        {
+          width: "100px",
+          targets: 2,
+        },
+        {
+          width: "70px",
+          targets: 3,
+        },
+        {
+          width: "70px",
+          targets: 4,
+        },
+        {
+          width: "70px",
+          targets: 4,
+        },
+        {
+          width: "70px",
+          targets: 4,
+        },
+        {
+          width: "70px",
+          targets: 5,
+        },
+      ],
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  }
+  componentWillUnmount() {}
+  render() {
+    console.log(this.state.data);
+    var datos = this.state.data.registros.map((registro, i) => (
+      <tr>
+        <th scope="row">{i + 1}</th>
+        <td
+          dangerouslySetInnerHTML={{
+            __html: registro.acciones,
+          }}
+        ></td>
+        <td>{registro.idCiclo}</td>
+        <td>{registro.nombreCiclo}</td>
+        <td>{registro.semestre}</td>
+        <td>{registro.descripcion}</td>
+        <td>{registro.fechaInicio}</td>
+        <td>{registro.fechaFinalizacion}</td>
+        <td>{registro.idLog}</td>
+        <td>{registro.idGrupo}</td>
+      </tr>
+    ));
+    return (
+      <div>
+        <div class="head">
+          <h3>Ciclo</h3>
+
+          <a
+            href="javascript:void(0)"
+            onClick={(data) => nuevoCiclo()}
+            class="btn btn-primary d-sm-block d-lg-block"
+          >
+            Añadir Ciclo
+          </a>
+        </div>
+        <div class="table-responsive table-responsive-sm">
+          <div class="table table-sm table-striped">
+            <table id="tablaCiclo" className="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Acciones</th>
+                  <th scope="col">ID</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Semestre</th>
+                  <th scope="col">Descripción</th>
+                  <th scope="col">Fecha Inicio</th>
+                  <th scope="col">Fecha Finalización</th>
+                  <th scope="col">Id Log</th>
+                  <th scope="col">Id Grupo</th>
+                </tr>
+              </thead>
+              <tbody>{datos}</tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+class ModalCiclo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      datos: props.data,
+      invocacion: props.invocacion,
+      select: props.select,
+    };
+    this.registrar = this.registrar.bind(this);
+    this.actualizar = this.actualizar.bind(this);
+  }
+  registrar(event) {
+    console.log(this.registrar)
+    event.preventDefault();
+    if ($("#formCiclo").valid()) {
+      let formData =
+        $("#formCiclo").serialize() +
+        "&c=AdministradorController&m=registrarCiclo";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          },
+        })
+          .done(function (result) {
+            if (validarResult(result)) {
+              switch (result.cod) {
+                case "00":
+                  $("#modalAuxiliar").hide();
+                  swal("Ciclo registrado.", "", "success").then(
+                    (value) => {
+                      vistaCiclo();
+                    }
+                  );
+                  break;
+                case "88":
+                  modalLogout();
+                  break;
+                case "99":
+                  alerta("¡Error!", result.msj);
+                  $("#modalAuxiliar").modal("show");
+                  break;
+                default:
+                  alerta("¡Error!", "Error de codificación");
+                  $("#modalAuxiliar").modal("show");
+              }
+            }
+          })
+          .fail(function () {
+            console.log("error");
+          });
+      });
+    }
+  }
+  actualizar(event) {
+    event.preventDefault();
+    if ($("#formCiclo").valid()) {
+      let formData =
+        $("#formCiclo").serialize() +
+        "&c=AdministradorController&m=actualizarCiclo";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          },
+        })
+          .done(function (result) {
+            if (validarResult(result)) {
+              switch (result.cod) {
+                case "00":
+                  $("#modalAuxiliar").hide();
+                  swal("Asignatura actualizada.", "", "success").then(
+                    (value) => {
+                      vistaCiclo();
+                    }
+                  );
+                  break;
+                case "88":
+                  modalLogout();
+                  break;
+                case "99":
+                  alerta("¡Error!", result.msj);
+                  $("#modalAuxiliar").modal("show");
+                  break;
+                default:
+                  alerta("¡Error!", "Error de codificación");
+                  $("#modalAuxiliar").modal("show");
+              }
+            }
+          })
+          .fail(function () {
+            console.log("error");
+          });
+      });
+    }
+  }
+
+  componentDidMount() {}
+  componentWillUnmount() {}
+  render() {
+    let titulo =
+      this.state.invocacion == "registro"
+        ? "Nueva asignatura"
+        : "Actualizar ciclo";
+    let opciones = this.state.select.map((opcion, i) => (
+      <option value={opcion.IdGrupo}>{opcion.nombreGrupo}</option>
+    ));
+    return (
+      <div
+        class="modal fade"
+        id="modalAuxiliar"
+        tabindex="-1"
+        aria-labelledby="modalAuxiliarLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header container">
+              <h5 class="modal-title" id="modalAuxiliarLabel">
+                {titulo}
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form id="formCiclo">
+              <div class="modal-body container">
+                <div className="form-row">
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Nombre Ciclo</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="nombreCiclo"
+                      name="nombreCiclo"
+                      defaultValue={this.state.datos.nombreCiclo}
+                      placeholder="Nombre ciclo"
+                      required="required"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Nombre Grupo</label>
+                    <select
+                      id="idGrupo"
+                      name="idGrupo"
+                      defaultValue={this.state.datos.idGrupo}
+                      class="form-control form-control-sm"
+                      required="required"
+                    >
+                      <option value="">Seleccione...</option>
+                      {opciones}
+                    </select>
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Semestre</label>
+                      <select
+                        id="semestre"
+                        name="semestre"
+                        class="form-control form-control-sm"
+                        defaultValue={this.state.datos.semestre}
+                        required="required"
+                      >
+                        <option value="">Seleccione...</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                      </select>
+                  </div>
+
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Descripción</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="descripcion"
+                      name="descripcion"
+                      defaultValue={this.state.datos.descripcion}
+                      placeholder="Descripción"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Fecha Inicio</label>
+                    <input 
+                      type="date"
+                      className="form-control form-control form-control-sm"
+                      name="fechaInicio" 
+                      defaultValue={this.state.datos.fechaInicio}
+                      value="2017-04-01"
+                      required="required"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Fecha Fin</label>
+                    <input 
+                      type="date"
+                      className="form-control form-control form-control-sm"
+                      name="fechaFin" 
+                      defaultValue={this.state.datos.fechaFinalizacion}
+                      value="2017-04-01"
+                      required="required"
+                    />
+                  </div>
+                  {this.state.invocacion != "registro" ? (
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm d-none"
+                      id="idCiclo"
+                      name="idCiclo"
+                      defaultValue={this.state.datos.idCiclo}
+                      placeholder=" "
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+              <div class="modal-footer container">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm"
+                  data-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+                {this.state.invocacion == "registro" ? (
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    onClick={this.registrar}
+                  >
+                    Guardar
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    onClick={this.actualizar}
+                  >
+                    Actualizar
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
