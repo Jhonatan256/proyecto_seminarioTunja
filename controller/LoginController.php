@@ -16,7 +16,7 @@ class LoginController
             'email' => $email
         ]);
         if ($user) {
-            if ($user['password'] == $pass) {
+            if (password_verify($pass, $user['password'])) {
                 if ($user['estado'] == 'activo') {
                     session_start();
                     self::setUser('nombre', $user['primerNombre'] . (empty($user['segundoNombre']) ? '' : ' ' . trim($user['segundoNombre'])));
@@ -129,11 +129,11 @@ class LoginController
                 break;
             case '2':
                 $menu['icono'] = 'bx bxs-user-pin';
-                $menu['opciones'][] = [
-                    'nombre' => 'Docente',
-                    'icono' => 'bx bxs-notepad icon',
-                    'z' => 'vistaDocente'
-                ];
+                // $menu['opciones'][] = [
+                // 'nombre' => 'Docente',
+                // 'icono' => 'bx bxs-notepad icon',
+                // 'z' => 'vistaDocente'
+                // ];
                 $menu['opciones'][] = menuCalificaciones();
                 $menu['opciones'][] = menuEstudiantes();
                 // $menu['opciones'][] = menuLibro();

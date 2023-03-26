@@ -1,9 +1,13 @@
 <?php
 require 'controller/LoginController.php';
 require 'controller/AdministradorController.php';
-class Route {
+require 'controller/DocenteController.php';
+
+class Route
+{
 
     private $controlador;
+
     private $metodo;
 
     public function __construct()
@@ -13,20 +17,34 @@ class Route {
             $this->metodo = $_REQUEST['m'];
             $this->index();
         } else {
-            $msj = array("cod" => "99", "msj" => "No se recibieron las variables!");
+            $msj = array(
+                "cod" => "99",
+                "msj" => "No se recibieron las variables!"
+            );
             return $this->setResponse(json_encode($msj));
         }
     }
 
     public function index()
     {
-
-        if (is_callable(array($this->controlador, $this->metodo))) {
-              return $this->setResponse(@call_user_func_array(array($this->controlador, $this->metodo),array(mt_rand(0, 10000000), $this->metodo)));
-          } else {
-              $dataRespuesta = array('cod' => "99", 'msj' => "No se encuentra el controlador : " . $this->controlador . " Método: " . $this->metodo);
-              return $this->setResponse(json_encode($dataRespuesta));
-          }
+        if (is_callable(array(
+            $this->controlador,
+            $this->metodo
+        ))) {
+            return $this->setResponse(@call_user_func_array(array(
+                $this->controlador,
+                $this->metodo
+            ), array(
+                mt_rand(0, 10000000),
+                $this->metodo
+            )));
+        } else {
+            $dataRespuesta = array(
+                'cod' => "99",
+                'msj' => "No se encuentra el controlador : " . $this->controlador . " Método: " . $this->metodo
+            );
+            return $this->setResponse(json_encode($dataRespuesta));
+        }
     }
 
     public function setResponse($param)

@@ -287,7 +287,41 @@ function vistaAsignaturas() {
 }
 function vistaPlanEstudios() {}
 function vistaEstudiante() {}
-function vistaCalificaciones() {}
+function vistaCalificaciones() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "DocenteController",
+        m: "vistaCalififaciones"
+      }
+    }).done(function (result) {
+      if (validarResult(result)) {
+        actualizarRuta("Lista asignaturas", "vistaAsignaturas");
+        switch (result.cod) {
+          case "00":
+            console.log(result);
+            ReactDOM.unmountComponentAtNode(document.getElementById("contenedor"));
+            ReactDOM.render( /*#__PURE__*/React.createElement(CrudAsignaturas, {
+              data: result.data
+            }), document.getElementById("contenedor"));
+            break;
+          case "88":
+            modalLogout();
+            break;
+          case "99":
+            alerta("¡Error!", result.msj);
+            break;
+          default:
+            alerta("¡Error!", "Error de codificación");
+        }
+      }
+    }).fail(function () {
+      console.log("error");
+    });
+  });
+}
 function vistaDocente() {
   Pace.track(function () {
     $.ajax({
