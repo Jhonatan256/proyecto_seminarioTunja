@@ -1,6 +1,7 @@
 <?php
 include 'model/Conexion.php';
 require_once 'vendor/Utilitarias.php';
+date_default_timezone_set('America/Bogota');
 
 class LoginController
 {
