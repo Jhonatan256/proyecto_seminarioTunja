@@ -590,6 +590,7 @@ function nuevoHorario() {
                 <ModalHorarios invocacion={"registro"} data={""} select={result.data}/>,
                 document.getElementById("modal1")
               );
+              
               $("#modalAuxiliar").modal("show");
               break;
             case "88":
@@ -606,5 +607,209 @@ function nuevoHorario() {
       .fail(function () {
         console.log("error");
       });
+  });
+}
+function vistaCiclo() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "listarCiclo",
+      },
+    })
+      .done(function (result) {
+        if (validarResult(result)) {
+          actualizarRuta("Lista Ciclo", "vistaCiclo");
+          switch (result.cod) {
+            case "00":
+              ReactDOM.unmountComponentAtNode(
+                document.getElementById("contenedor")
+              );
+              ReactDOM.render(
+                <CrudCiclo data={result.data} />,
+                document.getElementById("contenedor")
+              );
+              break;
+            case "88":
+              modalLogout();
+              break;
+            case "99":
+              alerta("¡Error!", result.msj);
+              break;
+            default:
+              alerta("¡Error!", "Error de codificación");
+          }
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  });
+}
+function nuevoCiclo() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "selectGruposAsignatura",
+      },
+    })
+      .done(function (result) {
+        if (validarResult(result)) {
+          switch (result.cod) {
+            case "00":
+              ReactDOM.unmountComponentAtNode(
+                document.getElementById("modal1")
+              );
+              ReactDOM.render(
+                <ModalCiclo invocacion={"registro"} data={""} select={result.data}/>,
+                document.getElementById("modal1")
+              );
+              $("#modalAuxiliar").modal("show");
+              break;
+            case "88":
+              modalLogout();
+              break;
+            case "99":
+              alerta("¡Error!", result.msj);
+              break;
+            default:
+              alerta("¡Error!", "Error de codificación");
+          }
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  });
+}
+function buscarCiclo(id){
+  
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "buscarCiclo",
+        id: id
+      },
+    })
+      .done(function (result) {
+        if (validarResult(result)) {
+          switch (result.cod) {
+            case "00":
+              ReactDOM.unmountComponentAtNode(
+                document.getElementById("modal1")
+              );
+              ReactDOM.render(
+                <ModalCiclo invocacion={"actualizar"} data={result.data} select={result.data.select}/>,
+                document.getElementById("modal1")
+              );
+              $("#modalAuxiliar").modal("show");
+              break;
+            case "88":
+              modalLogout();
+              break;
+            case "99":
+              alerta("¡Error!", result.msj);
+              break;
+            default:
+              alerta("¡Error!", "Error de codificación");
+          }
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  });
+}
+function actualizarCiclo(id){ 
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "actualizarCiclo",
+        id: id
+      },
+    })
+      .done(function (result) {
+        if (validarResult(result)) {
+          switch (result.cod) {
+            case "00":
+              ReactDOM.unmountComponentAtNode(
+                document.getElementById("modal1")
+              );
+              ReactDOM.render(
+                <ModalCiclo invocacion={"actualizar"} data={result.data} select={result.data.select}/>,
+                document.getElementById("modal1")
+              );
+              $("#modalAuxiliar").modal("show");
+              break;
+            case "88":
+              modalLogout();
+              break;
+            case "99":
+              alerta("¡Error!", result.msj);
+              break;
+            default:
+              alerta("¡Error!", "Error de codificación");
+          }
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  });
+}
+function eliminarCiclo(id) {
+  swal({
+    title: "¡Cuidado!",
+    text: "¿Seguró que desear eliminar el registro?",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: {
+            c: "AdministradorController",
+            m: "eliminarCiclo",
+            ide: id,
+          },
+        })
+          .done(function (result) {
+            if (validarResult(result)) {
+              switch (result.cod) {
+                case "00":
+                  swal("Registro Eliminado.", "", "success").then((value) => {
+                    vistaCiclo();
+                  });
+                  break;
+                case "88":
+                  modalLogout();
+                  break;
+                case "99":
+                  alerta("¡Error!", result.msj);
+                  break;
+                default:
+                  alerta("¡Error!", "Error de codificación");
+              }
+            }
+          })
+          .fail(function () {
+            console.log("error");
+          });
+      });
+    }
   });
 }

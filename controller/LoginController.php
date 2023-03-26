@@ -126,6 +126,7 @@ class LoginController
                 $menu['opciones'][] = menuAsignatura();
                 $menu['opciones'][] = menuHorario();
                 $menu['opciones'][] = menuPlan();
+                $menu['opciones'][] = menuCiclo();
                 break;
             case '2':
                 $menu['icono'] = 'bx bxs-user-pin';

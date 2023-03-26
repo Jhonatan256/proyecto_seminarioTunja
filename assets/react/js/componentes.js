@@ -1531,3 +1531,323 @@ class ModalHorarios extends React.Component {
     }, "Actualizar"))))));
   }
 }
+
+// CICLO
+class CrudCiclo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.data
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+  componentDidMount() {
+    $("#tablaCiclo").DataTable({
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+      },
+      responsive: true,
+      dom: "Bfrtip",
+      pageLength: 20,
+      buttons: ["copy", "csv", "excel", "pdf", "print"],
+      column: [{
+        width: "10000px",
+        targets: 0
+      }, {
+        width: "40px",
+        targets: 1
+      }, {
+        width: "100px",
+        targets: 2
+      }, {
+        width: "70px",
+        targets: 3
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 5
+      }]
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  }
+  componentWillUnmount() {}
+  render() {
+    console.log(this.state.data);
+    var datos = this.state.data.registros.map((registro, i) => /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+      scope: "row"
+    }, i + 1), /*#__PURE__*/React.createElement("td", {
+      dangerouslySetInnerHTML: {
+        __html: registro.acciones
+      }
+    }), /*#__PURE__*/React.createElement("td", null, registro.idCiclo), /*#__PURE__*/React.createElement("td", null, registro.nombreCiclo), /*#__PURE__*/React.createElement("td", null, registro.semestre), /*#__PURE__*/React.createElement("td", null, registro.descripcion), /*#__PURE__*/React.createElement("td", null, registro.fechaInicio), /*#__PURE__*/React.createElement("td", null, registro.fechaFinalizacion), /*#__PURE__*/React.createElement("td", null, registro.idLog), /*#__PURE__*/React.createElement("td", null, registro.idGrupo)));
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      class: "head"
+    }, /*#__PURE__*/React.createElement("h3", null, "Ciclo"), /*#__PURE__*/React.createElement("a", {
+      href: "javascript:void(0)",
+      onClick: data => nuevoCiclo(),
+      class: "btn btn-primary d-sm-block d-lg-block"
+    }, "A\xF1adir Ciclo")), /*#__PURE__*/React.createElement("div", {
+      class: "table-responsive table-responsive-sm"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "table table-sm table-striped"
+    }, /*#__PURE__*/React.createElement("table", {
+      id: "tablaCiclo",
+      className: "table"
+    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "#"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Acciones"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "ID"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Nombre"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Semestre"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Descripci\xF3n"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Fecha Inicio"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Fecha Finalizaci\xF3n"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Id Log"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Id Grupo"))), /*#__PURE__*/React.createElement("tbody", null, datos)))));
+  }
+}
+class ModalCiclo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      datos: props.data,
+      invocacion: props.invocacion,
+      select: props.select
+    };
+    this.registrar = this.registrar.bind(this);
+    this.actualizar = this.actualizar.bind(this);
+  }
+  registrar(event) {
+    console.log(this.registrar);
+    event.preventDefault();
+    if ($("#formCiclo").valid()) {
+      let formData = $("#formCiclo").serialize() + "&c=AdministradorController&m=registrarCiclo";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          }
+        }).done(function (result) {
+          if (validarResult(result)) {
+            switch (result.cod) {
+              case "00":
+                $("#modalAuxiliar").hide();
+                swal("Ciclo registrado.", "", "success").then(value => {
+                  vistaCiclo();
+                });
+                break;
+              case "88":
+                modalLogout();
+                break;
+              case "99":
+                alerta("¡Error!", result.msj);
+                $("#modalAuxiliar").modal("show");
+                break;
+              default:
+                alerta("¡Error!", "Error de codificación");
+                $("#modalAuxiliar").modal("show");
+            }
+          }
+        }).fail(function () {
+          console.log("error");
+        });
+      });
+    }
+  }
+  actualizar(event) {
+    event.preventDefault();
+    if ($("#formCiclo").valid()) {
+      let formData = $("#formCiclo").serialize() + "&c=AdministradorController&m=actualizarCiclo";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          }
+        }).done(function (result) {
+          if (validarResult(result)) {
+            switch (result.cod) {
+              case "00":
+                $("#modalAuxiliar").hide();
+                swal("Asignatura actualizada.", "", "success").then(value => {
+                  vistaCiclo();
+                });
+                break;
+              case "88":
+                modalLogout();
+                break;
+              case "99":
+                alerta("¡Error!", result.msj);
+                $("#modalAuxiliar").modal("show");
+                break;
+              default:
+                alerta("¡Error!", "Error de codificación");
+                $("#modalAuxiliar").modal("show");
+            }
+          }
+        }).fail(function () {
+          console.log("error");
+        });
+      });
+    }
+  }
+  componentDidMount() {}
+  componentWillUnmount() {}
+  render() {
+    let titulo = this.state.invocacion == "registro" ? "Nueva asignatura" : "Actualizar ciclo";
+    let opciones = this.state.select.map((opcion, i) => /*#__PURE__*/React.createElement("option", {
+      value: opcion.IdGrupo
+    }, opcion.nombreGrupo));
+    return /*#__PURE__*/React.createElement("div", {
+      class: "modal fade",
+      id: "modalAuxiliar",
+      tabindex: "-1",
+      "aria-labelledby": "modalAuxiliarLabel",
+      "aria-hidden": "true"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-dialog modal-lg"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-content"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-header container"
+    }, /*#__PURE__*/React.createElement("h5", {
+      class: "modal-title",
+      id: "modalAuxiliarLabel"
+    }, titulo), /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "close",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }, /*#__PURE__*/React.createElement("span", {
+      "aria-hidden": "true"
+    }, "\xD7"))), /*#__PURE__*/React.createElement("form", {
+      id: "formCiclo"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-body container"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-row"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Nombre Ciclo"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "nombreCiclo",
+      name: "nombreCiclo",
+      defaultValue: this.state.datos.nombreCiclo,
+      placeholder: "Nombre ciclo",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Nombre Grupo"), /*#__PURE__*/React.createElement("select", {
+      id: "idGrupo",
+      name: "idGrupo",
+      defaultValue: this.state.datos.idGrupo,
+      class: "form-control form-control-sm",
+      required: "required"
+    }, /*#__PURE__*/React.createElement("option", {
+      value: ""
+    }, "Seleccione..."), opciones)), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Semestre"), /*#__PURE__*/React.createElement("select", {
+      id: "semestre",
+      name: "semestre",
+      class: "form-control form-control-sm",
+      defaultValue: this.state.datos.semestre,
+      required: "required"
+    }, /*#__PURE__*/React.createElement("option", {
+      value: ""
+    }, "Seleccione..."), /*#__PURE__*/React.createElement("option", {
+      value: "1"
+    }, "1"), /*#__PURE__*/React.createElement("option", {
+      value: "2"
+    }, "2"))), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Descripci\xF3n"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "descripcion",
+      name: "descripcion",
+      defaultValue: this.state.datos.descripcion,
+      placeholder: "Descripci\xF3n"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Fecha Inicio"), /*#__PURE__*/React.createElement("input", {
+      type: "date",
+      className: "form-control form-control form-control-sm",
+      name: "fechaInicio",
+      defaultValue: this.state.datos.fechaInicio,
+      value: "2017-04-01",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Fecha Fin"), /*#__PURE__*/React.createElement("input", {
+      type: "date",
+      className: "form-control form-control form-control-sm",
+      name: "fechaFin",
+      defaultValue: this.state.datos.fechaFinalizacion,
+      value: "2017-04-01",
+      required: "required"
+    })), this.state.invocacion != "registro" ? /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm d-none",
+      id: "idCiclo",
+      name: "idCiclo",
+      defaultValue: this.state.datos.idCiclo,
+      placeholder: " "
+    }) : "")), /*#__PURE__*/React.createElement("div", {
+      class: "modal-footer container"
+    }, /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-secondary btn-sm",
+      "data-dismiss": "modal"
+    }, "Cerrar"), this.state.invocacion == "registro" ? /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-primary btn-sm",
+      onClick: this.registrar
+    }, "Guardar") : /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-primary btn-sm",
+      onClick: this.actualizar
+    }, "Actualizar"))))));
+  }
+}
