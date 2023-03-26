@@ -350,9 +350,7 @@ class CrudEstudiantes extends React.Component {
       $('[data-toggle="tooltip"]').tooltip();
     });
   }
-  componentWillUnmount() {}
   render() {
-    console.log(this.state.data);
     var datos = this.state.data.registros.map((registro, i) => (
       <tr>
         <th scope="row">{i + 1}</th>
@@ -459,7 +457,7 @@ class ModalEstudiante extends React.Component {
     super(props);
     this.state = {
       datos: props.data,
-      invocacion: props.invocacion
+      invocacion: props.invocacion,
     };
     this.registrar = this.registrar.bind(this);
     this.actualizar = this.actualizar.bind(this);
@@ -708,8 +706,7 @@ class ModalEstudiante extends React.Component {
                   ) : (
                     ""
                   )}
-                  {
-                    this.state.invocacion != 'registro' ? 
+                  {this.state.invocacion != "registro" ? (
                     <input
                       type="text"
                       className="form-control form-control form-control-sm d-none"
@@ -718,8 +715,10 @@ class ModalEstudiante extends React.Component {
                       defaultValue={this.state.datos.idUsuario}
                       placeholder=""
                       required="required"
-                    />:''
-                  }
+                    />
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
               <div class="modal-footer container">
@@ -781,9 +780,7 @@ class CrudDocentes extends React.Component {
       $('[data-toggle="tooltip"]').tooltip();
     });
   }
-  componentWillUnmount() {}
   render() {
-    console.log(this.state.data);
     var datos = this.state.data.registros.map((registro, i) => (
       <tr>
         <th scope="row">{i + 1}</th>
@@ -1098,8 +1095,7 @@ class ModalDocente extends React.Component {
                   ) : (
                     ""
                   )}
-                  {
-                    this.state.invocacion != 'registro' ? 
+                  {this.state.invocacion != "registro" ? (
                     <input
                       type="text"
                       className="form-control form-control form-control-sm d-none"
@@ -1108,8 +1104,10 @@ class ModalDocente extends React.Component {
                       defaultValue={this.state.datos.idUsuario}
                       placeholder=""
                       required="required"
-                    />:''
-                  }
+                    />
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
               <div class="modal-footer container">
@@ -1174,7 +1172,6 @@ class CrudAsignaturas extends React.Component {
   }
   componentWillUnmount() {}
   render() {
-    console.log(this.state.data);
     var datos = this.state.data.registros.map((registro, i) => (
       <tr>
         <th scope="row">{i + 1}</th>
@@ -1485,7 +1482,6 @@ class CrudHorarios extends React.Component {
   }
   componentWillUnmount() {}
   render() {
-    console.log(this.state.data);
     var datos = this.state.data.registros.map((registro, i) => (
       <tr>
         <th scope="row">{i + 1}</th>
@@ -1493,7 +1489,7 @@ class CrudHorarios extends React.Component {
           dangerouslySetInnerHTML={{
             __html: registro.acciones,
           }}
-        ></td>        
+        ></td>
         <td>{registro.dia}</td>
         <td>{registro.horaInicio}</td>
         <td>{registro.horaFin}</td>
@@ -1518,7 +1514,7 @@ class CrudHorarios extends React.Component {
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Acciones</th>                  
+                  <th scope="col">Acciones</th>
                   <th scope="col">Dia</th>
                   <th scope="col">Hora Inicio</th>
                   <th scope="col">Hora Fin</th>
@@ -1564,11 +1560,9 @@ class ModalHorarios extends React.Component {
               switch (result.cod) {
                 case "00":
                   $("#modalAuxiliar").hide();
-                  swal("Horario registrado.", "", "success").then(
-                    (value) => {
-                      vistaHorarios();
-                    }
-                  );
+                  swal("Horario registrado.", "", "success").then((value) => {
+                    vistaHorarios();
+                  });
                   break;
                 case "88":
                   modalLogout();
@@ -1609,11 +1603,9 @@ class ModalHorarios extends React.Component {
               switch (result.cod) {
                 case "00":
                   $("#modalAuxiliar").hide();
-                  swal("Horario actualizado.", "", "success").then(
-                    (value) => {
-                      vistaAsignaturas();
-                    }
-                  );
+                  swal("Horario actualizado.", "", "success").then((value) => {
+                    vistaAsignaturas();
+                  });
                   break;
                 case "88":
                   modalLogout();
@@ -1716,33 +1708,32 @@ class ModalHorarios extends React.Component {
                       <option value="Viernes">Viernes</option>
                       <option value="Sabado">Sabado</option>
                       <option value="Domingo">Domingo</option>
-                      
                     </select>
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
                     <label htmlFor="inputAddress">Hora Inicio</label>
-                    <input 
+                    <input
                       type="time"
                       className="form-control form-control form-control-sm"
-                      name="horaInicio" 
+                      name="horaInicio"
                       defaultValue={this.state.datos.horaInicio}
                       value="08:15:00"
-                      max="12:00:00" 
-                      min="08:00:00" 
+                      max="12:00:00"
+                      min="08:00:00"
                       step="1"
                       required="required"
                     />
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
                     <label htmlFor="inputAddress">Hora Fin</label>
-                    <input 
+                    <input
                       type="time"
                       className="form-control form-control form-control-sm"
-                      name="horaFin" 
+                      name="horaFin"
                       defaultValue={this.state.datos.horaFin}
                       value="14:15"
-                      min="14:00" 
-                      max="18:00" 
+                      min="14:00"
+                      max="18:00"
                       step="1"
                       required="required"
                     />
@@ -1856,9 +1847,7 @@ class CrudCiclo extends React.Component {
       $('[data-toggle="tooltip"]').tooltip();
     });
   }
-  componentWillUnmount() {}
   render() {
-    console.log(this.state.data);
     var datos = this.state.data.registros.map((registro, i) => (
       <tr>
         <th scope="row">{i + 1}</th>
@@ -1926,7 +1915,6 @@ class ModalCiclo extends React.Component {
     this.actualizar = this.actualizar.bind(this);
   }
   registrar(event) {
-    console.log(this.registrar)
     event.preventDefault();
     if ($("#formCiclo").valid()) {
       let formData =
@@ -1946,11 +1934,9 @@ class ModalCiclo extends React.Component {
               switch (result.cod) {
                 case "00":
                   $("#modalAuxiliar").hide();
-                  swal("Ciclo registrado.", "", "success").then(
-                    (value) => {
-                      vistaCiclo();
-                    }
-                  );
+                  swal("Ciclo registrado.", "", "success").then((value) => {
+                    vistaCiclo();
+                  });
                   break;
                 case "88":
                   modalLogout();
@@ -2080,17 +2066,17 @@ class ModalCiclo extends React.Component {
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
                     <label htmlFor="inputAddress">Semestre</label>
-                      <select
-                        id="semestre"
-                        name="semestre"
-                        class="form-control form-control-sm"
-                        defaultValue={this.state.datos.semestre}
-                        required="required"
-                      >
-                        <option value="">Seleccione...</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                      </select>
+                    <select
+                      id="semestre"
+                      name="semestre"
+                      class="form-control form-control-sm"
+                      defaultValue={this.state.datos.semestre}
+                      required="required"
+                    >
+                      <option value="">Seleccione...</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                    </select>
                   </div>
 
                   <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
@@ -2106,22 +2092,22 @@ class ModalCiclo extends React.Component {
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
                     <label htmlFor="inputAddress">Fecha Inicio</label>
-                    <input 
+                    <input
                       type="date"
                       className="form-control form-control form-control-sm"
-                      name="fechaInicio" 
+                      name="fechaInicio"
                       defaultValue={this.state.datos.fechaInicio}
-                      required = "required"
+                      required="required"
                     />
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
                     <label htmlFor="inputAddress">Fecha Fin</label>
-                    <input 
+                    <input
                       type="date"
                       className="form-control form-control form-control-sm"
-                      name="fechaFin" 
+                      name="fechaFin"
                       defaultValue={this.state.datos.fechaFinalizacion}
-                      required = "required"
+                      required="required"
                     />
                   </div>
                   {this.state.invocacion != "registro" ? (

@@ -311,9 +311,7 @@ class CrudEstudiantes extends React.Component {
       $('[data-toggle="tooltip"]').tooltip();
     });
   }
-  componentWillUnmount() {}
   render() {
-    console.log(this.state.data);
     var datos = this.state.data.registros.map((registro, i) => /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
       scope: "row"
     }, i + 1), /*#__PURE__*/React.createElement("td", {
@@ -627,7 +625,7 @@ class ModalEstudiante extends React.Component {
       defaultValue: "",
       placeholder: "Contrase\xF1a",
       required: "required"
-    })) : "", this.state.invocacion != 'registro' ? /*#__PURE__*/React.createElement("input", {
+    })) : "", this.state.invocacion != "registro" ? /*#__PURE__*/React.createElement("input", {
       type: "text",
       className: "form-control form-control form-control-sm d-none",
       id: "idUsuario",
@@ -635,7 +633,7 @@ class ModalEstudiante extends React.Component {
       defaultValue: this.state.datos.idUsuario,
       placeholder: "",
       required: "required"
-    }) : '')), /*#__PURE__*/React.createElement("div", {
+    }) : "")), /*#__PURE__*/React.createElement("div", {
       class: "modal-footer container"
     }, /*#__PURE__*/React.createElement("button", {
       type: "button",
@@ -677,9 +675,7 @@ class CrudDocentes extends React.Component {
       $('[data-toggle="tooltip"]').tooltip();
     });
   }
-  componentWillUnmount() {}
   render() {
-    console.log(this.state.data);
     var datos = this.state.data.registros.map((registro, i) => /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
       scope: "row"
     }, i + 1), /*#__PURE__*/React.createElement("td", {
@@ -969,7 +965,7 @@ class ModalDocente extends React.Component {
       defaultValue: "",
       placeholder: "Contrase\xF1a",
       required: "required"
-    })) : "", this.state.invocacion != 'registro' ? /*#__PURE__*/React.createElement("input", {
+    })) : "", this.state.invocacion != "registro" ? /*#__PURE__*/React.createElement("input", {
       type: "text",
       className: "form-control form-control form-control-sm d-none",
       id: "idUsuario",
@@ -977,7 +973,7 @@ class ModalDocente extends React.Component {
       defaultValue: this.state.datos.idUsuario,
       placeholder: "",
       required: "required"
-    }) : '')), /*#__PURE__*/React.createElement("div", {
+    }) : "")), /*#__PURE__*/React.createElement("div", {
       class: "modal-footer container"
     }, /*#__PURE__*/React.createElement("button", {
       type: "button",
@@ -1021,7 +1017,6 @@ class CrudAsignaturas extends React.Component {
   }
   componentWillUnmount() {}
   render() {
-    console.log(this.state.data);
     var datos = this.state.data.registros.map((registro, i) => /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
       scope: "row"
     }, i + 1), /*#__PURE__*/React.createElement("td", {
@@ -1279,7 +1274,6 @@ class CrudHorarios extends React.Component {
   }
   componentWillUnmount() {}
   render() {
-    console.log(this.state.data);
     var datos = this.state.data.registros.map((registro, i) => /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
       scope: "row"
     }, i + 1), /*#__PURE__*/React.createElement("td", {
@@ -1591,9 +1585,7 @@ class CrudCiclo extends React.Component {
       $('[data-toggle="tooltip"]').tooltip();
     });
   }
-  componentWillUnmount() {}
   render() {
-    console.log(this.state.data);
     var datos = this.state.data.registros.map((registro, i) => /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
       scope: "row"
     }, i + 1), /*#__PURE__*/React.createElement("td", {
@@ -1647,7 +1639,6 @@ class ModalCiclo extends React.Component {
     this.actualizar = this.actualizar.bind(this);
   }
   registrar(event) {
-    console.log(this.registrar);
     event.preventDefault();
     if ($("#formCiclo").valid()) {
       let formData = $("#formCiclo").serialize() + "&c=AdministradorController&m=registrarCiclo";
