@@ -268,7 +268,7 @@ class AdministradorController extends LoginController
     {
         if (self::getUser('tipoUsuario') == '1') {
             $db = new Conexion();
-            $asignatura = $db->consultarRegistros('SELECT a.*, c.nombreCiclo FROM asignatura a LEFT JOIN ciclo c ON a.idCiclo = c.idCiclo');
+            $asignatura = $db->consultarRegistros('SELECT a.*, c.nombreCiclo FROM asignatura a LEFT JOIN ciclo c ON a.idCiclo = c.idCiclo ORDER BY idAsignatura');
             if ($asignatura) {
                 $salida = [];
                 $salida['tipoUsuario'] = self::getUser('tipoUsuario');
@@ -310,11 +310,11 @@ class AdministradorController extends LoginController
     {
         if (self::getUser('tipoUsuario') == '1') {
             $db = new Conexion();
-            $asignatura = $db->consultarRegistro('SELECT * FROM asignatura WHERE idAsignatura =:id', [
+            $asignatura = $db->consultarRegistro('SELECT * FROM asignatura WHERE idAsignatura =:id ', [
                 'id' => base64_decode($_POST['id'])
             ]);
             if ($asignatura) {
-                $asignatura['select'] = self::selectGruposHorarios(false);
+                $asignatura['select'] = self::selectCicloHorarios(false);
                 return respuesta('00', '', $asignatura);
             } else {
                 $msj = 'No existen registros.';
@@ -331,7 +331,7 @@ class AdministradorController extends LoginController
             $db = new Conexion();
             unset($_POST['m']);
             unset($_POST['c']);
-            $db->crudRegistro("INSERT INTO asignatura (nombreAsignatura, descripcion, intensidadHorariaSemanal, cod_Grupo) VALUES (:nombreAsignatura, :descripcion, :intensidadHorariaSemanal , :cod_Grupo)", $_POST);
+            $db->crudRegistro("INSERT INTO asignatura (nombreAsignatura, descripcion, intensidadHorariaSemanal, idCiclo) VALUES (:nombreAsignatura, :descripcion, :intensidadHorariaSemanal , :idCiclo)", $_POST);
             // Excepcion de Auditoria
             try {
                 generarLogAuditoria($db, self::getUser('idUsuario'), 'Asignatura', $db->lastInsertId(), 'Registrar');
@@ -357,16 +357,9 @@ class AdministradorController extends LoginController
             unset($_POST['m']);
             unset($_POST['c']);
             if ($asignatura) {
-                $db->crudRegistro("UPDATE asignatura SET nombreAsignatura = :nombreAsignatura, descripcion = :descripcion, intensidadHorariaSemanal = :intensidadHorariaSemanal, cod_Grupo = :cod_Grupo WHERE idAsignatura = :idAsignatura", $_POST);
-                // Excepcion de Auditoria
-                try {
-                    generarLogAuditoria($db, self::getUser('idUsuario'), 'Asignatura', $db->lastInsertId(), 'Actualizar');
-                    return respuesta('00', '');
-                } catch (Exception $e) {
-                    return respuesta('99', 'Excepción capturada: ' . $e->getMessage() . "\n");
-                }
-
-                // return respuesta('00', '');
+                $db->crudRegistro("UPDATE asignatura SET nombreAsignatura = :nombreAsignatura, descripcion = :descripcion, intensidadHorariaSemanal = :intensidadHorariaSemanal, idCiclo = :idCiclo WHERE idAsignatura = :idAsignatura", $_POST);
+                generarLogAuditoria($db, self::getUser('idUsuario'), 'Asignatura', $_POST['idAsignatura'], 'Actualizar');
+                return respuesta('00', '');
             } else {
                 $msj = 'No existe la asignatura.';
             }
@@ -537,7 +530,7 @@ class AdministradorController extends LoginController
                 'id' => base64_decode($_POST['id'])
             ]);
             if ($horario) {
-                $horario['select'] = self::selectGruposHorarios(false);
+                $horario['select'] = self::selectCicloHorarios(false);
                 return respuesta('00', '', $horario);
             } else {
                 $msj = 'No existen registros.';
@@ -678,5 +671,4 @@ class AdministradorController extends LoginController
         }
         return respuesta('99', $msj);
     }
-    
 }

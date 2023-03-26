@@ -413,7 +413,7 @@ function nuevaAsignatura() {
       type: "POST",
       data: {
         c: "AdministradorController",
-        m: "selectGruposAsignatura"
+        m: "selectCicloHorarios"
       }
     }).done(function (result) {
       if (validarResult(result)) {
@@ -564,7 +564,7 @@ function nuevoHorario() {
       type: "POST",
       data: {
         c: "AdministradorController",
-        m: "selectGruposHorarios"
+        m: "selectCicloHorarios"
       }
     }).done(function (result) {
       if (validarResult(result)) {

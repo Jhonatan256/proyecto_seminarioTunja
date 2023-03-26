@@ -1333,7 +1333,7 @@ class ModalAsignatura extends React.Component {
         ? "Nueva asignatura"
         : "Actualizar asignatura";
     let opciones = this.state.select.map((opcion, i) => (
-      <option value={opcion.IdGrupo}>{opcion.nombreGrupo}</option>
+      <option value={opcion.idCiclo}>{opcion.nombreCiclo}</option>
     ));
     return (
       <div
@@ -1398,12 +1398,12 @@ class ModalAsignatura extends React.Component {
                     />
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
-                    <label htmlFor="inputAddress">Grupo</label>
+                    <label htmlFor="inputAddress">Ciclo</label>
                     <select
-                      id="cod_Grupo"
-                      name="cod_Grupo"
+                      id="idCiclo"
+                      name="idCiclo"
                       class="form-control form-control-sm"
-                      defaultValue={this.state.datos.cod_Grupo}
+                      defaultValue={this.state.datos.idCiclo}
                       required="required"
                     >
                       <option value="">Seleccione...</option>

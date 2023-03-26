@@ -1151,8 +1151,8 @@ class ModalAsignatura extends React.Component {
   render() {
     let titulo = this.state.invocacion == "registro" ? "Nueva asignatura" : "Actualizar asignatura";
     let opciones = this.state.select.map((opcion, i) => /*#__PURE__*/React.createElement("option", {
-      value: opcion.IdGrupo
-    }, opcion.nombreGrupo));
+      value: opcion.idCiclo
+    }, opcion.nombreCiclo));
     return /*#__PURE__*/React.createElement("div", {
       class: "modal fade",
       id: "modalAuxiliar",
@@ -1220,11 +1220,11 @@ class ModalAsignatura extends React.Component {
       className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
     }, /*#__PURE__*/React.createElement("label", {
       htmlFor: "inputAddress"
-    }, "Grupo"), /*#__PURE__*/React.createElement("select", {
-      id: "cod_Grupo",
-      name: "cod_Grupo",
+    }, "Ciclo"), /*#__PURE__*/React.createElement("select", {
+      id: "idCiclo",
+      name: "idCiclo",
       class: "form-control form-control-sm",
-      defaultValue: this.state.datos.cod_Grupo,
+      defaultValue: this.state.datos.idCiclo,
       required: "required"
     }, /*#__PURE__*/React.createElement("option", {
       value: ""
