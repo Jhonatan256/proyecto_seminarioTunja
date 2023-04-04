@@ -140,8 +140,8 @@ li {
 #sidebar .side-menu>li>a.active,
 #sidebar .side-menu>li>a.active:hover {
     /**Color hover amarillo*/
-    background: var(--yellow);
-    color: var(--black);
+    /** background: var(--yellow);*/
+    color: white;
 }
 
 #sidebar .divider {

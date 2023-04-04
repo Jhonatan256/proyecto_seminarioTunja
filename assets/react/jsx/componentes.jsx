@@ -246,8 +246,14 @@ class NavBar extends React.Component {
           <img src="../assets/images/escudo.png" alt="" />
           <ul class="profile-link">
             <li>
+
+               <a href="#" onClick="">
+                <i class='bx bx-user-circle'></i>
+                Perfil
+              </a>
+              
               <a href="#" onClick={(data) => salir()}>
-                <i class="bx bxs-log-out-circle"></i>
+                <i class='bx bxs-log-out'></i>
                 Cerrar Sesión
               </a>
             </li>
