@@ -280,10 +280,24 @@ class Principal extends React.Component {
     return (
       <div>
         <div class="head">
-          <h3>Eventos Seminario</h3>
+          <center>
+          <h3>POLÍTICA DE TRATAMIENTO DE PROTECCIÓN DE DATOS PERSONALES DE LOS TITULARES DEL SEMINARIO CONCILIAR DE TUNJA</h3>
+        </center>
         </div>
-        <div id="slider" style={{ backgroundColor: "gray" }}>
-            <h1>Imágenes</h1>
+        <div id="slider" >
+           
+           <br></br>
+           <p>El Seminario Conciliar de Tunja, como institución de educación superior, busca garantizar
+             la protección de los datos personales como objetivo primordial enmarcado en el derecho 
+             Constitucional que tienen todas las personas al conocimiento, actualización y rectificación 
+             de las informaciones que de ellas se hubiera recogido y que reposen en bases de datos y archivos. 
+             Por ello en cumplimiento a lo dispuesto en la Ley estatutaria 1581 de 2012 y a su Decreto 
+             Reglamentario 1377 de 2013, el Seminario Conciliar de Tunja informa la política
+              aplicable a la entidad para el tratamiento protección de datos personales.</p>
+              <br></br>
+        
+        
+
         </div>
       </div>
     );
@@ -309,7 +323,7 @@ class CrudEstudiantes extends React.Component {
       responsive: true,
       dom: "Bfrtip",
       pageLength: 20,
-      buttons: ["copiar", "csv", "excel", "pdf", "imprimir"],
+      buttons: ["copy", "csv", "excel", "pdf", "print"],
       column: [
         {
           width: "1000px",
@@ -1631,7 +1645,7 @@ class ModalHorarios extends React.Component {
   render() {
     let titulo =
       this.state.invocacion == "registro"
-        ? "Nueva Horario"
+        ? "Nuevo Horario"
         : "Actualizar Horario";
     let opciones = this.state.select.map((opcion, i) => (
       <option value={opcion.idCiclo}>{opcion.nombreCiclo}</option>
@@ -1806,7 +1820,7 @@ class CrudCiclo extends React.Component {
       responsive: true,
       dom: "Bfrtip",
       pageLength: 20,
-      buttons: ["copy", "csv", "excel", "pdf", "imprimir"],
+      buttons: ["copy", "csv", "excel", "pdf", "print"],
       column: [
         {
           width: "10000px",
@@ -1976,7 +1990,7 @@ class ModalCiclo extends React.Component {
               switch (result.cod) {
                 case "00":
                   $("#modalAuxiliar").hide();
-                  swal("Asignatura actualizada.", "", "success").then(
+                  swal("Ciclo actualizado.", "", "success").then(
                     (value) => {
                       vistaCiclo();
                     }
@@ -2007,7 +2021,7 @@ class ModalCiclo extends React.Component {
   render() {
     let titulo =
       this.state.invocacion == "registro"
-        ? "Nueva asignatura"
+        ? "Nuevo ciclo"
         : "Actualizar ciclo";
     let opciones = this.state.select.map((opcion, i) => (
       <option value={opcion.IdGrupo}>{opcion.nombreGrupo}</option>
@@ -2048,6 +2062,7 @@ class ModalCiclo extends React.Component {
                       defaultValue={this.state.datos.nombreCiclo}
                       placeholder="Nombre ciclo"
                       required="required"
+                      
                     />
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">

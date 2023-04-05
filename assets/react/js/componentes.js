@@ -214,9 +214,14 @@ class NavBar extends React.Component {
       class: "profile-link"
     }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
       href: "#",
+      onClick: ""
+    }, /*#__PURE__*/React.createElement("i", {
+      class: "bx bx-user-circle"
+    }), "Perfil")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+      href: "#",
       onClick: data => salir()
     }, /*#__PURE__*/React.createElement("i", {
-      class: "bx bxs-log-out-circle"
+      class: "bx bxs-log-out"
     }), "Cerrar Sesi\xF3n")))));
   }
 }
@@ -235,30 +240,9 @@ class Principal extends React.Component {
   render() {
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       class: "head"
-    }, /*#__PURE__*/React.createElement("h3", null, "Eventos Seminario")), /*#__PURE__*/React.createElement("div", {
-      id: "slider",
-      style: {
-        backgroundColor: "yellow"
-      }
-    }, /*#__PURE__*/React.createElement("figure", null, /*#__PURE__*/React.createElement("img", {
-      src: "../assets/images/actividad1.jpg",
-      alt: ""
-    }), /*#__PURE__*/React.createElement("img", {
-      src: "../assets/images/actividad1.jpg",
-      alt: ""
-    }), /*#__PURE__*/React.createElement("img", {
-      src: "../assets/images/actividad1.jpg",
-      alt: ""
-    }), /*#__PURE__*/React.createElement("img", {
-      src: "../assets/images/actividad1.jpg",
-      alt: ""
-    }), /*#__PURE__*/React.createElement("img", {
-      src: "../assets/images/actividad1.jpg",
-      alt: ""
-    }), /*#__PURE__*/React.createElement("img", {
-      src: "../assets/images/actividad1.jpg",
-      alt: ""
-    }))));
+    }, /*#__PURE__*/React.createElement("center", null, /*#__PURE__*/React.createElement("h3", null, "POL\xCDTICA DE TRATAMIENTO DE PROTECCI\xD3N DE DATOS PERSONALES DE LOS TITULARES DEL SEMINARIO CONCILIAR DE TUNJA"))), /*#__PURE__*/React.createElement("div", {
+      id: "slider"
+    }, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("p", null, "El Seminario Conciliar de Tunja, como instituci\xF3n de educaci\xF3n superior, busca garantizar la protecci\xF3n de los datos personales como objetivo primordial enmarcado en el derecho Constitucional que tienen todas las personas al conocimiento, actualizaci\xF3n y rectificaci\xF3n de las informaciones que de ellas se hubiera recogido y que reposen en bases de datos y archivos. Por ello en cumplimiento a lo dispuesto en la Ley estatutaria 1581 de 2012 y a su Decreto Reglamentario 1377 de 2013, el Seminario Conciliar de Tunja informa la pol\xEDtica aplicable a la entidad para el tratamiento protecci\xF3n de datos personales."), /*#__PURE__*/React.createElement("br", null)));
   }
 }
 class CrudEstudiantes extends React.Component {
@@ -282,7 +266,7 @@ class CrudEstudiantes extends React.Component {
       pageLength: 20,
       buttons: ["copy", "csv", "excel", "pdf", "print"],
       column: [{
-        width: "10000px",
+        width: "1000px",
         targets: 0
       }, {
         width: "40px",
@@ -1399,7 +1383,7 @@ class ModalHorarios extends React.Component {
   componentDidMount() {}
   componentWillUnmount() {}
   render() {
-    let titulo = this.state.invocacion == "registro" ? "Nueva Horario" : "Actualizar Horario";
+    let titulo = this.state.invocacion == "registro" ? "Nuevo Horario" : "Actualizar Horario";
     let opciones = this.state.select.map((opcion, i) => /*#__PURE__*/React.createElement("option", {
       value: opcion.idCiclo
     }, opcion.nombreCiclo));
@@ -1694,7 +1678,7 @@ class ModalCiclo extends React.Component {
             switch (result.cod) {
               case "00":
                 $("#modalAuxiliar").hide();
-                swal("Asignatura actualizada.", "", "success").then(value => {
+                swal("Ciclo actualizado.", "", "success").then(value => {
                   vistaCiclo();
                 });
                 break;
@@ -1719,7 +1703,7 @@ class ModalCiclo extends React.Component {
   componentDidMount() {}
   componentWillUnmount() {}
   render() {
-    let titulo = this.state.invocacion == "registro" ? "Nueva asignatura" : "Actualizar ciclo";
+    let titulo = this.state.invocacion == "registro" ? "Nuevo ciclo" : "Actualizar ciclo";
     let opciones = this.state.select.map((opcion, i) => /*#__PURE__*/React.createElement("option", {
       value: opcion.IdGrupo
     }, opcion.nombreGrupo));
