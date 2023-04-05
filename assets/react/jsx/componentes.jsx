@@ -246,17 +246,17 @@ class NavBar extends React.Component {
           <img src="../assets/images/escudo.png" alt="" />
           <ul class="profile-link">
             <li>
-
-               <a href="#" onClick="">
+               <a href="#" onClick="">                
                 <i class='bx bx-user-circle'></i>
                 Perfil
-              </a>
-              
+              </a>              
+             </li>
+             <li>              
               <a href="#" onClick={(data) => salir()}>
                 <i class='bx bxs-log-out'></i>
                 Cerrar Sesión
               </a>
-            </li>
+            </li>             
           </ul>
         </div>
       </nav>
@@ -282,15 +282,8 @@ class Principal extends React.Component {
         <div class="head">
           <h3>Eventos Seminario</h3>
         </div>
-        <div id="slider" style={{ backgroundColor: "yellow" }}>
-          <figure>
-            <img src="../assets/images/actividad1.jpg" alt="" />
-            <img src="../assets/images/actividad1.jpg" alt="" />
-            <img src="../assets/images/actividad1.jpg" alt="" />
-            <img src="../assets/images/actividad1.jpg" alt="" />
-            <img src="../assets/images/actividad1.jpg" alt="" />
-            <img src="../assets/images/actividad1.jpg" alt="" />
-          </figure>
+        <div id="slider" style={{ backgroundColor: "gray" }}>
+            <h1>Imágenes</h1>
         </div>
       </div>
     );
@@ -316,10 +309,10 @@ class CrudEstudiantes extends React.Component {
       responsive: true,
       dom: "Bfrtip",
       pageLength: 20,
-      buttons: ["copy", "csv", "excel", "pdf", "print"],
+      buttons: ["copiar", "csv", "excel", "pdf", "imprimir"],
       column: [
         {
-          width: "10000px",
+          width: "1000px",
           targets: 0,
         },
         {
@@ -1813,7 +1806,7 @@ class CrudCiclo extends React.Component {
       responsive: true,
       dom: "Bfrtip",
       pageLength: 20,
-      buttons: ["copy", "csv", "excel", "pdf", "print"],
+      buttons: ["copy", "csv", "excel", "pdf", "imprimir"],
       column: [
         {
           width: "10000px",

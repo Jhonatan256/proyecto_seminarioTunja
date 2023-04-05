@@ -52,7 +52,7 @@ table.dataTable thead>tr>td.sorting_desc_disabled {
     position: relative;
     padding-right: 26px;
     background-color: black;
-    color: white;
+    color: white
 }
 
 table.dataTable thead>tr>th.sorting:before,
@@ -547,7 +547,7 @@ table.dataTable td {
 }
 
 .dataTables_wrapper .dataTables_length select {
-    border: 1px solid #aaa;
+    border: 1px solid #acc;
     border-radius: 3px;
     padding: 5px;
     background-color: transparent;
