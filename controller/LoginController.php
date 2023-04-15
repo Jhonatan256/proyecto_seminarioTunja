@@ -137,8 +137,9 @@ class LoginController
                 // 'z' => 'vistaDocente'
                 // ];
                 $menu['opciones'][] = menuCalificaciones();
+                //Estudiantes solo se puede listar
                 $menu['opciones'][] = menuEstudiantes();
-                // $menu['opciones'][] = menuLibro();
+
                 break;
             case '3':
                 $menu['icono'] = 'bx bxs-user-pin';
@@ -169,4 +170,6 @@ class LoginController
     {
         // metodo de olvido de clave
     }
+
+  
 }

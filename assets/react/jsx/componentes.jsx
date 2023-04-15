@@ -246,7 +246,8 @@ class NavBar extends React.Component {
           <img src="../assets/images/escudo.png" alt="" />
           <ul class="profile-link">
             <li>
-               <a href="#" onClick="">                
+               <a href="javascript:void(0)"
+                onClick={(data) => editarPerfilUsuario()}>                
                 <i class='bx bx-user-circle'></i>
                 Perfil
               </a>              
@@ -767,6 +768,12 @@ class ModalEstudiante extends React.Component {
     );
   }
 }
+
+//****************** */
+
+
+
+//********************** */
 class CrudDocentes extends React.Component {
   constructor(props) {
     super(props);
@@ -787,7 +794,7 @@ class CrudDocentes extends React.Component {
       responsive: true,
       dom: "Bfrtip",
       pageLength: 20,
-      buttons: ["copy", "csv", "excel", "pdf", "print"],
+      buttons: ["copy", "csv", "excel", "print"],
     });
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
@@ -1177,7 +1184,7 @@ class CrudAsignaturas extends React.Component {
       responsive: true,
       dom: "Bfrtip",
       pageLength: 10,
-      buttons: ["copy", "csv", "excel", "pdf", "print"],
+      buttons: ["copy", "csv", "excel", "print"],
     });
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
@@ -1798,6 +1805,361 @@ class ModalHorarios extends React.Component {
     );
   }
 }
+
+
+// PALN ESTUDIOS INICIOS
+
+class CrudPlanEstudios extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.data,
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+
+  componentDidMount() {
+    $("#tablaPlanEstudios").DataTable({
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+      },
+      responsive: true,
+      dom: "Bfrtip",
+      pageLength: 10,
+      buttons: ["copy", "csv", "excel", "pdf", "print"],
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  }
+  componentWillUnmount() {}
+  render() {
+    var datos = this.state.data.registros.map((registro, i) => (
+      <tr>
+        <th scope="row">{i + 1}</th>
+        <td
+          dangerouslySetInnerHTML={{
+            __html: registro.acciones,
+          }}
+        ></td>
+        <td>{registro.nombreCiclo}</td>
+        <td>{registro.nombreAsignatura}</td>
+        <td>{registro.intensidadHorariaSemanal}</td>
+      </tr>
+    ));
+    return (
+      <div>
+        <div class="head">
+          <h3>Plan de Estudios</h3>
+
+          <a
+            href="javascript:void(0)"
+            onClick={(data) => nuevoHorario()}
+            class="btn btn-primary d-sm-block d-lg-block"
+          >
+            Añadir Plan estudios
+          </a>
+        </div>
+        <div class="table-responsive table-responsive-sm">
+          <div class="table table-sm table-striped">
+            <table id="tablaPlanEstuidios" className="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Acciones</th>
+                  <th scope="col">Ciclo</th>
+                  <th scope="col">Asignatura</th>
+                  <th scope="col">Intensidad Semanal</th>
+                </tr>
+              </thead>
+              <tbody>{datos}</tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+class ModalPlanEstudios extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      datos: props.data,
+      invocacion: props.invocacion,
+      select: props.select,
+    };
+    this.registrar = this.registrar.bind(this);
+    this.actualizar = this.actualizar.bind(this);
+  }
+  registrar(event) {
+    event.preventDefault();
+    if ($("#formPlanEstudios").valid()) {
+      let formData =
+        $("#formPlanEstudios").serialize() +
+        "&c=AdministradorController&m=registrarHorarios";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          },
+        })
+          .done(function (result) {
+            if (validarResult(result)) {
+              switch (result.cod) {
+                case "00":
+                  $("#modalAuxiliar").hide();
+                  swal("Plan estudios registrado.", "", "success").then((value) => {
+                    vistaPlanEstudios();
+                  });
+                  break;
+                case "88":
+                  modalLogout();
+                  break;
+                case "99":
+                  alerta("¡Error!", result.msj);
+                  $("#modalAuxiliar").modal("show");
+                  break;
+                default:
+                  alerta("¡Error!", "Error de codificación");
+                  $("#modalAuxiliar").modal("show");
+              }
+            }
+          })
+          .fail(function () {
+            console.log("error");
+          });
+      });
+    }
+  }
+  actualizar(event) {
+    event.preventDefault();
+    if ($("#formPlanEstudios").valid()) {
+      let formData =
+        $("#formPlanEstudios").serialize() +
+        "&c=AdministradorController&m=actualizarHorario";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          },
+        })
+          .done(function (result) {
+            if (validarResult(result)) {
+              switch (result.cod) {
+                case "00":
+                  $("#modalAuxiliar").hide();
+                  swal("Plan de estudios actualizado.", "", "success").then((value) => {
+                    vistaAsignaturas();
+                  });
+                  break;
+                case "88":
+                  modalLogout();
+                  break;
+                case "99":
+                  alerta("¡Error!", result.msj);
+                  $("#modalAuxiliar").modal("show");
+                  break;
+                default:
+                  alerta("¡Error!", "Error de codificación");
+                  $("#modalAuxiliar").modal("show");
+              }
+            }
+          })
+          .fail(function () {
+            console.log("error");
+          });
+      });
+    }
+  }
+
+  componentDidMount() {}
+  componentWillUnmount() {}
+  render() {
+    let titulo =
+      this.state.invocacion == "registro"
+        ? "Nuevo Horario"
+        : "Actualizar Horario";
+    let opciones = this.state.select.map((opcion, i) => (
+      <option value={opcion.idCiclo}>{opcion.nombreCiclo}</option>
+    ));
+
+    return (
+      <div
+        class="modal fade"
+        id="modalAuxiliar"
+        tabindex="-1"
+        aria-labelledby="modalAuxiliarLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header container">
+              <h5 class="modal-title" id="modalAuxiliarLabel">
+                {titulo}
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form id="formHorarios">
+              <div class="modal-body container">
+                <div className="form-row">
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Nombre Asignatura</label>
+                    <select
+                      id="codAsignaturaH"
+                      name="codAsignaturaH"
+                      defaultValue={this.state.datos.codAsignaturaH}
+                      class="form-control form-control-sm"
+                      required="required"
+                    >
+                      <option value="">Seleccione...</option>
+                      {opciones}
+                    </select>
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Nombre Ciclo</label>
+                    <select
+                      id="codCiclo"
+                      name="codCiclo"
+                      class="form-control form-control-sm"
+                      defaultValue={this.state.datos.codCiclo}
+                      required="required"
+                    >
+                      <option value="">Seleccione...</option>
+                      {opciones}
+                    </select>
+                  </div>
+
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Dia</label>
+                    <select
+                      id="dia"
+                      name="dia"
+                      class="form-control form-control-sm"
+                      defaultValue={this.state.datos.dia}
+                      required="required"
+                    >
+                      <option value="">Seleccione...</option>
+                      <option value="Lunes">lunes</option>
+                      <option value="Martes">Martes</option>
+                      <option value="Miercoles">Miercoles</option>
+                      <option value="Jueves">Jueves</option>
+                      <option value="Viernes">Viernes</option>
+                      <option value="Sabado">Sabado</option>
+                      <option value="Domingo">Domingo</option>
+                    </select>
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Hora Inicio</label>
+                    <input
+                      type="time"
+                      className="form-control form-control form-control-sm"
+                      name="horaInicio"
+                      defaultValue={this.state.datos.horaInicio}
+                      value="08:15:00"
+                      max="12:00:00"
+                      min="08:00:00"
+                      step="1"
+                      required="required"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Hora Fin</label>
+                    <input
+                      type="time"
+                      className="form-control form-control form-control-sm"
+                      name="horaFin"
+                      defaultValue={this.state.datos.horaFin}
+                      value="14:15"
+                      min="14:00"
+                      max="18:00"
+                      step="1"
+                      required="required"
+                    />
+                  </div>
+                  {this.state.invocacion != "registro" ? (
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm d-none"
+                      id="idHorario"
+                      name="idHorario"
+                      defaultValue={this.state.datos.idHorario}
+                      placeholder=" "
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+              <div class="modal-footer container">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm"
+                  data-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+                {this.state.invocacion == "registro" ? (
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    onClick={this.registrar}
+                  >
+                    Guardar
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    onClick={this.actualizar}
+                  >
+                    Actualizar
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+
+
+
+
+
+
+
+// PLAN ESTUDIOS FIN
+
+
+
+
+
+
+
+
+
+
+
 
 // CICLO
 class CrudCiclo extends React.Component {

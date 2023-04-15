@@ -2,6 +2,7 @@
 require 'controller/LoginController.php';
 require 'controller/AdministradorController.php';
 require 'controller/DocenteController.php';
+require 'controller/StudentController.php';
 
 class Route
 {

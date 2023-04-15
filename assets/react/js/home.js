@@ -28,6 +28,24 @@ function salir() {
     });
   });
 }
+
+//TEST
+function perfil() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "LoginController",
+        m: "perfil"
+      }
+    }).done(function (result) {
+      $(location).attr("href", "login.php");
+    }).fail(function () {
+      console.log("error");
+    });
+  });
+}
 function validarSesion() {
   Pace.track(function () {
     $.ajax({
@@ -777,4 +795,12 @@ function eliminarCiclo(id) {
       });
     }
   });
+}
+function editarPerfilUsuario() {
+  ReactDOM.unmountComponentAtNode(document.getElementById("modal1"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(ModalEstudiante, {
+    invocacion: "registro",
+    data: ""
+  }), document.getElementById("modal1"));
+  $("#modalAuxiliar").modal("show");
 }

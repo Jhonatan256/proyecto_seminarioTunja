@@ -74,7 +74,7 @@ class DocenteController extends LoginController
                 $data['acciones'] .= '</div>';
                 $salida['registros'][] = $data;
             }
-            return respuesta('00', $msj, $salida);
+            return respuesta('00', '$msj', $salida);
         } else {
             $msj = 'No existen registros actuales.';
         }

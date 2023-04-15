@@ -30,6 +30,27 @@ function salir() {
       });
   });
 }
+
+
+//TEST
+function perfil() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "LoginController",
+        m: "perfil",
+      },
+    })
+      .done(function (result) {
+        $(location).attr("href", "login.php");
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  });
+}
 function validarSesion() {
   Pace.track(function () {
     $.ajax({
@@ -666,6 +687,99 @@ function nuevoHorario() {
       });
   });
 }
+
+//**inicio plan estudios */
+
+function vistaPlanEstudios() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "listarPlanEstudios",
+      },
+    })
+      .done(function (result) {
+        if (validarResult(result)) {
+          actualizarRuta("Lista Plan Estudios", "vistaPlanEstudios");
+          switch (result.cod) {
+            case "00":
+              ReactDOM.unmountComponentAtNode(
+                document.getElementById("contenedor")
+              );
+              ReactDOM.render(
+                <CrudPlanEstudios data={result.data} />,
+                document.getElementById("contenedor")
+              );
+              break;
+            case "88":
+              modalLogout();
+              break;
+            case "99":
+              alerta("¡Error!", result.msj);
+              break;
+            default:
+              alerta("¡Error!", "Error de codificación");
+          }
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  });
+}
+
+
+function buscarPlanEstudios(id) {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "AdministradorController",
+        m: "buscarPlanEstudios",
+        id: id,
+      },
+    })
+      .done(function (result) {
+        if (validarResult(result)) {
+          switch (result.cod) {
+            case "00":
+              ReactDOM.unmountComponentAtNode(
+                document.getElementById("modal1")
+              );
+              ReactDOM.render(
+                <ModalPlanEstudios
+                  invocacion={"actualizar"}
+                  data={result.data}
+                  select={result.data.select}
+                />,
+                document.getElementById("modal1")
+              );
+              $("#modalAuxiliar").modal("show");
+              break;
+            case "88":
+              modalLogout();
+              break;
+            case "99":
+              alerta("¡Error!", result.msj);
+              break;
+            default:
+              alerta("¡Error!", "Error de codificación");
+          }
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  });
+}
+
+//**Fin plan de estudios */
+
+
+
 function vistaCiclo() {
   Pace.track(function () {
     $.ajax({
@@ -881,4 +995,18 @@ function eliminarCiclo(id) {
       });
     }
   });
+
+
+
+
+  
+}
+
+function editarPerfilUsuario() {
+  ReactDOM.unmountComponentAtNode(document.getElementById("modal1"));
+  ReactDOM.render(
+    <ModalEstudiante invocacion={"registro"} data={""} />,
+    document.getElementById("modal1")
+  );
+  $("#modalAuxiliar").modal("show");
 }

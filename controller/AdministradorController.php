@@ -423,6 +423,8 @@ class AdministradorController extends LoginController
         return respuesta('99', $msj);
     }
 
+
+    //MÉTODO PARA REGISTRARHORARIO
     public function registrarHorario()
     {
         if (self::getUser('tipoUsuario') == '1') {
@@ -475,6 +477,7 @@ class AdministradorController extends LoginController
         return respuesta('99', $msj);
     }
 
+
     public function eliminarHorario()
     {
         if (self::getUser('tipoUsuario') == '1') {
@@ -515,6 +518,7 @@ class AdministradorController extends LoginController
         }
     }
 
+    //MÉTODO PARA BUSCAR HORARIO
     public function buscarHorario()
     {
         if (self::getUser('tipoUsuario') == '1') {
@@ -534,6 +538,42 @@ class AdministradorController extends LoginController
         return respuesta('99', $msj);
     }
 
+
+
+    //MÉTODO PARA PLAN DE ESTUDIOS
+
+    public function listarPlanEstudios(){
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            $planEstudio = $db->consultarRegistros('SELECT  a.nombreAsignatura, a.intensidadHorariaSemanal, c.nombreCiclo FROM asignatura a LEFT JOIN ciclo c ON a.idCiclo  = c.idCiclo; ');
+            if ($planEstudio) {
+                $salida = [];
+                $salida['tipoUsuario'] = self::getUser('tipoUsuario');
+                foreach ($planEstudio as $value) {
+                    $data = [];
+                    $data['nombreCiclo'] = $value->nombreCiclo;
+                    $data['nombreAsignatura'] = $value->nombreAsignatura;
+                    $data['intensidadHorariaSemanal'] = $value->intensidadHorariaSemanal;
+                    $data['acciones'] = '<div class="btn-group" role="group" aria-label="First group">';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="buscarPlanEstudio(\'' . base64_encode($value->idAsignatura) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar plan" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '</div>';
+                    $salida['registros'][] = $data;
+                }
+                return respuesta('00', '', $salida);
+            } else {
+                $msj = 'No existen registros.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+
+    }
+
+
+
+
+    //MÉTODO PARA LISTAR CICLO
     public function listarCiclo()
     {
         if (self::getUser('tipoUsuario') == '1') {
@@ -567,6 +607,9 @@ class AdministradorController extends LoginController
         return respuesta('99', $msj);
     }
 
+
+
+    //MÉTODO PARA REGISTRAR CICLO
     public function registrarCiclo()
     {
         if (self::getUser('tipoUsuario') == '1') {
