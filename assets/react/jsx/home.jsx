@@ -258,6 +258,21 @@ function nuevoDocente() {
   );
   $("#modalAuxiliar").modal("show");
 }
+
+
+
+//plan estudio
+function nuevoPlan() {
+  ReactDOM.unmountComponentAtNode(document.getElementById("modal1"));
+  ReactDOM.render(
+    <ModalPlanEstudios invocacion={"registro"} data={""} />,
+    document.getElementById("modal1")
+  );
+  $("#modalAuxiliar").modal("show");
+}
+
+
+//fin
 function eliminarEstudiante(identificacion) {
   swal({
     title: "¡Cuidado!",
@@ -697,12 +712,12 @@ function vistaPlanEstudios() {
       type: "POST",
       data: {
         c: "AdministradorController",
-        m: "listarPlanEstudios",
+        m: "listarPlanEstudio",
       },
     })
       .done(function (result) {
         if (validarResult(result)) {
-          actualizarRuta("Lista Plan Estudios", "vistaPlanEstudios");
+          actualizarRuta("listarPlanEstudio","vistaPlanEstudios");
           switch (result.cod) {
             case "00":
               ReactDOM.unmountComponentAtNode(
