@@ -2533,3 +2533,386 @@ class ModalCiclo extends React.Component {
     );
   }
 }
+// CALIFICACIONES
+class CrudCalificaciones extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.data,
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+
+  componentDidMount() {
+    $("#tablaCalificaciones").DataTable({
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+      },
+      responsive: true,
+      dom: "Bfrtip",
+      pageLength: 20,
+      buttons: ["copy", "csv", "excel", "pdf", "print"],
+      column: [
+        {
+          width: "10000px",
+          targets: 0,
+        },
+        {
+          width: "40px",
+          targets: 1,
+        },
+        {
+          width: "100px",
+          targets: 2,
+        },
+        {
+          width: "70px",
+          targets: 3,
+        },
+        {
+          width: "70px",
+          targets: 4,
+        },
+        {
+          width: "70px",
+          targets: 4,
+        },
+        {
+          width: "70px",
+          targets: 4,
+        },
+        {
+          width: "70px",
+          targets: 5,
+        },
+      ],
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  }
+  render() {
+    var datos = this.state.data.registros.map((registro, i) => (
+      <tr>
+        <th scope="row">{i + 1}</th>
+        <td
+          dangerouslySetInnerHTML={{
+            __html: registro.acciones,
+          }}
+        ></td>
+        <td>{registro.idclase}</td>
+        <td>{registro.docente}</td>
+        <td>{registro.estudiante}</td>
+        <td>{registro.numerodocumento}</td>
+        <td>{registro.nombreasignatura}</td>
+        <td>{registro.notahabilitacion}</td>
+        <td>{registro.notatutoria}</td>
+        <td>{registro.notafinal}</td>
+      </tr>
+    ));
+    return (
+      <div>
+        <div class="head">
+          <h3>Calificaciones</h3>
+
+          <a
+            href="javascript:void(0)"
+            onClick={(data) => nuevaCalificacion()}
+            class="btn btn-primary d-sm-block d-lg-block"
+          >
+            Añadir Calificación
+          </a>
+        </div>
+        <div class="table-responsive table-responsive-sm">
+          <div class="table table-sm table-striped">
+            <table id="tablaCalificaciones" className="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Acciones</th>
+                  <th scope="col">ID Clase</th>
+                  <th scope="col">Docente</th>
+                  <th scope="col">Estudiante</th>
+                  <th scope="col">Número identificación</th>
+                  <th scope="col">Nombre asginatura</th>
+                  <th scope="col">Nota Habilitación</th>
+                  <th scope="col">Nota Tutoria</th>
+                  <th scope="col">Nota Final</th>
+                </tr>
+              </thead>
+              <tbody>{datos}</tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+class ModalCalificaciones extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      datos: props.data,
+      invocacion: props.invocacion,
+      select: props.select,
+    };
+    this.registrar = this.registrar.bind(this);
+    this.actualizar = this.actualizar.bind(this);
+  }
+  registrar(event) {
+    event.preventDefault();
+    if ($("#formCalificacion").valid()) {
+      let formData =
+        $("#formCalificacion").serialize() +
+        "&c=DocenteCrontroller&m=registrarCalificacion";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          },
+        })
+          .done(function (result) {
+            if (validarResult(result)) {
+              switch (result.cod) {
+                case "00":
+                  $("#modalAuxiliar").hide();
+                  swal("Calificación registrada.", "", "success").then((value) => {
+                    vistaCalificaciones();
+                  });
+                  break;
+                case "88":
+                  modalLogout();
+                  break;
+                case "99":
+                  alerta("¡Error!", result.msj);
+                  $("#modalAuxiliar").modal("show");
+                  break;
+                default:
+                  alerta("¡Error!", "Error de codificación");
+                  $("#modalAuxiliar").modal("show");
+              }
+            }
+          })
+          .fail(function () {
+            console.log("error");
+          });
+      });
+    }
+  }
+  actualizar(event) {
+    event.preventDefault();
+    if ($("#formCalificacion").valid()) {
+      let formData =
+        $("#formCalificacion").serialize() +
+        "&c=DocenteCrontroller&m=registrarCalificacion";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          },
+        })
+          .done(function (result) {
+            if (validarResult(result)) {
+              switch (result.cod) {
+                case "00":
+                  $("#modalAuxiliar").hide();
+                  swal("Calificación actualizada.", "", "success").then(
+                    (value) => {
+                      vistaCalificaciones();
+                    }
+                  );
+                  break;
+                case "88":
+                  modalLogout();
+                  break;
+                case "99":
+                  alerta("¡Error!", result.msj);
+                  $("#modalAuxiliar").modal("show");
+                  break;
+                default:
+                  alerta("¡Error!", "Error de codificación");
+                  $("#modalAuxiliar").modal("show");
+              }
+            }
+          })
+          .fail(function () {
+            console.log("error");
+          });
+      });
+    }
+  }
+
+  componentDidMount() {}
+  componentWillUnmount() {}
+  render() {
+    let titulo =
+      this.state.invocacion == "registro"
+        ? "Nueva calificacion"
+        : "Actualizar calificacion";
+    let opciones = this.state.select.map((opcion, i) => (
+        <option value={opcion.idAsignatura}>{opcion.nombreAsignatura}</option>
+    ));
+    return (
+      <div
+        class="modal fade"
+        id="modalAuxiliar"
+        tabindex="-1"
+        aria-labelledby="modalAuxiliarLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header container">
+              <h5 class="modal-title" id="modalAuxiliarLabel">
+                {titulo}
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form id="formCiclo">
+              <div class="modal-body container">
+                <div className="form-row">
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Nombre Estudiante</label>
+                    <select
+                      id="idEstudia"
+                      name="idEstudia"
+                      defaultValue={this.state.datos.idEstudia}
+                      class="form-control form-control-sm"
+                      required="required"
+                    >
+                      <option value="">Seleccione...</option>
+                      {opciones}
+                    </select>
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Número Identificación</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="numerodocumento"
+                      name="numerodocumento"
+                      defaultValue={this.state.datos.numerodocumento}
+                      placeholder="Identificación"
+                      required="required"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Asignatura</label>
+                    <select
+                      id="idAsignatura"
+                      name="idAsignatura"
+                      defaultValue={this.state.datos.idAsignatura}
+                      class="form-control form-control-sm"
+                      required="required"
+                    >
+                      <option value="">Seleccione...</option>
+                      {opciones}
+                    </select>
+                  </div>
+
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Nota Habilitación</label>
+                    <input 
+                      type="number"
+                      className="form-control form-control form-control-sm"
+                      id="notahabilitacion"
+                      name="notahabilitacion"
+                      placeholder="0.0" 
+                      step="0.1" 
+                      min="0" 
+                      max="5"
+                      defaultValue={this.state.datos.notahabilitacion}
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Nota tutoria</label>
+                    <input 
+                      type="number"
+                      className="form-control form-control form-control-sm"
+                      id="notatutoria"
+                      name="notatutoria"
+                      placeholder="0.0" 
+                      step="0.1" 
+                      min="0" 
+                      max="5"
+                      defaultValue={this.state.datos.notatutoria}
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Nota Final</label>
+                    <input 
+                      type="number"
+                      className="form-control form-control form-control-sm"
+                      id="notafinal"
+                      name="notafinal"
+                      placeholder="0.0" 
+                      step="0.1" 
+                      min="0" 
+                      max="5"
+                      defaultValue={this.state.datos.notafinal}
+                    />
+                  </div>
+                  {this.state.invocacion != "registro" ? (
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm d-none"
+                      id="idclase"
+                      name="idclase"
+                      defaultValue={this.state.datos.idclase}
+                      placeholder=" "
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+              <div class="modal-footer container">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm"
+                  data-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+                {this.state.invocacion == "registro" ? (
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    onClick={this.registrar}
+                  >
+                    Guardar
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    onClick={this.actualizar}
+                  >
+                    Actualizar
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}

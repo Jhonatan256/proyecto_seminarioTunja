@@ -2125,3 +2125,324 @@ class ModalCiclo extends React.Component {
     }, "Actualizar"))))));
   }
 }
+// CALIFICACIONES
+class CrudCalificaciones extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.data
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+  componentDidMount() {
+    $("#tablaCalificaciones").DataTable({
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+      },
+      responsive: true,
+      dom: "Bfrtip",
+      pageLength: 20,
+      buttons: ["copy", "csv", "excel", "pdf", "print"],
+      column: [{
+        width: "10000px",
+        targets: 0
+      }, {
+        width: "40px",
+        targets: 1
+      }, {
+        width: "100px",
+        targets: 2
+      }, {
+        width: "70px",
+        targets: 3
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 5
+      }]
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  }
+  render() {
+    var datos = this.state.data.registros.map((registro, i) => /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+      scope: "row"
+    }, i + 1), /*#__PURE__*/React.createElement("td", {
+      dangerouslySetInnerHTML: {
+        __html: registro.acciones
+      }
+    }), /*#__PURE__*/React.createElement("td", null, registro.idclase), /*#__PURE__*/React.createElement("td", null, registro.docente), /*#__PURE__*/React.createElement("td", null, registro.estudiante), /*#__PURE__*/React.createElement("td", null, registro.numerodocumento), /*#__PURE__*/React.createElement("td", null, registro.nombreasignatura), /*#__PURE__*/React.createElement("td", null, registro.notahabilitacion), /*#__PURE__*/React.createElement("td", null, registro.notatutoria), /*#__PURE__*/React.createElement("td", null, registro.notafinal)));
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      class: "head"
+    }, /*#__PURE__*/React.createElement("h3", null, "Calificaciones"), /*#__PURE__*/React.createElement("a", {
+      href: "javascript:void(0)",
+      onClick: data => nuevaCalificacion(),
+      class: "btn btn-primary d-sm-block d-lg-block"
+    }, "A\xF1adir Calificaci\xF3n")), /*#__PURE__*/React.createElement("div", {
+      class: "table-responsive table-responsive-sm"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "table table-sm table-striped"
+    }, /*#__PURE__*/React.createElement("table", {
+      id: "tablaCalificaciones",
+      className: "table"
+    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "#"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Acciones"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "ID Clase"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Docente"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Estudiante"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "N\xFAmero identificaci\xF3n"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Nombre asginatura"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Nota Habilitaci\xF3n"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Nota Tutoria"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "Nota Final"))), /*#__PURE__*/React.createElement("tbody", null, datos)))));
+  }
+}
+class ModalCalificaciones extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      datos: props.data,
+      invocacion: props.invocacion,
+      select: props.select
+    };
+    this.registrar = this.registrar.bind(this);
+    this.actualizar = this.actualizar.bind(this);
+  }
+  registrar(event) {
+    event.preventDefault();
+    if ($("#formCalificacion").valid()) {
+      let formData = $("#formCalificacion").serialize() + "&c=DocenteCrontroller&m=registrarCalificacion";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          }
+        }).done(function (result) {
+          if (validarResult(result)) {
+            switch (result.cod) {
+              case "00":
+                $("#modalAuxiliar").hide();
+                swal("Calificación registrada.", "", "success").then(value => {
+                  vistaCalificaciones();
+                });
+                break;
+              case "88":
+                modalLogout();
+                break;
+              case "99":
+                alerta("¡Error!", result.msj);
+                $("#modalAuxiliar").modal("show");
+                break;
+              default:
+                alerta("¡Error!", "Error de codificación");
+                $("#modalAuxiliar").modal("show");
+            }
+          }
+        }).fail(function () {
+          console.log("error");
+        });
+      });
+    }
+  }
+  actualizar(event) {
+    event.preventDefault();
+    if ($("#formCalificacion").valid()) {
+      let formData = $("#formCalificacion").serialize() + "&c=DocenteCrontroller&m=registrarCalificacion";
+      Pace.track(function () {
+        $.ajax({
+          url: "../Route.php",
+          type: "POST",
+          data: formData,
+          beforeSend: function () {
+            $("#modalAuxiliar").modal("hide");
+          }
+        }).done(function (result) {
+          if (validarResult(result)) {
+            switch (result.cod) {
+              case "00":
+                $("#modalAuxiliar").hide();
+                swal("Calificación actualizada.", "", "success").then(value => {
+                  vistaCalificaciones();
+                });
+                break;
+              case "88":
+                modalLogout();
+                break;
+              case "99":
+                alerta("¡Error!", result.msj);
+                $("#modalAuxiliar").modal("show");
+                break;
+              default:
+                alerta("¡Error!", "Error de codificación");
+                $("#modalAuxiliar").modal("show");
+            }
+          }
+        }).fail(function () {
+          console.log("error");
+        });
+      });
+    }
+  }
+  componentDidMount() {}
+  componentWillUnmount() {}
+  render() {
+    let titulo = this.state.invocacion == "registro" ? "Nueva calificacion" : "Actualizar calificacion";
+    let opciones = this.state.select.map((opcion, i) => /*#__PURE__*/React.createElement("option", {
+      value: opcion.idAsignatura
+    }, opcion.nombreAsignatura));
+    return /*#__PURE__*/React.createElement("div", {
+      class: "modal fade",
+      id: "modalAuxiliar",
+      tabindex: "-1",
+      "aria-labelledby": "modalAuxiliarLabel",
+      "aria-hidden": "true"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-dialog modal-lg"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-content"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-header container"
+    }, /*#__PURE__*/React.createElement("h5", {
+      class: "modal-title",
+      id: "modalAuxiliarLabel"
+    }, titulo), /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "close",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }, /*#__PURE__*/React.createElement("span", {
+      "aria-hidden": "true"
+    }, "\xD7"))), /*#__PURE__*/React.createElement("form", {
+      id: "formCiclo"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-body container"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-row"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Nombre Estudiante"), /*#__PURE__*/React.createElement("select", {
+      id: "idEstudia",
+      name: "idEstudia",
+      defaultValue: this.state.datos.idEstudia,
+      class: "form-control form-control-sm",
+      required: "required"
+    }, /*#__PURE__*/React.createElement("option", {
+      value: ""
+    }, "Seleccione..."), opciones)), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "N\xFAmero Identificaci\xF3n"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "numerodocumento",
+      name: "numerodocumento",
+      defaultValue: this.state.datos.numerodocumento,
+      placeholder: "Identificaci\xF3n",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Asignatura"), /*#__PURE__*/React.createElement("select", {
+      id: "idAsignatura",
+      name: "idAsignatura",
+      defaultValue: this.state.datos.idAsignatura,
+      class: "form-control form-control-sm",
+      required: "required"
+    }, /*#__PURE__*/React.createElement("option", {
+      value: ""
+    }, "Seleccione..."), opciones)), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Nota Habilitaci\xF3n"), /*#__PURE__*/React.createElement("input", {
+      type: "number",
+      className: "form-control form-control form-control-sm",
+      id: "notahabilitacion",
+      name: "notahabilitacion",
+      placeholder: "0.0",
+      step: "0.1",
+      min: "0",
+      max: "5",
+      defaultValue: this.state.datos.notahabilitacion
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Nota tutoria"), /*#__PURE__*/React.createElement("input", {
+      type: "number",
+      className: "form-control form-control form-control-sm",
+      id: "notatutoria",
+      name: "notatutoria",
+      placeholder: "0.0",
+      step: "0.1",
+      min: "0",
+      max: "5",
+      defaultValue: this.state.datos.notatutoria
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Nota Final"), /*#__PURE__*/React.createElement("input", {
+      type: "number",
+      className: "form-control form-control form-control-sm",
+      id: "notafinal",
+      name: "notafinal",
+      placeholder: "0.0",
+      step: "0.1",
+      min: "0",
+      max: "5",
+      defaultValue: this.state.datos.notafinal
+    })), this.state.invocacion != "registro" ? /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm d-none",
+      id: "idclase",
+      name: "idclase",
+      defaultValue: this.state.datos.idclase,
+      placeholder: " "
+    }) : "")), /*#__PURE__*/React.createElement("div", {
+      class: "modal-footer container"
+    }, /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-secondary btn-sm",
+      "data-dismiss": "modal"
+    }, "Cerrar"), this.state.invocacion == "registro" ? /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-primary btn-sm",
+      onClick: this.registrar
+    }, "Guardar") : /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-primary btn-sm",
+      onClick: this.actualizar
+    }, "Actualizar"))))));
+  }
+}
