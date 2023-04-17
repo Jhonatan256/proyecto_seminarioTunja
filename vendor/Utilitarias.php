@@ -113,6 +113,7 @@ function menuCalificaciones()
     ];
 }
 
+
 function menuCiclo()
 {
     return [
@@ -121,6 +122,25 @@ function menuCiclo()
         'z' => 'vistaCiclo'
     ];
 }
+
+
+//Esta función es para el menú de calificaciones que vera el estudiante
+function menuCalificacionesEstudiante(){
+    return [
+        'nombre' => 'Calificaciones',
+        'icono' => 'bx bxs-widget icon',
+        'z' => 'vistaCalificacionesEstudiante'
+    ];
+
+}
+
+
+
+
+
+
+
+
 
 // function menuLibro(){
 // return ['nombre' =>'Calificaciones', 'icono' => 'bx bxs-widget icon', 'z' => 'vistaCalificaciones'];

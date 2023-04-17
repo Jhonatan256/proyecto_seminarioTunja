@@ -548,20 +548,19 @@ class AdministradorController extends LoginController
         ) {
             $db = new Conexion();
             $plan= $db->consultarRegistros('SELECT c.nombreCiclo ,a.nombreAsignatura as Asignatura, a.intensidadHorariaSemanal as HorasSemanales
-FROM asignatura a
-LEFT JOIN ciclo c
-ON a.idCiclo  = c.idCiclo;');
+                        FROM asignatura a         
+                        LEFT JOIN ciclo c
+                        ON a.idCiclo  = c.idCiclo;');
             if ($plan) {
 
                 $salida = [];
                 $salida['tipoUsuario'] = self::getUser('tipoUsuario');
                 foreach ($plan as $value) {
                     $data = [];
+                    $data['idCiclo'] = $value->idCiclo;
                     $data['nombreCiclo'] = $value->nombreCiclo;
                     $data['nombreAsignatura'] = $value->nombreAsignatura;
-                    $data['HorasSemanales'] = $value->intensidadHorariaSemanal;
-                    $data['acciones'] = '<div class="btn-group" role="group" aria-label="First group">';
-                    $data['acciones'] .= '</div>';
+                    $data['intensidadHorariaSemanal'] = $value->intensidadHorariaSemanal;
                     $salida['registros'][] = $data;
                 }
 
@@ -574,6 +573,35 @@ ON a.idCiclo  = c.idCiclo;');
         }
         return respuesta('99', $msj);
     }
+
+    //MÉTODO PARA BUSCAR PLAN DE ESTUDIO
+    public function buscarPlan()
+    {
+   
+        if (self::getUser('tipoUsuario') == '1') {
+            $db = new Conexion();
+            $plan = $db->consultarRegistro('SELECT c.nombreCiclo ,a.nombreAsignatura as Asignatura, a.intensidadHorariaSemanal as HorasSemanales
+                        FROM asignatura a         
+                        LEFT JOIN ciclo c
+                        ON a.idCiclo  = c.idCiclo          
+            
+            WHERE c.idCiclo = :ide', [
+                'ide' => base64_decode($_POST['ide'])
+            ]);
+            if ($plan) {
+                return respuesta('00', '', $plan);
+            } else {
+                $msj = 'No existe el plan de estudios.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+    
+    }
+
+
+
 
     //MÉTODO PARA LISTAR CICLO
     public function listarCiclo()

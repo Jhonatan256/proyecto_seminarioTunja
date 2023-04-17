@@ -1540,7 +1540,32 @@ class CrudPlanEstudios extends React.Component {
       responsive: true,
       dom: "Bfrtip",
       pageLength: 20,
-      buttons: ["copy", "csv", "excel", "print"]
+      buttons: ["copy", "csv", "excel", "pdf", "print"],
+      column: [{
+        width: "10000px",
+        targets: 0
+      }, {
+        width: "40px",
+        targets: 1
+      }, {
+        width: "100px",
+        targets: 2
+      }, {
+        width: "70px",
+        targets: 3
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 4
+      }, {
+        width: "70px",
+        targets: 5
+      }]
     });
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
@@ -1553,10 +1578,14 @@ class CrudPlanEstudios extends React.Component {
       dangerouslySetInnerHTML: {
         __html: registro.acciones
       }
-    }), /*#__PURE__*/React.createElement("td", null, registro.nombreCiclo), /*#__PURE__*/React.createElement("td", null, registro.nombreAsignatura), /*#__PURE__*/React.createElement("td", null, registro.intensidadHorariaSemanal)));
+    }), /*#__PURE__*/React.createElement("td", null, registro.idCiclo), /*#__PURE__*/React.createElement("td", null, registro.nombreCiclo), /*#__PURE__*/React.createElement("td", null, registro.nombreAsignatura), /*#__PURE__*/React.createElement("td", null, registro.intensidadHorariaSemanal)));
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       class: "head"
-    }, /*#__PURE__*/React.createElement("h3", null, "Plan Estudios")), /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("h3", null, "Plan Estudios"), /*#__PURE__*/React.createElement("a", {
+      href: "javascript:void(0)",
+      onClick: data => nuevoCiclo(),
+      class: "btn btn-primary d-sm-block d-lg-block"
+    }, "A\xF1adir Ciclo")), /*#__PURE__*/React.createElement("div", {
       class: "table-responsive table-responsive-sm"
     }, /*#__PURE__*/React.createElement("div", {
       class: "table table-sm table-striped"
@@ -1566,6 +1595,8 @@ class CrudPlanEstudios extends React.Component {
     }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
       scope: "col"
     }, "#"), /*#__PURE__*/React.createElement("th", {
+      scope: "col"
+    }, "ID"), /*#__PURE__*/React.createElement("th", {
       scope: "col"
     }, "Ciclo"), /*#__PURE__*/React.createElement("th", {
       scope: "col"
@@ -1579,7 +1610,8 @@ class ModalPlanEstudios extends React.Component {
     super(props);
     this.state = {
       datos: props.data,
-      invocacion: props.invocacion
+      invocacion: props.invocacion,
+      select: props.select
     };
     this.registrar = this.registrar.bind(this);
     this.actualizar = this.actualizar.bind(this);
@@ -1587,7 +1619,7 @@ class ModalPlanEstudios extends React.Component {
   registrar(event) {
     event.preventDefault();
     if ($("#formPlanEstudios").valid()) {
-      let formData = $("#formPlanEstudios").serialize() + "&c=AdministradorController&m=listarPlanEstudio";
+      let formData = $("#formPlanEstudios").serialize() + "&c=AdministradorController&m=registrarCiclo";
       Pace.track(function () {
         $.ajax({
           url: "../Route.php",
@@ -1602,7 +1634,7 @@ class ModalPlanEstudios extends React.Component {
               case "00":
                 $("#modalAuxiliar").hide();
                 swal("Usuario registrado.", "", "success").then(value => {
-                  vistaPlanEstudios();
+                  vistaPlanEstudios;
                 });
                 break;
               case "88":
@@ -1625,8 +1657,8 @@ class ModalPlanEstudios extends React.Component {
   }
   actualizar(event) {
     event.preventDefault();
-    if ($("#formPlanEstudios").valid()) {
-      let formData = $("#formPlanEstudios").serialize() + "&c=AdministradorController&m=actualizarDocente";
+    if ($("#formCiclo").valid()) {
+      let formData = $("#formCiclo").serialize() + "&c=AdministradorController&m=actualizarCiclo";
       Pace.track(function () {
         $.ajax({
           url: "../Route.php",
@@ -1640,8 +1672,8 @@ class ModalPlanEstudios extends React.Component {
             switch (result.cod) {
               case "00":
                 $("#modalAuxiliar").hide();
-                swal("Usuario actualizado.", "", "success").then(value => {
-                  vistaPlanEstudios();
+                swal("Ciclo actualizado.", "", "success").then(value => {
+                  vistaCiclo();
                 });
                 break;
               case "88":
@@ -1665,7 +1697,7 @@ class ModalPlanEstudios extends React.Component {
   componentDidMount() {}
   componentWillUnmount() {}
   render() {
-    let titulo = this.state.invocacion == "registro" ? "Nuevo plan" : "Actualizar datos";
+    let titulo = this.state.invocacion == "registro" ? "Nuevo ciclo" : "Actualizar datos";
     return /*#__PURE__*/React.createElement("div", {
       class: "modal fade",
       id: "modalAuxiliar",
@@ -1688,7 +1720,105 @@ class ModalPlanEstudios extends React.Component {
       "aria-label": "Close"
     }, /*#__PURE__*/React.createElement("span", {
       "aria-hidden": "true"
-    }, "\xD7"))))));
+    }, "\xD7"))), /*#__PURE__*/React.createElement("form", {
+      id: "formCiclo"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "modal-body container"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-row"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Nombre Ciclo"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "nombreCiclo",
+      name: "nombreCiclo",
+      defaultValue: this.state.datos.nombreCiclo,
+      placeholder: "Nombre ciclo",
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Nombre Grupo"), /*#__PURE__*/React.createElement("select", {
+      id: "idGrupo",
+      name: "idGrupo",
+      defaultValue: this.state.datos.idGrupo,
+      class: "form-control form-control-sm",
+      required: "required"
+    }, /*#__PURE__*/React.createElement("option", {
+      value: ""
+    }, "Seleccione..."), opciones)), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Semestre"), /*#__PURE__*/React.createElement("select", {
+      id: "semestre",
+      name: "semestre",
+      class: "form-control form-control-sm",
+      defaultValue: this.state.datos.semestre,
+      required: "required"
+    }, /*#__PURE__*/React.createElement("option", {
+      value: ""
+    }, "Seleccione..."), /*#__PURE__*/React.createElement("option", {
+      value: "1"
+    }, "1"), /*#__PURE__*/React.createElement("option", {
+      value: "2"
+    }, "2"))), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Descripci\xF3n"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm",
+      id: "descripcion",
+      name: "descripcion",
+      defaultValue: this.state.datos.descripcion,
+      placeholder: "Descripci\xF3n"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Fecha Inicio"), /*#__PURE__*/React.createElement("input", {
+      type: "date",
+      className: "form-control form-control form-control-sm",
+      name: "fechaInicio",
+      defaultValue: this.state.datos.fechaInicio,
+      required: "required"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
+    }, /*#__PURE__*/React.createElement("label", {
+      htmlFor: "inputAddress"
+    }, "Fecha Fin"), /*#__PURE__*/React.createElement("input", {
+      type: "date",
+      className: "form-control form-control form-control-sm",
+      name: "fechaFin",
+      defaultValue: this.state.datos.fechaFinalizacion,
+      required: "required"
+    })), this.state.invocacion != "registro" ? /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      className: "form-control form-control form-control-sm d-none",
+      id: "idCiclo",
+      name: "idCiclo",
+      defaultValue: this.state.datos.idCiclo,
+      placeholder: " "
+    }) : "")), /*#__PURE__*/React.createElement("div", {
+      class: "modal-footer container"
+    }, /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-secondary btn-sm",
+      "data-dismiss": "modal"
+    }, "Cerrar"), this.state.invocacion == "registro" ? /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-primary btn-sm",
+      onClick: this.registrar
+    }, "Guardar") : /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      class: "btn btn-primary btn-sm",
+      onClick: this.actualizar
+    }, "Actualizar"))))));
   }
 }
 
@@ -2191,9 +2321,12 @@ class ModalCalificaciones extends React.Component {
     }
   }
   componentDidMount() {}
-  componentWillUnmount() {}
+  componentWillUnmount() {} //Fin will
+
   render() {
     let titulo = this.state.invocacion == "registro" ? "Nueva calificacion" : "Actualizar calificacion";
+    //Mapeo 
+
     let opciones = this.state.select.map((opcion, i) => /*#__PURE__*/React.createElement("option", {
       value: opcion.idAsignatura
     }, opcion.nombreAsignatura));

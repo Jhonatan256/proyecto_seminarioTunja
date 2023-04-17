@@ -94,10 +94,30 @@ class DocenteController extends LoginController
         }
         return respuesta('99', $msj);
     }
+
+
     public function selectAsignatura($tipoSalida = true)
     {
         $db = new Conexion();
-        $salida = $db->consultarRegistros('SELECT * FROM asignatura');
+
+        $salida[0] = $db->consultarRegistros('SELECT * FROM asignatura');
+        $salida[1] = $db->consultarRegistros('SELECT * FROM usuario WHERE codRol = 3');
+
+       
+
+        if ($tipoSalida) {
+            return respuesta('00', '', $salida);
+        } else {
+            return $salida;
+        }
+    }
+
+    //Función estudiante
+
+    public function selectEstudiante($tipoSalida = true)
+    {
+        $db = new Conexion();
+        $salida = $db->consultarRegistros('SELECT * FROM usuario WHERE codRol = 3;');
         if ($tipoSalida) {
             return respuesta('00', '', $salida);
         } else {

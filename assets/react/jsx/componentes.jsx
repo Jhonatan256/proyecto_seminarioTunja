@@ -1823,15 +1823,50 @@ class CrudPlanEstudios extends React.Component {
       language: {
         url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
       },
-      responsive: true,
+    responsive: true,
       dom: "Bfrtip",
       pageLength: 20,
-      buttons: ["copy", "csv", "excel", "print"],
+      buttons: ["copy", "csv", "excel", "pdf", "print"],
+      column: [
+        {
+          width: "10000px",
+          targets: 0,
+        },
+        {
+          width: "40px",
+          targets: 1,
+        },
+        {
+          width: "100px",
+          targets: 2,
+        },
+        {
+          width: "70px",
+          targets: 3,
+        },
+        {
+          width: "70px",
+          targets: 4,
+        },
+        {
+          width: "70px",
+          targets: 4,
+        },
+        {
+          width: "70px",
+          targets: 4,
+        },
+        {
+          width: "70px",
+          targets: 5,
+        },
+      ],
     });
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
   }
+
   render() {
     var datos = this.state.data.registros.map((registro, i) => (
       <tr>
@@ -1841,6 +1876,7 @@ class CrudPlanEstudios extends React.Component {
             __html: registro.acciones,
           }}
         ></td>
+        <td>{registro.idCiclo}</td>
         <td>{registro.nombreCiclo}</td>
         <td>{registro.nombreAsignatura}</td>
         <td>{registro.intensidadHorariaSemanal}</td>
@@ -1850,6 +1886,13 @@ class CrudPlanEstudios extends React.Component {
       <div>
         <div class="head">
           <h3>Plan Estudios</h3>
+<a
+            href="javascript:void(0)"
+            onClick={(data) => nuevoCiclo()}
+            class="btn btn-primary d-sm-block d-lg-block"
+          >
+            Añadir Ciclo
+          </a>
 
           
         </div>
@@ -1859,6 +1902,7 @@ class CrudPlanEstudios extends React.Component {
               <thead>
                 <tr>
                   <th scope="col">#</th>
+                  <th scope="col">ID</th>
                   <th scope="col">Ciclo</th>
                   <th scope="col">Asignatura</th>
                   <th scope="col">Intensidad Horaria</th>
@@ -1882,6 +1926,7 @@ class ModalPlanEstudios extends React.Component {
     this.state = {
       datos: props.data,
       invocacion: props.invocacion,
+      select: props.select,
     };
     this.registrar = this.registrar.bind(this);
     this.actualizar = this.actualizar.bind(this);
@@ -1891,7 +1936,7 @@ class ModalPlanEstudios extends React.Component {
     if ($("#formPlanEstudios").valid()) {
       let formData =
         $("#formPlanEstudios").serialize() +
-        "&c=AdministradorController&m=listarPlanEstudio";
+        "&c=AdministradorController&m=registrarCiclo";
       Pace.track(function () {
         $.ajax({
           url: "../Route.php",
@@ -1907,7 +1952,7 @@ class ModalPlanEstudios extends React.Component {
                 case "00":
                   $("#modalAuxiliar").hide();
                   swal("Usuario registrado.", "", "success").then((value) => {
-                    vistaPlanEstudios();
+                    vistaPlanEstudios;
                   });
                   break;
                 case "88":
@@ -1929,12 +1974,13 @@ class ModalPlanEstudios extends React.Component {
       });
     }
   }
+  
   actualizar(event) {
     event.preventDefault();
-    if ($("#formPlanEstudios").valid()) {
+    if ($("#formCiclo").valid()) {
       let formData =
-        $("#formPlanEstudios").serialize() +
-        "&c=AdministradorController&m=actualizarDocente";
+        $("#formCiclo").serialize() +
+        "&c=AdministradorController&m=actualizarCiclo";
       Pace.track(function () {
         $.ajax({
           url: "../Route.php",
@@ -1949,9 +1995,11 @@ class ModalPlanEstudios extends React.Component {
               switch (result.cod) {
                 case "00":
                   $("#modalAuxiliar").hide();
-                  swal("Usuario actualizado.", "", "success").then((value) => {
-                    vistaPlanEstudios();
-                  });
+                  swal("Ciclo actualizado.", "", "success").then(
+                    (value) => {
+                      vistaCiclo();
+                    }
+                  );
                   break;
                 case "88":
                   modalLogout();
@@ -1976,9 +2024,10 @@ class ModalPlanEstudios extends React.Component {
   componentDidMount() {}
   componentWillUnmount() {}
   render() {
+
     let titulo =
       this.state.invocacion == "registro"
-        ? "Nuevo plan"
+        ? "Nuevo ciclo"
         : "Actualizar datos";
     return (
       <div
@@ -2000,16 +2049,132 @@ class ModalPlanEstudios extends React.Component {
                 data-dismiss="modal"
                 aria-label="Close"
               >
-                <span aria-hidden="true">&times;</span>
+             <span aria-hidden="true">&times;</span>
               </button>
             </div>
-          
+            <form id="formCiclo">
+              <div class="modal-body container">
+                <div className="form-row">
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Nombre Ciclo</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="nombreCiclo"
+                      name="nombreCiclo"
+                      defaultValue={this.state.datos.nombreCiclo}
+                      placeholder="Nombre ciclo"
+                      required="required"
+                      
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Nombre Grupo</label>
+                    <select
+                      id="idGrupo"
+                      name="idGrupo"
+                      defaultValue={this.state.datos.idGrupo}
+                      class="form-control form-control-sm"
+                      required="required"
+                    >
+                      <option value="">Seleccione...</option>
+                      {opciones}
+                    </select>
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Semestre</label>
+                    <select
+                      id="semestre"
+                      name="semestre"
+                      class="form-control form-control-sm"
+                      defaultValue={this.state.datos.semestre}
+                      required="required"
+                    >
+                      <option value="">Seleccione...</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Descripción</label>
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm"
+                      id="descripcion"
+                      name="descripcion"
+                      defaultValue={this.state.datos.descripcion}
+                      placeholder="Descripción"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Fecha Inicio</label>
+                    <input
+                      type="date"
+                      className="form-control form-control form-control-sm"
+                      name="fechaInicio"
+                      defaultValue={this.state.datos.fechaInicio}
+                      required="required"
+                    />
+                  </div>
+                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                    <label htmlFor="inputAddress">Fecha Fin</label>
+                    <input
+                      type="date"
+                      className="form-control form-control form-control-sm"
+                      name="fechaFin"
+                      defaultValue={this.state.datos.fechaFinalizacion}
+                      required="required"
+                    />
+                  </div>
+                  {this.state.invocacion != "registro" ? (
+                    <input
+                      type="text"
+                      className="form-control form-control form-control-sm d-none"
+                      id="idCiclo"
+                      name="idCiclo"
+                      defaultValue={this.state.datos.idCiclo}
+                      placeholder=" "
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+              <div class="modal-footer container">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm"
+                  data-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+                {this.state.invocacion == "registro" ? (
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    onClick={this.registrar}
+                  >
+                    Guardar
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    onClick={this.actualizar}
+                  >
+                    Actualizar
+                  </button>
+                )}
+              </div>
+            </form>
           </div>
         </div>
       </div>
     );
   }
 }
+
 
 
 //********************** */
@@ -2617,15 +2782,31 @@ class ModalCalificaciones extends React.Component {
   }
 
   componentDidMount() {}
-  componentWillUnmount() {}
+  componentWillUnmount() {
+
+
+  
+  }//Fin will
+
+  
   render() {
     let titulo =
       this.state.invocacion == "registro"
         ? "Nueva calificacion"
         : "Actualizar calificacion";
-    let opciones = this.state.select.map((opcion, i) => (
+      //Mapeo 
+
+
+
+
+
+  let opciones = this.state.select.map((opcion, i) => (
         <option value={opcion.idAsignatura}>{opcion.nombreAsignatura}</option>
+
+        
     ));
+
+    
     return (
       <div
         class="modal fade"
@@ -2685,7 +2866,7 @@ class ModalCalificaciones extends React.Component {
                       defaultValue={this.state.datos.idAsignatura}
                       class="form-control form-control-sm"
                       required="required"
-                    >
+                    >                      
                       <option value="">Seleccione...</option>
                       {opciones}
                     </select>

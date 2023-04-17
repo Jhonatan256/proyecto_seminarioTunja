@@ -261,18 +261,7 @@ function nuevoDocente() {
 
 
 
-//plan estudio
-function nuevoPlan() {
-  ReactDOM.unmountComponentAtNode(document.getElementById("modal1"));
-  ReactDOM.render(
-    <ModalPlanEstudios invocacion={"registro"} data={""} />,
-    document.getElementById("modal1")
-  );
-  $("#modalAuxiliar").modal("show");
-}
 
-
-//fin
 function eliminarEstudiante(identificacion) {
   swal({
     title: "¡Cuidado!",
@@ -676,7 +665,7 @@ function vistaPlanEstudios() {
     })
       .done(function (result) {
         if (validarResult(result)) {
-          actualizarRuta("listarPlanEstudio","vistaPlanEstudios");
+          actualizarRuta("lista Plan Estudio","vistaPlanEstudios");
           switch (result.cod) {
             case "00":
               ReactDOM.unmountComponentAtNode(
@@ -750,6 +739,19 @@ function buscarPlanEstudios(id) {
   });
 }
 
+
+//plan estudio
+function nuevoPlan() {
+  ReactDOM.unmountComponentAtNode(document.getElementById("modal1"));
+  ReactDOM.render(
+    <ModalPlanEstudios invocacion={"registro"} data={""} />,
+    document.getElementById("modal1")
+  );
+  $("#modalAuxiliar").modal("show");
+}
+
+
+//fin
 //**Fin plan de estudios */
 
 

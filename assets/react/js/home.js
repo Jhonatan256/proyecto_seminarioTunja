@@ -582,11 +582,11 @@ function vistaPlanEstudios() {
       type: "POST",
       data: {
         c: "AdministradorController",
-        m: "listarPlanEstudios"
+        m: "listarPlanEstudio"
       }
     }).done(function (result) {
       if (validarResult(result)) {
-        actualizarRuta("Lista Plan Estudios", "vistaPlanEstudios");
+        actualizarRuta("lista Plan Estudio", "vistaPlanEstudios");
         switch (result.cod) {
           case "00":
             ReactDOM.unmountComponentAtNode(document.getElementById("contenedor"));
@@ -647,6 +647,17 @@ function buscarPlanEstudios(id) {
   });
 }
 
+//plan estudio
+function nuevoPlan() {
+  ReactDOM.unmountComponentAtNode(document.getElementById("modal1"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(ModalPlanEstudios, {
+    invocacion: "registro",
+    data: ""
+  }), document.getElementById("modal1"));
+  $("#modalAuxiliar").modal("show");
+}
+
+//fin
 //**Fin plan de estudios */
 
 function vistaCiclo() {

@@ -86,4 +86,7 @@ class Conexion
     {
         return $this->handleDB->lastInsertId();
     }
+
+
+    
 }

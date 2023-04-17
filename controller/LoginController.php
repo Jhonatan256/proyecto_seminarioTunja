@@ -137,17 +137,16 @@ class LoginController
                 // 'z' => 'vistaDocente'
                 // ];
                 $menu['opciones'][] = menuCalificaciones();
-                //Estudiantes solo se puede listar
-                $menu['opciones'][] = menuEstudiantes();
+              
 
                 break;
             case '3':
                 $menu['icono'] = 'bx bxs-user-pin';
-                $menu['opciones'][] = [
-                    'nombre' => 'Estudiante',
-                    'icono' => 'bx bxs-notepad icon',
-                    'z' => 'vistaEstudiante'
-                ];
+                //$menu['opciones'][] = [
+                  //  'nombre' => 'Estudiante',
+                   // 'icono' => 'bx bxs-notepad icon',
+                   // 'z' => 'vistaEstudiante'
+               // ];
                 $menu['opciones'][] = menuCalificaciones();
                 break;
 
