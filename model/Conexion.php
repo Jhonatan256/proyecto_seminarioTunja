@@ -2,7 +2,7 @@
 
 class Conexion
 {
-
+    private $host, $db, $user, $password, $charset, $port;
     private $handleDB;
 
     public function __construct($include = 'S')

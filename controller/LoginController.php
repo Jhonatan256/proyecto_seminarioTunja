@@ -143,11 +143,11 @@ class LoginController
             case '3':
                 $menu['icono'] = 'bx bxs-user-pin';
                 //$menu['opciones'][] = [
-                  //  'nombre' => 'Estudiante',
-                   // 'icono' => 'bx bxs-notepad icon',
-                   // 'z' => 'vistaEstudiante'
-               // ];
-                $menu['opciones'][] = menuCalificaciones();
+                //  'nombre' => 'Estudiante',
+                // 'icono' => 'bx bxs-notepad icon',
+                // 'z' => 'vistaEstudiante'
+                // ];
+                $menu['opciones'][] = menuNota();
                 break;
 
             default:

@@ -124,14 +124,15 @@ function menuCiclo()
 }
 
 
-//Esta función es para el menú de calificaciones que vera el estudiante
-function menuCalificacionesEstudiante(){
-    return [
-        'nombre' => 'Calificaciones',
-        'icono' => 'bx bxs-widget icon',
-        'z' => 'vistaCalificacionesEstudiante'
-    ];
 
+//Esta función es para el menú de calificaciones que vera el estudiante
+function menuNota()
+{
+    return [
+        'nombre' => 'Notas',
+        'icono' => 'bx bxs-widget icon',
+        'z' => 'vistaNotas'
+    ];
 }
 
 

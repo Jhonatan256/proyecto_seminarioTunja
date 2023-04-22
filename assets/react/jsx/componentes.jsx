@@ -3282,3 +3282,124 @@ let opcionesEstudiante = this.state.select[1].map((opcion, i) => (
     );
   }
 }
+// NOTA
+
+class CrudNota extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.data,
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+
+  componentDidMount() {
+    $("#tablaNota").DataTable({
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+      },
+      responsive: true,
+      dom: "Bfrtip",
+      pageLength: 10,
+      buttons: ["copy", "csv", "excel", "print"],
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  }
+  componentWillUnmount() {}
+  render() {
+    var datos = this.state.data.registros.map((registro, i) => (
+      <tr>
+        <th scope="row">{i + 1}</th>
+        <td
+          dangerouslySetInnerHTML={{
+            __html: registro.acciones,
+          }}
+        ></td>
+        <td>{registro.nombreCiclo}</td>
+        <td>{registro.nombreAsignatura}</td>
+        <td>{registro.intensidadHorariaSemanal}</td>
+      </tr>
+    ));
+    return (
+      <div>
+        <div class="head">
+          <h3>Notas estudiante</h3>
+
+         
+        </div>
+        <div class="table-responsive table-responsive-sm">
+          <div class="table table-sm table-striped">
+            <table id="tablaNota" className="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Acciones</th>
+                  <th scope="col">Ciclo</th>
+                  <th scope="col">Asignatura</th>
+                  <th scope="col">Intensidad Semanal</th>
+                </tr>
+              </thead>
+              <tbody>{datos}</tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+class ModalNota extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      datos: props.data,
+      invocacion: props.invocacion,
+      select: props.select,
+    };
+   
+  }
+  
+
+  componentDidMount() {}
+  componentWillUnmount() {}
+  render() {
+    
+    return (
+      <div
+        class="modal fade"
+        id="modalAuxiliar"
+        tabindex="-1"
+        aria-labelledby="modalAuxiliarLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header container">
+              <h5 class="modal-title" id="modalAuxiliarLabel">
+                {titulo}
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+// notas
+
+
