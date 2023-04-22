@@ -2508,7 +2508,7 @@ class CrudCalificaciones extends React.Component {
       responsive: true,
       dom: "Bfrtip",
       pageLength: 20,
-      buttons: ["copy", "csv", "excel", "pdf", "print"],
+      buttons: ["copy", "csv", "excel", "print"],
       column: [{
         width: "10000px",
         targets: 0
@@ -2597,7 +2597,7 @@ class ModalCalificaciones extends React.Component {
   registrar(event) {
     event.preventDefault();
     if ($("#formCalificacion").valid()) {
-      let formData = $("#formCalificacion").serialize() + "&c=DocenteCrontroller&m=registrarCalificacion";
+      let formData = $("#formCalificacion").serialize() + "&c=DocenteController&m=registrarCalificacion";
       Pace.track(function () {
         $.ajax({
           url: "../Route.php",
@@ -2636,7 +2636,7 @@ class ModalCalificaciones extends React.Component {
   actualizar(event) {
     event.preventDefault();
     if ($("#formCalificacion").valid()) {
-      let formData = $("#formCalificacion").serialize() + "&c=DocenteCrontroller&m=registrarCalificacion";
+      let formData = $("#formCalificacion").serialize() + "&c=DocenteController&m=actualizarCalificacion";
       Pace.track(function () {
         $.ajax({
           url: "../Route.php",
@@ -2708,7 +2708,7 @@ class ModalCalificaciones extends React.Component {
     }, /*#__PURE__*/React.createElement("span", {
       "aria-hidden": "true"
     }, "\xD7"))), /*#__PURE__*/React.createElement("form", {
-      id: "formCiclo"
+      id: "formCalificacion"
     }, /*#__PURE__*/React.createElement("div", {
       class: "modal-body container"
     }, /*#__PURE__*/React.createElement("div", {
@@ -2720,7 +2720,7 @@ class ModalCalificaciones extends React.Component {
     }, "N\xFAmero Identificaci\xF3n"), /*#__PURE__*/React.createElement("select", {
       id: "idUsuario",
       name: "idUsuario",
-      defaultValue: this.state.select.idUsuario,
+      defaultValue: this.state.datos.idUsuario,
       class: "form-control form-control-sm",
       required: "required"
     }, /*#__PURE__*/React.createElement("option", {

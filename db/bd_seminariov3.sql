@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 26-03-2023 a las 22:10:47
--- Versión del servidor: 5.7.36
--- Versión de PHP: 7.4.26
+-- Tiempo de generación: 22-04-2023 a las 15:33:07
+-- Versión del servidor: 8.0.31
+-- Versión de PHP: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `anexo`;
 CREATE TABLE IF NOT EXISTS `anexo` (
-  `idAnexo` int(11) NOT NULL AUTO_INCREMENT,
+  `idAnexo` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(30) NOT NULL,
   `path` varchar(50) NOT NULL,
   `fechaCarga` varchar(10) NOT NULL,
@@ -45,40 +45,28 @@ CREATE TABLE IF NOT EXISTS `anexo` (
 
 DROP TABLE IF EXISTS `asignatura`;
 CREATE TABLE IF NOT EXISTS `asignatura` (
-  `idAsignatura` int(11) NOT NULL AUTO_INCREMENT,
-  `nombreAsignatura` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
-  `intensidadHorariaSemanal` int(11) NOT NULL,
-  `descripcion` varchar(250) COLLATE utf8_spanish2_ci DEFAULT NULL,
-  `idCiclo` int(11) NOT NULL,
+  `idAsignatura` int NOT NULL AUTO_INCREMENT,
+  `nombreAsignatura` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `intensidadHorariaSemanal` int NOT NULL,
+  `descripcion` varchar(250) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
+  `idCiclo` int NOT NULL,
   PRIMARY KEY (`idAsignatura`),
   KEY `idCiclo` (`idCiclo`),
   KEY `id_ciclo` (`idCiclo`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `asignatura`
 --
 
 INSERT INTO `asignatura` (`idAsignatura`, `nombreAsignatura`, `intensidadHorariaSemanal`, `descripcion`, `idCiclo`) VALUES
-(1, 'Kerigma Cristiano2', 33, 'Introducción a la Biblia2', 2),
-(2, 'Introducción a la Fe3', 43, '3', 2),
-(3, 'Gramática y Sintaxis2', 22, '22', 2),
-(4, 'Introducción a la filosofía', 4, '', 2),
-(5, 'Ingles I1', 21, '111', 2),
-(6, 'Taller de lecto escritura I', 6, NULL, 1),
-(7, 'Mundo Bíblico', 4, 'Historia y geografía', 1),
-(8, 'Epistemología', 3, NULL, 1),
-(9, 'Lógica clásica simbólica', 3, NULL, 1),
-(11, 'Cosmotologia', 3, NULL, 1),
-(12, 'Historia de filosofía antigua', 4, NULL, 1),
-(13, 'Psicología Evolutiva', 3, NULL, 1),
-(14, 'Seminario Autores I', 2, NULL, 1),
-(15, 'Ingles III', 2, NULL, 1),
-(16, 'Claves Lectura Biblica', 4, 'aspectos Literarios y teologia', 1),
-(17, 'Hermenéutica', 2, NULL, 1),
-(18, 'Inglés IV', 2, NULL, 1),
-(20, 'Históricos y Proféticos I', 4, NULL, 2),
-(21, 'Teología Fundamental', 3, NULL, 1);
+(24, 'Kerigma Cristiano', 4, 'Introducción a la Biblia', 9),
+(25, 'Etica', 4, 'Asignatura interdisciplinar ', 9),
+(26, 'Musica I', 4, 'Canto sacro', 9),
+(27, 'Introducción a la fe', 8, '', 9),
+(28, 'Teología Espiritual I', 6, 'Indaga la vida espiritual: su concepto, los modos de progreso desde los inicios ', 8),
+(29, 'Epistemologia', 4, '', 8),
+(30, 'Ingles I', 4, '', 10);
 
 -- --------------------------------------------------------
 
@@ -88,24 +76,25 @@ INSERT INTO `asignatura` (`idAsignatura`, `nombreAsignatura`, `intensidadHoraria
 
 DROP TABLE IF EXISTS `ciclo`;
 CREATE TABLE IF NOT EXISTS `ciclo` (
-  `idCiclo` int(11) NOT NULL AUTO_INCREMENT,
-  `nombreCiclo` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
-  `semestre` int(2) NOT NULL,
-  `descripcion` varchar(250) COLLATE utf8_spanish2_ci DEFAULT NULL,
+  `idCiclo` int NOT NULL AUTO_INCREMENT,
+  `nombreCiclo` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `semestre` int NOT NULL,
+  `descripcion` varchar(250) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
   `fechaInicio` date NOT NULL,
   `fechaFinalizacion` date NOT NULL,
-  `idGrupo` int(11) NOT NULL,
+  `idGrupo` int NOT NULL,
   PRIMARY KEY (`idCiclo`),
   KEY `idGrupo` (`idGrupo`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `ciclo`
 --
 
 INSERT INTO `ciclo` (`idCiclo`, `nombreCiclo`, `semestre`, `descripcion`, `fechaInicio`, `fechaFinalizacion`, `idGrupo`) VALUES
-(1, 'Filosofico', 1, NULL, '2022-03-08', '2023-03-08', 1),
-(2, 'Teologico', 1, NULL, '2022-03-01', '2023-03-08', 1);
+(8, 'Teólogico', 2, 'Estudio de Dios y la fé, su relación con el hombre.', '2023-02-06', '2023-08-07', 4),
+(9, 'Filosofico', 1, NULL, '2022-04-04', '2023-04-11', 1),
+(10, 'Propedeutico', 1, '', '2023-02-01', '2023-06-01', 1);
 
 -- --------------------------------------------------------
 
@@ -115,29 +104,27 @@ INSERT INTO `ciclo` (`idCiclo`, `nombreCiclo`, `semestre`, `descripcion`, `fecha
 
 DROP TABLE IF EXISTS `clases`;
 CREATE TABLE IF NOT EXISTS `clases` (
-  `idClase` int(11) NOT NULL AUTO_INCREMENT,
-  `idDocente` int(11) NOT NULL,
-  `idEstudiante` int(11) NOT NULL,
-  `idAsignatura` int(11) NOT NULL,
-  `idHorario` int(11) NOT NULL,
+  `idClase` int NOT NULL AUTO_INCREMENT,
+  `idDocente` int NOT NULL,
+  `idEstudiante` int NOT NULL,
+  `idAsignatura` int NOT NULL,
   `notaHabilitacion` decimal(10,2) DEFAULT NULL,
   `notaTutoria` decimal(10,2) DEFAULT NULL,
   `notaFinal` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`idClase`),
   KEY `idDocente` (`idDocente`),
   KEY `idEstudiante` (`idEstudiante`),
-  KEY `idAsignatura` (`idAsignatura`),
-  KEY `idHorario` (`idHorario`)
-) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+  KEY `idAsignatura` (`idAsignatura`)
+) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `clases`
 --
 
-INSERT INTO `clases` (`idClase`, `idDocente`, `idEstudiante`, `idAsignatura`, `idHorario`, `notaHabilitacion`, `notaTutoria`, `notaFinal`) VALUES
-(132, 4, 5, 11, 13, NULL, NULL, NULL),
-(133, 4, 8, 11, 13, NULL, NULL, NULL),
-(134, 4, 14, 14, 13, '0.00', '0.00', '0.00');
+INSERT INTO `clases` (`idClase`, `idDocente`, `idEstudiante`, `idAsignatura`, `notaHabilitacion`, `notaTutoria`, `notaFinal`) VALUES
+(135, 4, 10, 25, '0.00', '0.00', '4.00'),
+(136, 4, 12, 28, '0.00', '0.00', '3.00'),
+(137, 4, 5, 24, '0.00', '0.00', '0.00');
 
 -- --------------------------------------------------------
 
@@ -147,10 +134,10 @@ INSERT INTO `clases` (`idClase`, `idDocente`, `idEstudiante`, `idAsignatura`, `i
 
 DROP TABLE IF EXISTS `grupo`;
 CREATE TABLE IF NOT EXISTS `grupo` (
-  `IdGrupo` int(11) NOT NULL AUTO_INCREMENT,
-  `nombreGrupo` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `IdGrupo` int NOT NULL AUTO_INCREMENT,
+  `nombreGrupo` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
   PRIMARY KEY (`IdGrupo`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `grupo`
@@ -173,12 +160,12 @@ INSERT INTO `grupo` (`IdGrupo`, `nombreGrupo`) VALUES
 
 DROP TABLE IF EXISTS `horario`;
 CREATE TABLE IF NOT EXISTS `horario` (
-  `idHorario` int(11) NOT NULL AUTO_INCREMENT,
-  `dia` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
-  `horaInicio` varchar(8) COLLATE utf8_spanish2_ci NOT NULL,
-  `horaFin` varchar(8) COLLATE utf8_spanish2_ci NOT NULL,
+  `idHorario` int NOT NULL AUTO_INCREMENT,
+  `dia` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `horaInicio` varchar(8) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `horaFin` varchar(8) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
   PRIMARY KEY (`idHorario`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `horario`
@@ -195,15 +182,15 @@ INSERT INTO `horario` (`idHorario`, `dia`, `horaInicio`, `horaFin`) VALUES
 
 DROP TABLE IF EXISTS `log`;
 CREATE TABLE IF NOT EXISTS `log` (
-  `idLog` int(11) NOT NULL AUTO_INCREMENT,
+  `idLog` int NOT NULL AUTO_INCREMENT,
   `fechaModificacion` varchar(10) NOT NULL,
   `horaModificacion` varchar(8) NOT NULL,
   `usuarioModificacion` varchar(20) NOT NULL,
   `tabla` varchar(40) NOT NULL,
-  `idRegistro` int(11) NOT NULL,
+  `idRegistro` int NOT NULL,
   `tipoModificacion` varchar(10) NOT NULL,
   PRIMARY KEY (`idLog`)
-) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=99 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `log`
@@ -262,7 +249,51 @@ INSERT INTO `log` (`idLog`, `fechaModificacion`, `horaModificacion`, `usuarioMod
 (51, '26-03-2023', '04:20:22', '3', 'Asignatura', 5, 'Actualizar'),
 (52, '26-03-2023', '04:28:07', '3', 'Asignatura', 22, 'Registrar'),
 (53, '26-03-2023', '04:28:20', '3', 'Asignatura', 22, 'Actualizar'),
-(54, '26-03-2023', '04:28:29', '3', 'Asignatura', 0, 'Eliminar');
+(54, '26-03-2023', '04:28:29', '3', 'Asignatura', 0, 'Eliminar'),
+(55, '03-04-2023', '09:55:24', '3', 'Ciclo', 0, 'Actualizar'),
+(56, '05-04-2023', '04:28:55', '3', 'Ciclo', 0, 'Actualizar'),
+(57, '05-04-2023', '04:28:55', '3', 'Ciclo', 0, 'Actualizar'),
+(58, '07-04-2023', '12:35:17', '3', 'estudiante', 45, 'Registrar'),
+(59, '07-04-2023', '12:43:57', '3', 'estudiante', 40, 'Actualizar'),
+(60, '07-04-2023', '12:44:09', '3', 'estudiante', 36, 'Actualizar'),
+(61, '07-04-2023', '12:44:25', '3', 'estudiante', 36, 'Actualizar'),
+(62, '07-04-2023', '12:44:46', '3', 'estudiante', 35, 'Actualizar'),
+(63, '07-04-2023', '12:45:31', '3', 'estudiante', 41, 'Actualizar'),
+(64, '07-04-2023', '12:45:49', '3', 'estudiante', 41, 'Actualizar'),
+(65, '07-04-2023', '07:10:36', '3', 'estudiante', 45, 'Actualizar'),
+(66, '07-04-2023', '07:27:09', '3', 'estudiante', 33, 'Eliminar'),
+(67, '07-04-2023', '09:40:45', '3', 'docente', 46, 'Registrar'),
+(68, '07-04-2023', '09:48:12', '3', 'estudiante', 46, 'Actualizar'),
+(69, '07-04-2023', '09:50:20', '3', 'estudiante', 46, 'Actualizar'),
+(70, '07-04-2023', '09:52:47', '3', 'estudiante', 44, 'Actualizar'),
+(71, '07-04-2023', '09:54:06', '3', 'docente', 44, 'Eliminar'),
+(72, '07-04-2023', '11:23:53', '3', 'Asignatura', 23, 'Registrar'),
+(73, '08-04-2023', '04:26:00', '3', 'Asignatura', 5, 'Actualizar'),
+(74, '08-04-2023', '04:29:20', '3', 'Asignatura', 0, 'Eliminar'),
+(75, '10-04-2023', '01:00:06', '3', 'Ciclo', 0, 'Eliminar'),
+(76, '10-04-2023', '01:02:18', '3', 'Ciclo', 5, 'Registrar'),
+(77, '10-04-2023', '01:04:03', '3', 'Ciclo', 0, 'Eliminar'),
+(78, '10-04-2023', '01:57:52', '3', 'Ciclo', 6, 'Registrar'),
+(79, '10-04-2023', '01:58:02', '3', 'Ciclo', 0, 'Eliminar'),
+(80, '10-04-2023', '01:58:53', '3', 'Ciclo', 7, 'Registrar'),
+(81, '10-04-2023', '01:58:57', '3', 'Ciclo', 0, 'Eliminar'),
+(82, '10-04-2023', '02:18:20', '3', 'Ciclo', 8, 'Registrar'),
+(83, '10-04-2023', '07:47:26', '3', 'Ciclo', 0, 'Actualizar'),
+(84, '10-04-2023', '07:56:11', '3', 'Ciclo', 0, 'Eliminar'),
+(85, '10-04-2023', '09:57:03', '3', 'estudiante', 47, 'Registrar'),
+(86, '10-04-2023', '10:03:31', '3', 'docente', 48, 'Registrar'),
+(87, '10-04-2023', '10:05:35', '3', 'docente', 49, 'Registrar'),
+(88, '10-04-2023', '10:06:52', '3', 'docente', 50, 'Registrar'),
+(89, '11-04-2023', '06:52:42', '3', 'Asignatura', 25, 'Registrar'),
+(90, '11-04-2023', '07:14:37', '3', 'Asignatura', 26, 'Registrar'),
+(91, '11-04-2023', '07:15:03', '3', 'Asignatura', 27, 'Registrar'),
+(92, '17-04-2023', '09:16:05', '3', 'Asignatura', 28, 'Actualizar'),
+(93, '20-04-2023', '08:42:41', '3', 'estudiante', 51, 'Registrar'),
+(94, '20-04-2023', '08:43:44', '3', 'estudiante', 51, 'Actualizar'),
+(95, '20-04-2023', '08:44:26', '3', 'estudiante', 51, 'Eliminar'),
+(96, '20-04-2023', '08:50:19', '3', 'Asignatura', 29, 'Registrar'),
+(97, '20-04-2023', '08:51:18', '3', 'Ciclo', 10, 'Registrar'),
+(98, '20-04-2023', '08:51:48', '3', 'Asignatura', 30, 'Registrar');
 
 -- --------------------------------------------------------
 
@@ -272,11 +303,11 @@ INSERT INTO `log` (`idLog`, `fechaModificacion`, `horaModificacion`, `usuarioMod
 
 DROP TABLE IF EXISTS `login`;
 CREATE TABLE IF NOT EXISTS `login` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `usuario` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `usuario` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
   `fecha_hora_ingreso` datetime NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
 -- --------------------------------------------------------
 
@@ -286,10 +317,10 @@ CREATE TABLE IF NOT EXISTS `login` (
 
 DROP TABLE IF EXISTS `rol`;
 CREATE TABLE IF NOT EXISTS `rol` (
-  `idRol` int(11) NOT NULL AUTO_INCREMENT,
-  `nombreRol` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
+  `idRol` int NOT NULL AUTO_INCREMENT,
+  `nombreRol` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
   PRIMARY KEY (`idRol`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `rol`
@@ -308,22 +339,22 @@ INSERT INTO `rol` (`idRol`, `nombreRol`) VALUES
 
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
-  `idUsuario` int(11) NOT NULL AUTO_INCREMENT,
-  `tipoDocumento` varchar(2) COLLATE utf8_spanish2_ci NOT NULL,
-  `numeroDocumento` bigint(20) NOT NULL,
-  `primerNombre` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
-  `segundoNombre` varchar(20) COLLATE utf8_spanish2_ci DEFAULT NULL,
-  `primerApellido` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
-  `segundoApellido` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
-  `telefono` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
-  `direccion` varchar(200) COLLATE utf8_spanish2_ci DEFAULT NULL,
-  `email` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
-  `estado` varchar(8) COLLATE utf8_spanish2_ci NOT NULL,
-  `codRol` int(11) NOT NULL,
+  `idUsuario` int NOT NULL AUTO_INCREMENT,
+  `tipoDocumento` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `numeroDocumento` bigint NOT NULL,
+  `primerNombre` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `segundoNombre` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
+  `primerApellido` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `segundoApellido` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `telefono` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `direccion` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci DEFAULT NULL,
+  `email` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `estado` varchar(8) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish2_ci NOT NULL,
+  `codRol` int NOT NULL,
   PRIMARY KEY (`idUsuario`),
   KEY `codRol` (`codRol`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
@@ -331,21 +362,25 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 
 INSERT INTO `usuario` (`idUsuario`, `tipoDocumento`, `numeroDocumento`, `primerNombre`, `segundoNombre`, `primerApellido`, `segundoApellido`, `telefono`, `direccion`, `email`, `password`, `estado`, `codRol`) VALUES
 (3, 'CC', 100333, 'Alejandro', '', 'Sanchez', 'Martinez', '752411', 'calle 6 # 32', 'alejandro@gmail.com', '$2y$10$qf4htZpU9iJnnBsbvs2R.eTu0usniH4/2HgZlijpG9jmLli8FiDK6', 'activo', 1),
-(4, 'TI', 192727222, 'Juan', 'Sebastian', 'Suarez', 'Flores', '744333', 'calle 23 -3 3', 'sebastian@gmail.com', 'sebas2023', 'activo', 2),
-(5, 'CC', 11064326711, 'Carlos', 'Felipe', 'Gomez', 'Nuñez', '3104846322', 'diagonal 34 # 2-15', 'felipe@gmail.com', 'felipe2200', 'activo', 3),
-(7, 'CC', 1049654252, 'Jhonatan', 'Andres', 'Roncancio', 'Pinzon', '345345', '345345', 'jhoit@fsdf', '123', 'activo', 3),
-(8, 'CC', 120093923, 'Orlando', '', 'Salcedo', 'Chavez', '3192622311', 'calle 34 # 2-65', 'orlandoChavez@gmail.com', '123456', 'activo', 3),
-(9, 'TI', 38833, 'Augusto', 'Fernando', 'Tamara', 'Gutierrez', '752411', 'diagonal 32 # 4 mzna 5 barrio la esperanza', 'augustoM@gmail.com', 'augusto2304', 'activo', 2),
+(4, 'TI', 192727222, 'Juan', 'Sebastian', 'Suarez', 'Flores', '744333', 'calle 23 -3 3', 'sebastian@gmail.com', '$2y$10$dGy6XVhDAZhSS2Gpf8h4K.bdnjjyXh06sMzMDC642y1FLrS4aGGGG', 'activo', 2),
+(5, 'CC', 11064326711, 'Carlos', 'Felipe', 'Gomez', 'Nuñez', '3104846322', 'diagonal 34 # 2-15', 'felipe@gmail.com', 'felipe', 'activo', 3),
+(7, 'CC', 1049654252, 'Jhonatan', 'Andres', 'Roncancio', 'Pinzon', '345345', '345345', 'jhoit@fsdf', '$2y$10$dGy6XVhDAZhSS2Gpf8h4K.bdnjjyXh06sMzMDC642y1FLrS4aGGGG', 'activo', 3),
+(8, 'CC', 120093923, 'Orlando', '', 'Salcedo', 'Chavez', '3192622311', 'calle 34 # 2-65', 'orlandoChavez@gmail.com', '$2y$10$dGy6XVhDAZhSS2Gpf8h4K.bdnjjyXh06sMzMDC642y1FLrS4aGGGG', 'activo', 3),
+(9, 'TI', 38833, 'Augusto', 'Fernando', 'Tamara', 'Gutierrez', '752411', 'diagonal 32 # 4 mzna 5 barrio la esperanza', 'augustoM@gmail.com', 'INSERT INTO `clases` (`idClase`, `idDocente`, `idEstudiante`, `idAsignatura`, `idHorario`, `notaHabilitacion`, `notaTutoria`, `notaFinal`) VALUES (NULL, \'\', \'\', \'\', \'\', NULL, NULL, NULL)', 'activo', 2),
 (10, 'CC', 100333, 'Alejandro', '', 'Sanchez', 'Martinez', '752411', 'calle 6 # 32', 'alejandro@gmail.com', 'cami03s', 'activo', 3),
 (12, 'TI', 2313434, 'Luis', 'Alejandro', 'Martinez', 'Hernandez', '3127191912', 'calle 34 b-c 34', 'luis@outlook.es', 'luis1234', 'activo', 3),
 (14, 'CC', 913561, 'Pablo', NULL, 'Sexto', 'Hernandez', '7454533', NULL, 'pablo6@gmail.com', 'pablito23', 'activo', 3),
-(33, 'CC', 9854155, 'Juan', 'Francisco', 'Castro', 'Chavez', '7541122', 'calle 34c # 2 -35', 'francisco@hotmail.com', '$2y$10$Yo6MMXyTFt/E9zoBMxHDQePZ9gGV4vH1uWTgiDzASAJQzUnEhmX9m', 'activo', 3),
-(35, 'TI', 456741, 'Juan', 'Andres', 'Diaz', 'Hernandez', '74414142', 'calle 34', 'juanes@gmail.com', '$2y$10$sCaTSruAqGQuaXm7vF0UHOjI5QfTZWJIxljnuIchKaPYEjSJm1k8.', 'activo', 3),
-(36, 'TI', 456741, 'felipe', '', 'Gomez', 'ALvarez', '3102418654', 'calle 34', 'juanes@gmail.com', '$2y$10$I35ZPWkfBb8IuOcDVcm.AO8x7dcAe/KW7dY1XO1aYa3mashFP9ece', 'activo', 3),
-(40, 'CC', 1049656144, 'ERIKA', ' FONSECA', 'GORDILLO', '', '1111111', 'calle algo con algo', 'erika@gmail.com', '$2y$10$jYFo0Q2Q8nXf8xlwZ9sfyudlvesRPvAG9anC.wR5IFs7bnpEaOhJW', 'activo', 3),
-(41, 'CC', 1049656144, 'JHONATAN', 'ANDRES', 'ASDASD', '', '1111', 'calle algo', 'jh.23@asd.cas', '$2y$10$QbN9aIf6pT9HXvbG5CIsquF4DXjCI7z28S6jUgonq9tOtrah2WZX.', 'activo', 3),
+(35, 'TI', 456741, 'JUAN', 'ANDRES', 'DIAZ', 'HERNANDEZ', '74414142', 'calle 34', 'juanes@gmail.com', '$2y$10$sCaTSruAqGQuaXm7vF0UHOjI5QfTZWJIxljnuIchKaPYEjSJm1k8.', 'activo', 3),
+(36, 'TI', 456741, 'FELIPE', '', 'GOMEZ', 'ALVAREZ', '3102418654', 'calle 34', 'juanes@gmail.com', '$2y$10$I35ZPWkfBb8IuOcDVcm.AO8x7dcAe/KW7dY1XO1aYa3mashFP9ece', 'activo', 3),
+(40, 'CC', 1049656144, 'ERICK', '', 'HERNANDEZ', 'CHAVEZ', '7262521', 'calle 36 # 2-15 ', 'erick@gmail.com', '$2y$10$jYFo0Q2Q8nXf8xlwZ9sfyudlvesRPvAG9anC.wR5IFs7bnpEaOhJW', 'activo', 3),
+(41, 'CC', 1049656144, 'JHONATAN', 'ANDRES', 'PINZÓN', '', '7206263', 'calle 32 c # 2- 54 Esmeralda', 'jh.23@asd.cas', '$2y$10$QbN9aIf6pT9HXvbG5CIsquF4DXjCI7z28S6jUgonq9tOtrah2WZX.', 'activo', 3),
 (42, 'CC', 1049654252, 'jhonatan', '', 'andres', '', '11111', 'calle agl con algo', 'jhot.256@gmailcom', '2023', 'activo', 2),
-(44, 'CC', 1049654252, 'monica', '', 'fonseca', '', '11111', 'calle agl con algo', 'jhot.25@6gsdf', '2023', 'activo', 2);
+(45, 'TI', 96253576134, 'JUAN', 'FELIPE', 'DIAZ', 'GOMéZ', '3162770022', 'calle 5 # 2-34 barrio la Maria', 'felipediaz8@gmail.com', '$2y$10$nYB//fwycs9GnfWMe17MPecLn83Qnn8.HpVYK1vaYSw8mZkCzQNMC', 'activo', 3),
+(46, 'CC', 40243516, 'SEBASTIAN', '', 'CORTES', 'GUIO', '3201732120', 'MZNA 4 # 2 -64 MUISCAS', 'sebastianGuio@gmail.com', '$2y$10$U4NIcXB1zqA0mueyn.KxqO9813l2Xq6ejy9E8Yo6G/x4uJw4cJt6G', 'activo', 2),
+(47, 'CC', 4040, 'ORLANDO', '', 'SALCEDO', '', '4', 'calle 4 # 36-12', '11@gmail.com', '$2y$10$Q3np8s9t5wpyCSpCTChUsOJ697qTUWrOPFba8D8wYmVPp2yiyW4gW', 'activo', 3),
+(48, 'CC', 9032, '4040', '4040', '2323', '2323', '3434', 'calle 4 # 36-12', '11@gmail.com', '$2y$10$T0rkR.d56giOMNRw7B9vnef1Kt54i3QFsYxjXkllaU9C6ENC0EIGC', 'activo', 2),
+(49, 'CC', 2323232323, 'JUAN', '', 'SALCEDO', 'DELGADILLO', '4040', 'calle 4 # 36-12', 'juanse@gmail.com', '$2y$10$afPhRZDQnhSGkYAJS9//L.gV9TytkLSVetFB1omWa45ngJIG77D2.', 'activo', 2),
+(50, 'CC', 17253400, 'ANDY', 'ANDY', 'ANDY', 'ANDY', '319', 'calle calle', 'andy12@gmail.com', '$2y$10$gR0zREC3GD3iLKaMJstOv.Km.OnNjxf../qRO9ispGQc8lhDuK1bq', 'activo', 2);
 
 --
 -- Restricciones para tablas volcadas
@@ -369,8 +404,7 @@ ALTER TABLE `ciclo`
 ALTER TABLE `clases`
   ADD CONSTRAINT `clases_ibfk_1` FOREIGN KEY (`idDocente`) REFERENCES `usuario` (`idUsuario`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `clases_ibfk_2` FOREIGN KEY (`idEstudiante`) REFERENCES `usuario` (`idUsuario`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `clases_ibfk_3` FOREIGN KEY (`idAsignatura`) REFERENCES `asignatura` (`idAsignatura`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `clases_ibfk_4` FOREIGN KEY (`idHorario`) REFERENCES `horario` (`idHorario`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `clases_ibfk_3` FOREIGN KEY (`idAsignatura`) REFERENCES `asignatura` (`idAsignatura`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuario`

@@ -2912,7 +2912,7 @@ class CrudCalificaciones extends React.Component {
       responsive: true,
       dom: "Bfrtip",
       pageLength: 20,
-      buttons: ["copy", "csv", "excel", "pdf", "print"],
+      buttons: ["copy", "csv", "excel", "print"],
       column: [
         {
           width: "10000px",
@@ -3026,7 +3026,7 @@ class ModalCalificaciones extends React.Component {
     if ($("#formCalificacion").valid()) {
       let formData =
         $("#formCalificacion").serialize() +
-        "&c=DocenteCrontroller&m=registrarCalificacion";
+        "&c=DocenteController&m=registrarCalificacion";
       Pace.track(function () {
         $.ajax({
           url: "../Route.php",
@@ -3069,7 +3069,7 @@ class ModalCalificaciones extends React.Component {
     if ($("#formCalificacion").valid()) {
       let formData =
         $("#formCalificacion").serialize() +
-        "&c=DocenteCrontroller&m=registrarCalificacion";
+        "&c=DocenteController&m=actualizarCalificacion";
       Pace.track(function () {
         $.ajax({
           url: "../Route.php",
@@ -3162,7 +3162,7 @@ let opcionesEstudiante = this.state.select[1].map((opcion, i) => (
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form id="formCiclo">
+            <form id="formCalificacion">
               <div class="modal-body container">
                 <div className="form-row">
                   
@@ -3171,7 +3171,7 @@ let opcionesEstudiante = this.state.select[1].map((opcion, i) => (
                      <select
                       id="idUsuario"
                       name="idUsuario"
-                      defaultValue={this.state.select.idUsuario}
+                      defaultValue={this.state.datos.idUsuario}
                       class="form-control form-control-sm"
                       required="required"
                     >                      

@@ -89,8 +89,13 @@ class DocenteController extends LoginController
             unset($_POST['c']);
 
             //GUARDO EL NUMERO DE DOCUMENTO DLE USUARIO QUE SE ESTÁ AUTENTICANDO
-            $idDocente = self::getUser('idUsuario');
-            $db->crudRegistro("INSERT INTO clases (idClase,idDocente,idEstudiante,idAsignatura,idHorario,notaHabilitacion,notaTutoria,notaFinal) VALUES (NULL,$idDocente, :idEstudiante, :idAsignatura , :idHorario, :notaHabilitacion , :notaTutoria , :notaFinal)", $_POST);
+            $docente = self::getUser('idUsuario');
+
+            $db->crudRegistro("INSERT INTO clases (idDocente, idEstudiante, idAsignatura, idHorario, notaHabilitacion, notatutoria, notaFinal)
+            VALUES ($docente,:idUsuario,:idAsignatura,NULL,:notaHabilitacion,:notaTutoria,:notaFinal);)", $_POST);
+            print($db);
+
+            //INSERT INTO `clases` (`idClase`, `idDocente`, `idEstudiante`, `idAsignatura`, `idHorario`, `notaHabilitacion`, `notaTutoria`, `notaFinal`) VALUES (NULL, '', '', '', '13', NULL, NULL, NULL)
 
             generarLogAuditoria($db, self::getUser('idUsuario'), 'Asignatura', $db->lastInsertId(), 'Registrar');
             return respuesta('00', '');
