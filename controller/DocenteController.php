@@ -80,13 +80,18 @@ class DocenteController extends LoginController
         imprimirSalida($clases);
     }
 
+    //Metódo para registrar calificación
     public function registrarCalificacion()
     {
         if (self::getUser('tipoUsuario') == '2') {
             $db = new Conexion();
             unset($_POST['m']);
             unset($_POST['c']);
-            $db->crudRegistro("INSERT INTO asignatura (nombreAsignatura, descripcion, intensidadHorariaSemanal, idCiclo) VALUES (:nombreAsignatura, :descripcion, :intensidadHorariaSemanal , :idCiclo)", $_POST);
+
+            //GUARDO EL NUMERO DE DOCUMENTO DLE USUARIO QUE SE ESTÁ AUTENTICANDO
+            $idDocente = self::getUser('idUsuario');
+            $db->crudRegistro("INSERT INTO clases (idClase,idDocente,idEstudiante,idAsignatura,idHorario,notaHabilitacion,notaTutoria,notaFinal) VALUES (NULL,$idDocente, :idEstudiante, :idAsignatura , :idHorario, :notaHabilitacion , :notaTutoria , :notaFinal)", $_POST);
+
             generarLogAuditoria($db, self::getUser('idUsuario'), 'Asignatura', $db->lastInsertId(), 'Registrar');
             return respuesta('00', '');
         } else {
@@ -95,22 +100,104 @@ class DocenteController extends LoginController
         return respuesta('99', $msj);
     }
 
+    //Método para actualizar calificación
+    public function actualizarCalificacion()
+    {
+        if (self::getUser('tipoUsuario') == '2') {
+            $db = new Conexion();
+            $clase = $db->consultarRegistro('SELECT * FROM clase WHERE idClase = :ide', [
+                'ide' => $_POST['idClase']
+            ]);
+            unset($_POST['m']);
+            unset($_POST['c']);
+            if ($clase) {
+                $db->crudRegistro("UPDATE clase SET notaHabilitacion = :notaHabilitacion, t = :t, notaFinal = :notaFinal WHERE idClase = :idClase", $_POST);
+
+
+                // Excepcion de Auditoria
+                try {
+                    generarLogAuditoria($db, self::getUser('idUsuario'), 'Clase', $db->lastInsertId(), 'Actualizar');
+                    return respuesta('00', '');
+                } catch (Exception $e) {
+                    return respuesta('99', 'Excepción capturada: ' . $e->getMessage() . "\n");
+                }
+                // return respuesta('00', '');
+            } else {
+                $msj = 'No existe la calificación.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+    }
+
+    //Método para eliminar Calificación
+    public function eliminarCalificacion()
+    {
+        if (self::getUser('tipoUsuario') == '2') {
+            $db = new Conexion();
+            $clase = $db->consultarRegistro('SELECT * FROM clase WHERE idClase = :ide', [
+                'ide' => base64_decode($_POST['ide'])
+            ]);
+            if ($clase) {
+                $db->crudRegistro("DELETE FROM clase WHERE idClase = :ide", [
+                    'ide' => base64_decode($_POST['ide'])
+                ]);
+                // Excepcion de Auditoria
+                try {
+                    generarLogAuditoria($db, self::getUser('idUsuario'), 'Clase', $db->lastInsertId(), 'Eliminar');
+                    return respuesta('00', '');
+                } catch (Exception $e) {
+                    return respuesta('99', 'Excepción capturada: ' . $e->getMessage() . "\n");
+                }
+                // return respuesta('00', '');
+            } else {
+                $msj = 'No existe la calificación.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+    }
+
+
+
 
     public function selectAsignatura($tipoSalida = true)
     {
         $db = new Conexion();
-
         $salida[0] = $db->consultarRegistros('SELECT * FROM asignatura');
         $salida[1] = $db->consultarRegistros('SELECT * FROM usuario WHERE codRol = 3');
-
-       
-
         if ($tipoSalida) {
             return respuesta('00', '', $salida);
         } else {
             return $salida;
         }
     }
+
+
+    //Buscar clase
+
+    public function buscarClase()
+    {
+        if (self::getUser('tipoUsuario') == '2') {
+            $db = new Conexion();
+            $clase = $db->consultarRegistro('SELECT * FROM clase WHERE idClase =:id', [
+                'id' => base64_decode($_POST['id'])
+            ]);
+            if ($clase) {
+                $clase['select'] = self::selectAsignatura(false);
+
+                return respuesta('00', '', $clase);
+            } else {
+                $msj = 'No existen registros.';
+            }
+        } else {
+            $msj = self::ERROR_USUARIO;
+        }
+        return respuesta('99', $msj);
+    }
+
 
     //Función estudiante
 

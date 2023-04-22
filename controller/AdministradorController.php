@@ -547,12 +547,8 @@ class AdministradorController extends LoginController
         if (self::getUser('tipoUsuario') == '1'
         ) {
             $db = new Conexion();
-            $plan= $db->consultarRegistros('SELECT c.nombreCiclo ,a.nombreAsignatura as Asignatura, a.intensidadHorariaSemanal as HorasSemanales
-                        FROM asignatura a         
-                        LEFT JOIN ciclo c
-                        ON a.idCiclo  = c.idCiclo;');
+            $plan= $db->consultarRegistros('SELECT  a.nombreAsignatura, a.intensidadHorariaSemanal, c.nombreCiclo FROM asignatura a LEFT JOIN ciclo c ON a.idCiclo  = c.idCiclo');
             if ($plan) {
-
                 $salida = [];
                 $salida['tipoUsuario'] = self::getUser('tipoUsuario');
                 foreach ($plan as $value) {

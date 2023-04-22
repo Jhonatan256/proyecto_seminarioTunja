@@ -1064,3 +1064,92 @@ function nuevaCalificacion() {
       });
   });
 }
+//**inicio notas */
+
+function vistaNotas() {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "StudentController",
+        m: "listarNotas",
+      },
+    })
+      .done(function (result) {
+        if (validarResult(result)) {
+          actualizarRuta("Lista Notas", "vistaNotas");
+          switch (result.cod) {
+            case "00":
+              ReactDOM.unmountComponentAtNode(
+                document.getElementById("contenedor")
+              );
+              ReactDOM.render(
+                <CrudNota data={result.data} />,
+                document.getElementById("contenedor")
+              );
+              break;
+            case "88":
+              modalLogout();
+              break;
+            case "99":
+              alerta("¡Error!", result.msj);
+              break;
+            default:
+              alerta("¡Error!", "Error de codificación");
+          }
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  });
+}
+
+
+function buscarNota(id) {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "StudentController",
+        m: "buscarNota",
+        id: id,
+      },
+    })
+      .done(function (result) {
+        if (validarResult(result)) {
+          switch (result.cod) {
+            case "00":
+              ReactDOM.unmountComponentAtNode(
+                document.getElementById("modal1")
+              );
+              ReactDOM.render(
+                <ModalNota
+                  invocacion={"actualizar"}
+                  data={result.data}
+                  select={result.data.select}
+                />,
+                document.getElementById("modal1")
+              );
+              $("#modalAuxiliar").modal("show");
+              break;
+            case "88":
+              modalLogout();
+              break;
+            case "99":
+              alerta("¡Error!", result.msj);
+              break;
+            default:
+              alerta("¡Error!", "Error de codificación");
+          }
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  });
+}
+
+//**Fin notas */

@@ -1,50 +1,37 @@
 <?php
 
+require_once 'model/Conexion.php';
+require_once 'vendor/Utilitarias.php';
 class StudentController extends LoginController
 {
 
     const ERROR_USUARIO = 'Usuario no permitido';
 
-    public function listarCalificacionesEstudiante ()
+    public function listarNotas()
     {
-        $msj = '';    
-        if (self::getUser('tipoUsuario') == '2') {
+        if (self::getUser('tipoUsuario') == '3') {
             $db = new Conexion();
-            //GUARDO EL NUMERO DE DOCUMENTO DLE USUARIO QUE SE ESTÁ AUTENTICANDO
-            $numeroDocumento = self::getUser('numeroDocumento');
-            $query = "SELECT u.numeroDocumento,u.primerNombre,u.primerApellido,a.nombreAsignatura,c.notaHabilitacion,c.notaTutoria,c.notaFinal
-                FROM usuario u
-                INNER JOIN clases c ON u.idUsuario = c.idEstudiante
-                INNER JOIN asignatura a  ON c.idAsignatura = a.idAsignatura
-                WHERE u.numeroDocumento = $numeroDocumento;";
-               
-            $notas = $db->consultarRegistros($query);
-            if ($notas) {
+            $planEstudio = $db->consultarRegistros('SELECT  a.nombreAsignatura, a.intensidadHorariaSemanal, c.nombreCiclo FROM asignatura a LEFT JOIN ciclo c ON a.idCiclo  = c.idCiclo; ');
+            if ($planEstudio) {
                 $salida = [];
-                foreach ($notas as $key) {
+                $salida['tipoUsuario'] = self::getUser('tipoUsuario');
+                foreach ($planEstudio as $value) {
                     $data = [];
-                    $data['numerodocumento'] = $key->numerodocumento;
-                    $data['primerNombre'] = $key->primerNombre;
-                    $data['primerApellido'] = $key->primerApellido;
-                    $data['notahabilitacion'] = $key->notahabilitacion;
-                    $data['notatutoria'] = $key->notatutoria;
-                    $data['notafinal'] = $key->notafinal;
+                    $data['nombreCiclo'] = $value->nombreCiclo;
+                    $data['nombreAsignatura'] = $value->nombreAsignatura;
+                    $data['intensidadHorariaSemanal'] = $value->intensidadHorariaSemanal;
                     $data['acciones'] = '<div class="btn-group" role="group" aria-label="First group">';
-                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="modificarNota(\'' . base64_encode($key->idclase) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar nota estudiante" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="buscarNota(\'' . base64_encode($value->idAsignatura) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar plan" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
                     $data['acciones'] .= '</div>';
                     $salida['registros'][] = $data;
                 }
-                return respuesta('00', $msj, $salida);
+                return respuesta('00', '', $salida);
             } else {
-                $msj = 'No existen registros actuales.';
+                $msj = 'No existen registros.';
             }
         } else {
             $msj = self::ERROR_USUARIO;
         }
         return respuesta('99', $msj);
     }
-
-    
 }
-
-
