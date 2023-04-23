@@ -3069,7 +3069,7 @@ class ModalCalificaciones extends React.Component {
     if ($("#formCalificacion").valid()) {
       let formData =
         $("#formCalificacion").serialize() +
-        "&c=DocenteController&m=actualizarCalificacion";
+        "&c=DocenteController&m=actualizarNota";
       Pace.track(function () {
         $.ajax({
           url: "../Route.php",
@@ -3124,14 +3124,11 @@ class ModalCalificaciones extends React.Component {
         ? "Nueva calificacion"
         : "Actualizar calificacion";
       //Mapeo 
+      
+  let opcionesEstudiante = this.state.select[1].map((opcion, i) => (
+          <option value={opcion.idUsuario}>{opcion.numeroDocumento}</option>
 
-
-let opcionesEstudiante = this.state.select[1].map((opcion, i) => (
-        <option value={opcion.idUsuario}>{opcion.numeroDocumento}</option>
-
-));
-
-
+  ));
   let opciones = this.state.select[0].map((opcion, i) => (
         <option value={opcion.idAsignatura}>{opcion.nombreAsignatura}</option>
 
@@ -3165,21 +3162,29 @@ let opcionesEstudiante = this.state.select[1].map((opcion, i) => (
             <form id="formCalificacion">
               <div class="modal-body container">
                 <div className="form-row">
-                  
                   <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
                     <label htmlFor="inputAddress">Número Identificación</label>
+                    {/* <input 
+                      type="number"
+                      className="form-control form-control form-control-sm"
+                      id="idUsuario"
+                      name="idUsuario"
+                      placeholder="identificación" 
+                      defaultValue={this.state.datos.idEstudiante}
+                      required="required"
+                    /> */}
                      <select
                       id="idUsuario"
                       name="idUsuario"
-                      defaultValue={this.state.datos.idUsuario}
+                      defaultValue={this.state.datos.idEstudiante}
                       class="form-control form-control-sm"
                       required="required"
                     >                      
                      <option value="">Seleccione...</option>
                       {opcionesEstudiante}
                     </select>
-                  </div>
-                  <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
+                </div>
+                <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
                     <label htmlFor="inputAddress">Asignatura</label>
                     <select
                       id="idAsignatura"
@@ -3198,13 +3203,14 @@ let opcionesEstudiante = this.state.select[1].map((opcion, i) => (
                     <input 
                       type="number"
                       className="form-control form-control form-control-sm"
-                      id="notahabilitacion"
-                      name="notahabilitacion"
-                      placeholder="0.0" 
-                      step="0.1" 
+                      id="notaHabilitacion"
+                      name="notaHabilitacion"
+                      placeholder="0.00" 
+                      step="0.01" 
                       min="0" 
                       max="5"
-                      defaultValue={this.state.datos.notahabilitacion}
+                      defaultValue={this.state.datos.notaHabilitacion}
+                      required="required"
                     />
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
@@ -3212,13 +3218,14 @@ let opcionesEstudiante = this.state.select[1].map((opcion, i) => (
                     <input 
                       type="number"
                       className="form-control form-control form-control-sm"
-                      id="notatutoria"
-                      name="notatutoria"
-                      placeholder="0.0" 
-                      step="0.1" 
+                      id="notaTutoria"
+                      name="notaTutoria"
+                      placeholder="0.00" 
+                      step="0.01" 
                       min="0" 
                       max="5"
-                      defaultValue={this.state.datos.notatutoria}
+                      defaultValue={this.state.datos.notaTutoria}
+                      required="required"
                     />
                   </div>
                   <div className="form-group col-12 col-sm-12 col-md-6 col-lg-6">
@@ -3226,22 +3233,23 @@ let opcionesEstudiante = this.state.select[1].map((opcion, i) => (
                     <input 
                       type="number"
                       className="form-control form-control form-control-sm"
-                      id="notafinal"
-                      name="notafinal"
-                      placeholder="0.0" 
-                      step="0.1" 
+                      id="notaFinal"
+                      name="notaFinal"
+                      placeholder="0.00" 
+                      step="0.01" 
                       min="0" 
                       max="5"
-                      defaultValue={this.state.datos.notafinal}
+                      defaultValue={this.state.datos.notaFinal}
+                      required="required"
                     />
                   </div>
                   {this.state.invocacion != "registro" ? (
                     <input
                       type="text"
                       className="form-control form-control form-control-sm d-none"
-                      id="idclase"
-                      name="idclase"
-                      defaultValue={this.state.datos.idclase}
+                      id="idClase"
+                      name="idClase"
+                      defaultValue={this.state.datos.idClase}
                       placeholder=" "
                     />
                   ) : (

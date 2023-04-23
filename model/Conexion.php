@@ -77,7 +77,7 @@ class Conexion
     }
 
     public function crudRegistro($query, $campos)
-    {
+    {        
         $resdb = self::conectar()->prepare($query);
         return $resdb->execute($campos);
     }

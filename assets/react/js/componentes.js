@@ -2636,7 +2636,7 @@ class ModalCalificaciones extends React.Component {
   actualizar(event) {
     event.preventDefault();
     if ($("#formCalificacion").valid()) {
-      let formData = $("#formCalificacion").serialize() + "&c=DocenteController&m=actualizarCalificacion";
+      let formData = $("#formCalificacion").serialize() + "&c=DocenteController&m=actualizarNota";
       Pace.track(function () {
         $.ajax({
           url: "../Route.php",
@@ -2720,7 +2720,7 @@ class ModalCalificaciones extends React.Component {
     }, "N\xFAmero Identificaci\xF3n"), /*#__PURE__*/React.createElement("select", {
       id: "idUsuario",
       name: "idUsuario",
-      defaultValue: this.state.datos.idUsuario,
+      defaultValue: this.state.datos.idEstudiante,
       class: "form-control form-control-sm",
       required: "required"
     }, /*#__PURE__*/React.createElement("option", {
@@ -2744,13 +2744,14 @@ class ModalCalificaciones extends React.Component {
     }, "Nota Habilitaci\xF3n"), /*#__PURE__*/React.createElement("input", {
       type: "number",
       className: "form-control form-control form-control-sm",
-      id: "notahabilitacion",
-      name: "notahabilitacion",
-      placeholder: "0.0",
-      step: "0.1",
+      id: "notaHabilitacion",
+      name: "notaHabilitacion",
+      placeholder: "0.00",
+      step: "0.01",
       min: "0",
       max: "5",
-      defaultValue: this.state.datos.notahabilitacion
+      defaultValue: this.state.datos.notaHabilitacion,
+      required: "required"
     })), /*#__PURE__*/React.createElement("div", {
       className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
     }, /*#__PURE__*/React.createElement("label", {
@@ -2758,13 +2759,14 @@ class ModalCalificaciones extends React.Component {
     }, "Nota tutoria"), /*#__PURE__*/React.createElement("input", {
       type: "number",
       className: "form-control form-control form-control-sm",
-      id: "notatutoria",
-      name: "notatutoria",
-      placeholder: "0.0",
-      step: "0.1",
+      id: "notaTutoria",
+      name: "notaTutoria",
+      placeholder: "0.00",
+      step: "0.01",
       min: "0",
       max: "5",
-      defaultValue: this.state.datos.notatutoria
+      defaultValue: this.state.datos.notaTutoria,
+      required: "required"
     })), /*#__PURE__*/React.createElement("div", {
       className: "form-group col-12 col-sm-12 col-md-6 col-lg-6"
     }, /*#__PURE__*/React.createElement("label", {
@@ -2772,19 +2774,20 @@ class ModalCalificaciones extends React.Component {
     }, "Nota Final"), /*#__PURE__*/React.createElement("input", {
       type: "number",
       className: "form-control form-control form-control-sm",
-      id: "notafinal",
-      name: "notafinal",
-      placeholder: "0.0",
-      step: "0.1",
+      id: "notaFinal",
+      name: "notaFinal",
+      placeholder: "0.00",
+      step: "0.01",
       min: "0",
       max: "5",
-      defaultValue: this.state.datos.notafinal
+      defaultValue: this.state.datos.notaFinal,
+      required: "required"
     })), this.state.invocacion != "registro" ? /*#__PURE__*/React.createElement("input", {
       type: "text",
       className: "form-control form-control form-control-sm d-none",
-      id: "idclase",
-      name: "idclase",
-      defaultValue: this.state.datos.idclase,
+      id: "idClase",
+      name: "idClase",
+      defaultValue: this.state.datos.idClase,
       placeholder: " "
     }) : "")), /*#__PURE__*/React.createElement("div", {
       class: "modal-footer container"

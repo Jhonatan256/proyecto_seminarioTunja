@@ -15,8 +15,7 @@ class DocenteController extends LoginController
             $query = "SELECT c.idclase, CONCAT(d.primerapellido, ' ', d.segundoapellido, ' ', d.primernombre, ' ', d.segundonombre, ' ')  as docente, concat(e.primerapellido, ' ', e.segundoapellido, ' ', e.primernombre, ' ', e.segundonombre, ' ') as estudiante, e.numerodocumento,  a.nombreasignatura, c.notahabilitacion, c.notatutoria, c.notafinal FROM clases c 
             JOIN asignatura a ON c.idasignatura = a.idasignatura 
             JOIN usuario d ON d.idusuario = c.iddocente
-            JOIN usuario e ON e.idusuario = c.idestudiante
-            JOIN horario h ON h.idhorario = c.idhorario;";
+            JOIN usuario e ON e.idusuario = c.idestudiante";
             $clases = $db->consultarRegistros($query);
             if ($clases) {
                 $salida = [];
@@ -31,7 +30,7 @@ class DocenteController extends LoginController
                     $data['notatutoria'] = $key->notatutoria;
                     $data['notafinal'] = $key->notafinal;
                     $data['acciones'] = '<div class="btn-group" role="group" aria-label="First group">';
-                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="modificarNota(\'' . base64_encode($key->idclase) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar nota estudiante" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
+                    $data['acciones'] .= '<a href="javascript:void(0);" onclick="buscarClase(\'' . base64_encode($key->idclase) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar nota estudiante" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
                     $data['acciones'] .= '</div>';
                     $salida['registros'][] = $data;
                 }
@@ -69,7 +68,8 @@ class DocenteController extends LoginController
                 $data['notatutoria'] = $key->notatutoria;
                 $data['notafinal'] = $key->notafinal;
                 $data['acciones'] = '<div class="btn-group" role="group" aria-label="First group">';
-                $data['acciones'] .= '<a href="javascript:void(0);" onclick="modificarNota(\'' . base64_encode($key->idclase) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar nota estudiante" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
+                $data['acciones'] .= '<a href="javascript:void(0);" onclick="buscarClase(\'' . base64_encode
+                ($key->idclase) . '\');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" title="Editar nota estudiante" data-placement="top">' . '<i class="bx bx-edit-alt" aria-hidden="true"></i> </a>';
                 $data['acciones'] .= '</div>';
                 $salida['registros'][] = $data;
             }
@@ -82,22 +82,14 @@ class DocenteController extends LoginController
 
     //Metódo para registrar calificación
     public function registrarCalificacion()
-    {
+    {              
         if (self::getUser('tipoUsuario') == '2') {
             $db = new Conexion();
             unset($_POST['m']);
             unset($_POST['c']);
-
-            //GUARDO EL NUMERO DE DOCUMENTO DLE USUARIO QUE SE ESTÁ AUTENTICANDO
-            $docente = self::getUser('idUsuario');
-
-            $db->crudRegistro("INSERT INTO clases (idDocente, idEstudiante, idAsignatura, idHorario, notaHabilitacion, notatutoria, notaFinal)
-            VALUES ($docente,:idUsuario,:idAsignatura,NULL,:notaHabilitacion,:notaTutoria,:notaFinal);)", $_POST);
-            print($db);
-
-            //INSERT INTO `clases` (`idClase`, `idDocente`, `idEstudiante`, `idAsignatura`, `idHorario`, `notaHabilitacion`, `notaTutoria`, `notaFinal`) VALUES (NULL, '', '', '', '13', NULL, NULL, NULL)
-
-            generarLogAuditoria($db, self::getUser('idUsuario'), 'Asignatura', $db->lastInsertId(), 'Registrar');
+            $docente = self::getUser('idUsuario');                 
+            $db->crudRegistro("INSERT INTO clases (idDocente, idEstudiante, idAsignatura, notaHabilitacion, notaTutoria, notaFinal) VALUES (".$docente.", :idUsuario, :idAsignatura, :notaHabilitacion, :notaTutoria, :notaFinal)", $_POST);                       
+            generarLogAuditoria($db, self::getUser('idUsuario'), 'Clases', $db->lastInsertId(), 'Registrar');            
             return respuesta('00', '');
         } else {
             $msj = self::ERROR_USUARIO;
@@ -106,19 +98,18 @@ class DocenteController extends LoginController
     }
 
     //Método para actualizar calificación
-    public function actualizarCalificacion()
+    public function actualizarNota()
     {
         if (self::getUser('tipoUsuario') == '2') {
             $db = new Conexion();
-            $clase = $db->consultarRegistro('SELECT * FROM clase WHERE idClase = :ide', [
+            $clase = $db->consultarRegistro('SELECT * FROM clases WHERE idClase = :ide', [
                 'ide' => $_POST['idClase']
             ]);
             unset($_POST['m']);
             unset($_POST['c']);
             if ($clase) {
-                $db->crudRegistro("UPDATE clase SET notaHabilitacion = :notaHabilitacion, t = :t, notaFinal = :notaFinal WHERE idClase = :idClase", $_POST);
-
-
+                $docente = self::getUser('idUsuario');
+                $db->crudRegistro("UPDATE clases SET idEstudiante = :idUsuario, idAsignatura = :idAsignatura, notaHabilitacion = :notaHabilitacion, notaTutoria = :notaTutoria, notaFinal = :notaFinal WHERE idClase = :idClase", $_POST);                
                 // Excepcion de Auditoria
                 try {
                     generarLogAuditoria($db, self::getUser('idUsuario'), 'Clase', $db->lastInsertId(), 'Actualizar');
@@ -171,8 +162,8 @@ class DocenteController extends LoginController
     public function selectAsignatura($tipoSalida = true)
     {
         $db = new Conexion();
-        $salida[0] = $db->consultarRegistros('SELECT * FROM asignatura');
         $salida[1] = $db->consultarRegistros('SELECT * FROM usuario WHERE codRol = 3');
+        $salida[0] = $db->consultarRegistros('SELECT * FROM asignatura');
         if ($tipoSalida) {
             return respuesta('00', '', $salida);
         } else {
@@ -187,12 +178,11 @@ class DocenteController extends LoginController
     {
         if (self::getUser('tipoUsuario') == '2') {
             $db = new Conexion();
-            $clase = $db->consultarRegistro('SELECT * FROM clase WHERE idClase =:id', [
+            $clase = $db->consultarRegistro('SELECT * FROM clases WHERE idClase =:id', [
                 'id' => base64_decode($_POST['id'])
-            ]);
-            if ($clase) {
-                $clase['select'] = self::selectAsignatura(false);
-
+            ]);      
+            if ($clase) {                
+                $clase['select'] = self::selectAsignatura(false);            
                 return respuesta('00', '', $clase);
             } else {
                 $msj = 'No existen registros.';

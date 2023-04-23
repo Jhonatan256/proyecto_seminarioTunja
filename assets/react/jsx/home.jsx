@@ -1064,6 +1064,95 @@ function nuevaCalificacion() {
       });
   });
 }
+function buscarClase(id) {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "DocenteController",
+        m: "buscarClase",
+        id: id,
+      },
+    })
+      .done(function (result) {
+        if (validarResult(result)) {
+          switch (result.cod) {
+            case "00":
+              ReactDOM.unmountComponentAtNode(
+                document.getElementById("modal1")
+              );
+              ReactDOM.render(
+                <ModalCalificaciones
+                  invocacion={"actualizar"}
+                  data={result.data}
+                  select={result.data.select}
+                />,
+                document.getElementById("modal1")
+              );
+              $("#modalAuxiliar").modal("show");
+              break;
+            case "88":
+              modalLogout();
+              break;
+            case "99":
+              alerta("¡Error!", result.msj);
+              break;
+            default:
+              alerta("¡Error!", "Error de codificación");
+          }
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  });
+}
+function actualizarNota(id) {
+  Pace.track(function () {
+    $.ajax({
+      url: "../Route.php",
+      type: "POST",
+      data: {
+        c: "DocenteController",
+        m: "actualizarNota",
+        id: id,
+      },
+    })
+      .done(function (result) {
+        if (validarResult(result)) {
+          switch (result.cod) {
+            case "00":
+              ReactDOM.unmountComponentAtNode(
+                document.getElementById("modal1")
+              );
+              ReactDOM.render(
+                <ModalCalificaciones
+                  invocacion={"actualizar"}
+                  data={result.data}
+                  select={result.data.select}
+                />,
+                document.getElementById("modal1")
+              );
+              $("#modalAuxiliar").modal("show");
+              break;
+            case "88":
+              modalLogout();
+              break;
+            case "99":
+              alerta("¡Error!", result.msj);
+              break;
+            default:
+              alerta("¡Error!", "Error de codificación");
+          }
+        }
+      })
+      .fail(function () {
+        console.log("error");
+      });
+  });
+}
+
 //**inicio notas */
 
 function vistaNotas() {

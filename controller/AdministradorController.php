@@ -642,7 +642,7 @@ class AdministradorController extends LoginController
             $db = new Conexion();
             unset($_POST['m']);
             unset($_POST['c']);
-            // imprimirSalida($_POST);
+            // imprimirSalida($_POST);            
             $db->crudRegistro("INSERT INTO ciclo (nombreCiclo, idGrupo, semestre, descripcion, fechaInicio, fechaFinalizacion) VALUES (:nombreCiclo, :idGrupo, :semestre, :descripcion, :fechaInicio, :fechaFin)", $_POST);
             // Excepcion de Auditoria
             try {
@@ -733,4 +733,5 @@ class AdministradorController extends LoginController
         }
         return respuesta('99', $msj);
     }
+    
 }
